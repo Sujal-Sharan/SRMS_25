@@ -1,3 +1,6 @@
+<?php 
+include_once("DB_Connect.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,9 +91,11 @@
         <div class="right">
             <h2>Welcome</h2>
             <p>Please login to your account</p>
-            <input type="text" placeholder="Username or Email">
-            <input type="password" placeholder="Password">
-            <button class="btn">Login</button>
+            <form action="login.php" method="post">
+                <input type="text" name="username" placeholder="Username or Email">
+                <input type="password" name="password" placeholder="Password">
+                <input type="submit" class="btn" name="login" value="Log In">
+            </form>
             <div class="links">
                 <a href="#">Forgot Password?</a>
                 <br>
@@ -99,3 +104,44 @@
     </div>
 </body>
 </html>
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
+        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
+    
+        if(empty($username)){
+            echo "Missing Username";
+        }
+        elseif(empty($password)){
+            echo "Missing Password";
+        }
+        else{
+            $hash = password_hash($password, PASSWORD_DEFAULT); // Hash password
+
+            try{
+                $stmt = $conn->prepare("SELECT * FROM login WHERE username = ?");
+                $stmt->bind_param("s", $_POST['username']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user = $result->fetch_assoc(); 
+
+                if ($user && password_verify($password, $user['password'])) {
+                    // $_SESSION['user_id'] = $user['id'];
+                    header('location: student.php');
+                    // echo "Success";
+                    exit;
+                } 
+                else {
+                    echo "Incorrect Username or Password";
+                }
+
+                $stmt->close();
+            }
+            catch(mysqli_sql_exception){
+                echo "Error_New";
+            }
+        }
+    }
+    mysqli_close($conn);
+?>
