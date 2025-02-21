@@ -79,9 +79,14 @@ include_once("DB_Connect.php");
         }
         .links a {
             text-decoration: none;
-            color: #333;
+            /*color: #4e5153;*/
+        }
+        .highlight {
+            color: rgb(10, 155, 212);
+            font-weight: bold;
         }
     </style>
+
 </head>
 <body>
     <div class="container">
@@ -98,6 +103,9 @@ include_once("DB_Connect.php");
             </form>
             <div class="links">
                 <a href="#">Forgot Password?</a>
+                <br>
+                <br>
+                <a href="Student_Reg.html" class="highlight">New User?   Register Here</a>
                 <br>
             </div>
         </div>
