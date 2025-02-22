@@ -111,10 +111,16 @@
         </div>
         <div class="card">
             <h3>Actions</h3>
-            <button class="btn">View Marks</button>
+            <br>
+            <button class="btn" onclick="navigateTo('marks.html')">View Marks</button>
             <button class="btn">View Documents</button>
             <button class="btn">Update Details</button>
         </div>
     </div>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>
