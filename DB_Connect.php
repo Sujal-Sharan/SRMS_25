@@ -10,7 +10,9 @@
         $conn = new mysqli($host, $username, $password, $database);
     }
     catch(mysqli_sql_exception){
-        echo "Could not connect to database";
+        echo "Could not connect to database";  
     }
+    echo "Hello World";
+    
 
 ?>
