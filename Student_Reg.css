@@ -107,22 +107,40 @@ header {
     position: relative;
     z-index: 2;
 }
-
+/* Form Grid - Two Columns */
+.form-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 50% Left | 50% Right */
+    gap: 20px;
+}
 .form-group {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 label {
-    display: block;
+    /*display: block;*/
     font-weight: bold;
     /*color: white;*/
+    margin-bottom: 5px;
 }
 
 input, textarea, select {
     width: 100%;
-    padding: 5px;
+    padding: 8px;
     border: 1px solid ;
-    border-radius: 3px;
+    border-radius: 5px;
+}
+/* Gender should be full width */
+.gender-group {
+    grid-column: span 2;
+}
+
+/* Save Button - Move to Bottom Right */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    grid-column: span 2;
 }
 
 /* Save Button */
@@ -130,8 +148,9 @@ input, textarea, select {
     background: yellow;
     border: none;
     padding: 10px;
-    width: 100px;
+    width: 150px;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 20px;
 }
 
