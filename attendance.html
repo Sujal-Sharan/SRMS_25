@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Attendance Tracking</title>
+    <link rel="stylesheet" href="attendance.css">
+</head>
+<body>
+    <h2> Techno International New Town </h2>
+    <div class="container">
+        <h2>Monthly Attendance</h2>
+
+        <label for="month">Select Month:</label>
+        <select id="month">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select>
+
+        <label for="year"> Select Year: </label>
+        <select id="year">
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+        </select>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Present Days</th>
+                    <th>Total Working days</th>
+                    <th>Total Percentage</th>
+                </tr>
+            </thead>
+            <tbody id="attendanceTable"></tbody>
+        </table>
+
+        <button onclick="submitAttendance()">Save Attendance</button>
+    </div>
+
+    <script src="attendance.js"></script>
+</body>
+</html>
