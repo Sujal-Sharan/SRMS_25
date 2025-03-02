@@ -126,7 +126,7 @@ session_start();
         <div class="card">
             <h3>Actions</h3>
             <br>
-            <button class="btn" onclick="navigateTo('marks.html')">View Marks</button>
+            <button class="btn" onclick="navigateTo('marks.php')">View Marks</button>
             <button class="btn">View Documents</button>
             <button class="btn">Update Details</button>
         </div>

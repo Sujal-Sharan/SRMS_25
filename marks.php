@@ -1,3 +1,7 @@
+<?php
+include_once("DB_Connect.php");
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +30,7 @@
             <br>
             <br>
             <div class="categories">
-                <div class="category-box" onclick="location.href='marks_page.html?category=CA'">CA Marks</div>
+                <div class="category-box" onclick="location.href='displayCA.php'">CA Marks</div>
                 <div class="category-box" onclick="location.href='marks_page.html?category=PCA'">PCA Marks</div>
                 <div class="category-box" onclick="location.href='marks_page.html?category=Semester'">Semester Marks</div>
             </div>
