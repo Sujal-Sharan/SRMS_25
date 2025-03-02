@@ -2,6 +2,13 @@
 include("DB_Connect.php");
 session_start();
 
+// TODO: Update the query to search with userID instead on name
+
+$stmt = $conn->prepare("SELECT name, roll, stream FROM student WHERE name = ?");
+$stmt->bind_param("s", $_SESSION['username']);
+$stmt->execute();
+$result = $stmt->get_result();
+
 ?>
 <!-- TODO: Fetch user values and dynamic display here -->
 <!DOCTYPE html>
@@ -110,9 +117,9 @@ session_start();
         </div>
         <div class="card">
             <h3>Student Details</h3>
+            <!-- <br>
             <br>
-            <br>
-            <p><strong>Name:</strong><?php echo $_SESSION['username'] ?></p>
+            <p><strong>Name:</strong></p>
             <br>
             <p><strong>Roll:</strong> 123456</p>
             <br>
@@ -121,7 +128,19 @@ session_start();
             <p><strong>Stream:</strong> Computer Science</p>
             <br>
             <p><strong>Year:</strong> 3rd</p>
-            <br>
+            <br> -->
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<br><p>Name : " . $row["name"] . "</p><br>" .
+                        "<p>Roll : " . $row["roll"] . "</p><br>" .
+                        "<p>Stream : " . $row["stream"] . "</p><br>"
+                        ;
+                }
+            } else {
+                echo "No records found";
+            }
+            ?>
         </div>
         <div class="card">
             <h3>Actions</h3>

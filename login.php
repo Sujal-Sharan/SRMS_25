@@ -139,8 +139,9 @@ session_start();
                     $_SESSION['role'] = $role;
                     $_SESSION['id'] = $id;
                     $_SESSION['username'] = $username;
-                    
-                    header('location: student.php');
+
+                    // header('location: student.php');
+                    header('location: dashboard.php');
                     // echo "Success";
                     exit;
                 } 

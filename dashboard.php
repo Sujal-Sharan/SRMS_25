@@ -100,17 +100,10 @@
     <div class="main-content">
         <header>
             <h1>Techno International New Town</h1>
-            <select>
-                <option>2017-18</option>
-                <option>2018-19</option>
-                <option>2019-20</option>
-                <option>2020-21</option>
-                <option>2021-22</option>
-                <option>2022-23</option>
-                <option>2023-24</option>
-            </select>
         </header>
+        <!-- TODO: Convert cards to buttons -->
         <div class="grid">
+            <div class="card"><i class="fas fa-user-graduate"></i> <input type="button" value="Student Profile" onclick="navigateTo('student.php')"></div>
             <div class="card"><i class="fas fa-user-graduate"></i> Student <br> Total: 6000</div>
             <div class="card"><i class="fas fa-chalkboard-teacher"></i> Faculty <br> Total: 2000</div>
             <div class="card"><i class="fas fa-users"></i> Parents</div>
@@ -123,6 +116,10 @@
         <div class="addon-services">Addon Services</div>
     </div>
     <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
         document.querySelectorAll('.sidebar nav ul li a').forEach(item => {
             item.addEventListener('click', () => {
                 document.querySelectorAll('.sidebar nav ul li a').forEach(link => link.classList.remove('active'));
