@@ -117,25 +117,16 @@ $result = $stmt->get_result();
         </div>
         <div class="card">
             <h3>Student Details</h3>
-            <!-- <br>
-            <br>
-            <p><strong>Name:</strong></p>
-            <br>
-            <p><strong>Roll:</strong> 123456</p>
-            <br>
-            <p><strong>Registration No:</strong> 2025001</p>
-            <br>
-            <p><strong>Stream:</strong> Computer Science</p>
-            <br>
-            <p><strong>Year:</strong> 3rd</p>
-            <br> -->
             <?php
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<br><p>Name : " . $row["name"] . "</p><br>" .
                         "<p>Roll : " . $row["roll"] . "</p><br>" .
-                        "<p>Stream : " . $row["stream"] . "</p><br>"
-                        ;
+                        "<p>Stream : " . $row["stream"] . "</p><br>" ;
+
+                    $_SESSION['roll'] = $row['roll'];   //Storing roll
+                    $_SESSION['name'] = $row['name'];   //Storing name
+                    $_SESSION['stream'] = $row['stream'];   //Storing stream
                 }
             } else {
                 echo "No records found";
