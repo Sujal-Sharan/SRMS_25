@@ -1,3 +1,9 @@
+<?php
+include("DB_Connect.php");
+session_start();
+
+?>
+<!-- TODO: Fetch user values and dynamic display here -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,14 +97,22 @@
         <div class="profile-section">
             <img src="profile.jpg" alt="Profile Picture">
             <br>
-            <h2> Welcome Student</h2>
+            <h2>
+            <?php 
+            if(isset($_SESSION['username'])) {
+                echo "Welcome " . $_SESSION['username']; // Output: Welcome "JohnDoe"
+            } else {
+                echo "Session variable not set.";
+            }
+            ?>
+            </h2>
             <br>        
         </div>
         <div class="card">
             <h3>Student Details</h3>
             <br>
             <br>
-            <p><strong>Name:</strong> John Doe</p>
+            <p><strong>Name:</strong><?php echo $_SESSION['username'] ?></p>
             <br>
             <p><strong>Roll:</strong> 123456</p>
             <br>

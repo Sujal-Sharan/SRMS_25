@@ -1,5 +1,6 @@
 <?php 
 include_once("DB_Connect.php");
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +136,10 @@ include_once("DB_Connect.php");
                 $user = $result->fetch_assoc(); 
 
                 if ($user && password_verify($password, $user['password'])) {
-                    // $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['role'] = $role;
+                    $_SESSION['id'] = $id;
+                    $_SESSION['username'] = $username;
+                    
                     header('location: student.php');
                     // echo "Success";
                     exit;
