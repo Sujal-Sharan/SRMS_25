@@ -105,16 +105,14 @@ if(isset($_GET['submit'])){
             <input type="submit" value="Submit" name="submit">
         </form>
         
-        <h2>Internal Marks(Continous Assessment)</h2>
+        <h2>Internal Marks(Practical Continous Assessment)</h2>
         <table>
             <tr>
                 <th>Name</th>
                 <th>Roll</th>
                 <th>Subject</th>
-                <th>CA1</th>
-                <th>CA2</th>
-                <th>CA3</th>
-                <th>CA4</th>
+                <th>PCA1</th>
+                <th>PCA2</th>
             </tr>
             <?php
             if($executed){
@@ -124,10 +122,8 @@ if(isset($_GET['submit'])){
                                 <td>" . $row["name"] . "</td>
                                 <td>" . $row["roll"] . "</td>
                                 <td>" . $row["subject"] . "</td>
-                                <td>" . $row["ca1"] . "</td>
-                                <td>" . $row["ca2"] . "</td>
-                                <td>" . $row["ca3"] . "</td>
-                                <td>" . $row["ca4"] . "</td>
+                                <td>" . $row["pca1"] . "</td>
+                                <td>" . $row["pca2"] . "</td>
                             </tr>";
                     }
                 } else {
