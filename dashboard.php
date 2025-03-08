@@ -58,24 +58,34 @@
         }
         .card {
             background: #FFC107;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(10, 1, 1, 0.1);
             border: 2px solid #FFC107;
-        }
-        .card i {
-            font-size: 30px;
-            color: #FFC107;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+         }
+         .card button {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
             display: block;
-            margin-bottom: 10px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
         .addon-services {
             position: fixed;
             right: 0;
             top: 60%;
             background: #FFC107;
-            padding: 20px;
+            padding: 25px;
             transform: rotate(-90deg);
             transform-origin: right;
         }
@@ -101,17 +111,37 @@
         <header>
             <h1>Techno International New Town</h1>
         </header>
-        <!-- TODO: Convert cards to buttons -->
+        
         <div class="grid">
-            <div class="card"><i class="fas fa-user-graduate"></i> <input type="button" value="Student Profile" onclick="navigateTo('student.php')"></div>
-            <div class="card"><i class="fas fa-user-graduate"></i> Student <br> Total: 6000</div>
-            <div class="card"><i class="fas fa-chalkboard-teacher"></i> Faculty <br> Total: 2000</div>
-            <div class="card"><i class="fas fa-users"></i> Parents</div>
-            <div class="card"><i class="fas fa-book"></i> Attendance</div>
-            <div class="card"><i class="fas fa-users-class"></i> Class <br> Total: 3000</div>
-            <div class="card"><i class="fas fa-id-card"></i> Academics</div>
-            <div class="card"><i class="fas fa-cog"></i> Settings</div>
-            <div class="card"><i class="fas fa-id-card-alt"></i> Card</div>
+        <div class="card" onclick="navigateTo('student.php')">
+                <button>Student Profile</button>
+    </div>
+        <div class="card" onclick="navigateTo('students.php')">
+        <button>Student<br>Total: 6000</button>
+        </div>
+        <div class="card" onclick="navigateTo('faculty.php')">
+        <button>Faculty<br>Total: 2000</button>
+        </div>
+        <div class="card" onclick="navigateTo('parents.php')">
+        <button>Parents</button>
+        </div>
+        <div class="card" onclick="navigateTo('attendance.php')">
+        <button>Attendance</button>
+        </div>
+        <div class="card" onclick="navigateTo('class.php')">
+        <button>Class<br>Total: 3000</button>
+        </div>
+        <div class="card" onclick="navigateTo('academics.php')">
+        <button>Academics</button>
+        </div>
+        <div class="card" onclick="navigateTo('settings.php')">
+        <button>Settings</button>
+        </div>
+        <div class="card" onclick="navigateTo('card.php')">
+        <button>Card</button>
+        </div>
+        <div class="card" onclick="navigateTo('https://tint.techtron.net')">
+        <button>Pay Semester Fees Online</button>
         </div>
         <div class="addon-services">Addon Services</div>
     </div>
