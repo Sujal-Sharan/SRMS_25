@@ -74,7 +74,7 @@
             cursor: pointer;
             width: 100%;
             height: 100%;
-            display: flex;
+            display: block;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -111,7 +111,7 @@
         <header>
             <h1>Techno International New Town</h1>
         </header>
-        <!-- TODO: Convert cards to buttons -->
+        
         <div class="grid">
         <div class="card" onclick="navigateTo('student.php')">
                 <button>Student Profile</button>
