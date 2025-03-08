@@ -96,8 +96,13 @@ session_start();
         </div>
         <div class="right">
             <h2>Welcome</h2>
-            <p>Please login to your account</p>
+            <p>Please login to your account</p><br>
             <form action="login.php" method="post">
+                <label for="role"> Select Role: </label>
+                <select id="role">
+                    <option value="admin">Admin</option>
+                    <option value="student">Student</option>
+                </select>
                 <input type="text" name="username" placeholder="Username or Email">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" class="btn" name="login" value="Log In">
@@ -118,7 +123,7 @@ session_start();
     {
         $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
         $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
-    
+        
         if(empty($username)){
             echo "Missing Username";
         }

@@ -107,7 +107,7 @@
             <div class="card"><i class="fas fa-user-graduate"></i> Student <br> Total: 6000</div>
             <div class="card"><i class="fas fa-chalkboard-teacher"></i> Faculty <br> Total: 2000</div>
             <div class="card"><i class="fas fa-users"></i> Parents</div>
-            <div class="card"><i class="fas fa-book"></i> Attendance</div>
+            <div class="card"><i class="fas fa-book"></i> <input type="button" value="Attendance" onclick="navigateTo('attendance.html')" > </div>
             <div class="card"><i class="fas fa-users-class"></i> Class <br> Total: 3000</div>
             <div class="card"><i class="fas fa-id-card"></i> Academics</div>
             <div class="card"><i class="fas fa-cog"></i> Settings</div>
