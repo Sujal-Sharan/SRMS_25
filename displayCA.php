@@ -95,17 +95,58 @@ if(isset($_GET['submit'])){
         input[type="submit"]:hover {
             background-color: #e69a00;
         }
+        .sidebar {
+            width: 250px;
+            background: #0A1931;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar .profile {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar nav ul li {
+            margin: 10px 0;
+        }
+        .sidebar nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <div class="profile">Welcome User</div>
+        <nav>
+            <ul>
+                <li><a href="#">Go To Super Admin</a></li>
+                <li ><a>My College</a>
+                    <ul>
+                        <li class="active"><a href="#">Dashboard</a></li>
+                        <li><a href="#">Enquiry</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Management</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="container">
         <form>
             <input type="text" placeholder="Enter your roll" name="roll"><br>
             <input type="text" placeholder="Enter subject [Optional]" name="subject"><br>
             <input type="submit" value="Submit" name="submit">
         </form>
-        
+    </div>
+    <div class="container">
         <h2>Internal Marks(Continous Assessment)</h2>
+
         <table>
             <tr>
                 <th>Name</th>
@@ -137,6 +178,7 @@ if(isset($_GET['submit'])){
             ?>
         </table>
     </div>
+
 </body>
 </html>
 
