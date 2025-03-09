@@ -1,6 +1,6 @@
 <?php 
 include_once("DB_Connect.php");
-// session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -123,6 +123,7 @@ include_once("DB_Connect.php");
     </div>
 </body>
 </html>
+<!-- TODO: Add custom pop-up -->
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
@@ -149,8 +150,8 @@ include_once("DB_Connect.php");
 
                 if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
                     // $_SESSION['id'] = $id;
-                    // $_SESSION['userId'] = $username;
-                    // $_SESSION['role'] = $role;
+                    $_SESSION['userId'] = $userId;
+                    $_SESSION['role'] = $role;
 
                     // header('location: student.php');
                     if($user['role'] == "Student")
