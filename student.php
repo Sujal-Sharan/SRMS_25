@@ -4,8 +4,8 @@ session_start();
 
 // TODO: Update the query to search with userID instead on name
 
-$stmt = $conn->prepare("SELECT name, roll, stream FROM student WHERE name = ?");
-$stmt->bind_param("s", $_SESSION['username']);
+$stmt = $conn->prepare("SELECT * FROM student_records WHERE name = ?");
+$stmt->bind_param("s", $_SESSION['userId']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -106,8 +106,8 @@ $result = $stmt->get_result();
             <br>
             <h2>
             <?php 
-            if(isset($_SESSION['username'])) {
-                echo "Welcome " . $_SESSION['username']; // Output: Welcome "JohnDoe"
+            if(isset($_SESSION['userId'])) {
+                echo "Welcome " . $_SESSION['userId']; // Output: Welcome "JohnDoe"
             } else {
                 echo "Session variable not set.";
             }
@@ -124,9 +124,9 @@ $result = $stmt->get_result();
                         "<p>Roll : " . $row["roll"] . "</p><br>" .
                         "<p>Stream : " . $row["stream"] . "</p><br>" ;
 
-                    $_SESSION['roll'] = $row['roll'];   //Storing roll
-                    $_SESSION['name'] = $row['name'];   //Storing name
-                    $_SESSION['stream'] = $row['stream'];   //Storing stream
+                    // $_SESSION['roll'] = $row['roll'];   //Storing roll
+                    // $_SESSION['name'] = $row['name'];   //Storing name
+                    // $_SESSION['stream'] = $row['stream'];   //Storing stream
                 }
             } else {
                 echo "No records found";

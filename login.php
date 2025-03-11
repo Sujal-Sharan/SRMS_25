@@ -94,19 +94,23 @@ session_start();
         <div class="left">
             <img src="logo.jpg" alt="Logo">
         </div>
+        
         <div class="right">
             <h2>Welcome</h2>
             <p>Please login to your account</p><br>
+
             <form action="login.php" method="post">
-                <label for="role"> Select Role: </label>
-                <select id="role">
-                    <option value="admin">Admin</option>
-                    <option value="student">Student</option>
+                <label> Select Role: </label>
+                <select name="role">
+                    <option value="Admin">Admin</option>
+                    <option value="Student">Student</option>
                 </select>
-                <input type="text" name="username" placeholder="Username or Email">
+
+                <input type="text" name="userId" placeholder="User ID">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" class="btn" name="login" value="Log In">
             </form>
+
             <div class="links">
                 <a href="#">Forgot Password?</a>
                 <br>
@@ -114,44 +118,55 @@ session_start();
                 <a href="Student_Reg.html" class="highlight">New User?   Register Here</a>
                 <br>
             </div>
+
         </div>
     </div>
 </body>
 </html>
+<!-- TODO: Add custom pop-up -->
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
+        $userId = filter_input(INPUT_POST, "userId", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
         $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
-        
-        if(empty($username)){
-            echo "Missing Username";
+        $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
+
+        if(empty($userId)){
+            echo "Missing User ID";
         }
         elseif(empty($password)){
-            echo "Missing Password";
+            // echo "Missing Password";
+            echo "<script>alert('Missing password!'); window.history.back();</script>";
         }
         else{
-            $hash = password_hash($password, PASSWORD_DEFAULT); // Hash password
+            $hash = password_hash($password, PASSWORD_BCRYPT); // Hash password
 
             try{
-                $stmt = $conn->prepare("SELECT * FROM login WHERE username = ?");
-                $stmt->bind_param("s", $_POST['username']);
+                $stmt = $conn->prepare("SELECT * FROM login WHERE userId = ?");
+                $stmt->bind_param("s", $_POST['userId']);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc(); 
 
-                if ($user && password_verify($password, $user['password'])) {
+                if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
+                    // $_SESSION['id'] = $id;
+                    $_SESSION['userId'] = $userId;
                     $_SESSION['role'] = $role;
-                    $_SESSION['id'] = $id;
-                    $_SESSION['username'] = $username;
 
                     // header('location: student.php');
-                    header('location: dashboard.php');
-                    // echo "Success";
+                    if($user['role'] == "Student")
+                    {
+                        header('location: student.php');
+                    }
+                    else
+                    {
+                        header('location: dashboard.php');
+                    }
                     exit;
                 } 
                 else {
-                    echo "Incorrect Username or Password";
+                    // echo "Incorrect Username or Password";
+                    echo "<script>alert('User ID or Password or Selected Role is incorrect!'); window.history.back();</script>";
                 }
 
                 $stmt->close();
