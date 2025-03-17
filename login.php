@@ -127,6 +127,8 @@ session_start();
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
+        // TODO: Maybe add ability to login using either 'userId' or 'userName'
+
         $userId = filter_input(INPUT_POST, "userId", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
         $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
         $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
@@ -147,10 +149,11 @@ session_start();
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc(); 
-
+                
                 if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
                     // $_SESSION['id'] = $id;
                     $_SESSION['userId'] = $userId;
+                    $_SESSION['userName'] = $user['userName'];
                     $_SESSION['role'] = $role;
 
                     // header('location: student.php');

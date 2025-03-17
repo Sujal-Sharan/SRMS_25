@@ -6,6 +6,15 @@ CREATE TABLE `srms`.`login` (`TID_LOG` INT(7) NOT NULL AUTO_INCREMENT ,
     `role` VARCHAR(11) NOT NULL DEFAULT 'student' ,
     PRIMARY KEY (`TID_LOG`), UNIQUE `UNIQUE_ID` (`userId`)) ENGINE = InnoDB COMMENT = 'Holds login detail of users';
 
+ALTER TABLE `login` ADD `userName` VARCHAR(31) NOT NULL AFTER `userId`;
+
+ALTER TABLE `login` 
+    CHANGE `userId` `userName` VARCHAR(25) 
+        CHARACTER SET utf8mb4 
+        COLLATE utf8mb4_general_ci NOT NULL, 
+    CHANGE `userName` `userId` VARCHAR(25) 
+        CHARACTER SET utf8mb4 
+        COLLATE utf8mb4_general_ci NOT NULL;
 
 -- Student Records --
 

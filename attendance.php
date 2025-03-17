@@ -13,13 +13,8 @@ if ($conn->connect_error) {
 }
 
 // Get the current month and year dynamically
-<<<<<<< Updated upstream
-$currentMonth = date ('m'); // Example: 02 for February
-$currentYear = date ('Y');  // Example: 2025
-=======
 $currentMonth = date('m'); // Example: 02 for February
 $currentYear = date('Y');  // Example: 2025
->>>>>>> Stashed changes
 
 // SQL query to fetch attendance percentage
 $sql = "

@@ -5,7 +5,7 @@ session_start();
 // TODO: Update the query to search with userID instead on name
 
 $stmt = $conn->prepare("SELECT * FROM student_records WHERE name = ?");
-$stmt->bind_param("s", $_SESSION['userId']);
+$stmt->bind_param("s", $_SESSION['userName']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -102,18 +102,14 @@ $result = $stmt->get_result();
     </div>
     <div class="main-content">
         <div class="profile-section">
-            <img src="profile.jpg" alt="Profile Picture">
-            <br>
-            <h2>
+            <img src="profile.jpg" alt="Profile Picture"><br>
             <?php 
-            if(isset($_SESSION['userId'])) {
-                echo "Welcome " . $_SESSION['userId']; // Output: Welcome "JohnDoe"
+            if(isset($_SESSION['userName'])) {
+                echo "<h2>Welcome " . $_SESSION['userName'] . "<h2>"; // Output: Welcome "JohnDoe"
             } else {
                 echo "Session variable not set.";
             }
-            ?>
-            </h2>
-            <br>        
+            ?><br>        
         </div>
         <div class="card">
             <h3>Student Details</h3>

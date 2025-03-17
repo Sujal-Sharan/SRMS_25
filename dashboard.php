@@ -113,37 +113,38 @@
         </header>
         
         <div class="grid">
-        <div class="card" onclick="navigateTo('student.php')">
+            <div class="card" onclick="navigateTo('student.php')">
                 <button>Student Profile</button>
-    </div>
-        <div class="card" onclick="navigateTo('students.php')">
-        <button>Student<br>Total: 6000</button>
+            </div>
+            <div class="card" onclick="navigateTo('students.php')">
+                <button>Student<br>Total: 6000</button>
+            </div>
+            <div class="card" onclick="navigateTo('faculty.php')">
+                <button>Faculty<br>Total: 2000</button>
+            </div>
+            <div class="card" onclick="navigateTo('parents.php')">
+                <button>Parents</button>
+            </div>
+            <div class="card" onclick="navigateTo('attendance.php')">
+                <button>Attendance</button>
+            </div>
+            <div class="card" onclick="navigateTo('class.php')">
+                <button>Class<br>Total: 3000</button>
+            </div>
+            <div class="card" onclick="navigateTo('academics.php')">
+                <button>Academics</button>
+            </div>
+            <div class="card" onclick="navigateTo('settings.php')">
+                <button>Settings</button>
+            </div>
+            <div class="card" onclick="navigateTo('card.php')">
+                <button>Card</button>
+            </div>
+            <div class="card" onclick="navigateTo('https://tint.techtron.net')">
+                <button>Pay Semester Fees Online</button>
+            </div>
+            <div class="addon-services">Addon Services</div>
         </div>
-        <div class="card" onclick="navigateTo('faculty.php')">
-        <button>Faculty<br>Total: 2000</button>
-        </div>
-        <div class="card" onclick="navigateTo('parents.php')">
-        <button>Parents</button>
-        </div>
-        <div class="card" onclick="navigateTo('attendance.php')">
-        <button>Attendance</button>
-        </div>
-        <div class="card" onclick="navigateTo('class.php')">
-        <button>Class<br>Total: 3000</button>
-        </div>
-        <div class="card" onclick="navigateTo('academics.php')">
-        <button>Academics</button>
-        </div>
-        <div class="card" onclick="navigateTo('settings.php')">
-        <button>Settings</button>
-        </div>
-        <div class="card" onclick="navigateTo('card.php')">
-        <button>Card</button>
-        </div>
-        <div class="card" onclick="navigateTo('https://tint.techtron.net')">
-        <button>Pay Semester Fees Online</button>
-        </div>
-        <div class="addon-services">Addon Services</div>
     </div>
     <script>
         function navigateTo(url) {
