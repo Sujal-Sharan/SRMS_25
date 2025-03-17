@@ -5,7 +5,7 @@ session_start();
 // TODO: Add a filter to only show marks from current sem. (Would need changes in student_records to get current sem)
 // Might remove name and roll fields
 
-$stmt = $conn->prepare("SELECT * FROM marks_ca WHERE roll = ?");
+$stmt = $conn->prepare("SELECT * FROM marks_pca WHERE roll = ?");
 $stmt->bind_param("s", $_SESSION['roll']);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -129,10 +129,8 @@ $result = $stmt->get_result();
                 <th>Roll</th>
                 <th>Subject Name</th>
                 <th>Subject Code</th>
-                <th>CA1</th>
-                <th>CA2</th>
-                <th>CA3</th>
-                <th>CA4</th>
+                <th>PCA1</th>
+                <th>PCA2</th>
             </tr>
             <?php
                 if($result->num_rows > 0){
@@ -142,10 +140,8 @@ $result = $stmt->get_result();
                                 <td>" . $row["roll"] . "</td>
                                 <td>" . $row["subject_code"] . "</td>
                                 <td>" . $row["subject_name"] . "</td>
-                                <td>" . $row["ca1"] . "</td>
-                                <td>" . $row["ca2"] . "</td>
-                                <td>" . $row["ca3"] . "</td>
-                                <td>" . $row["ca4"] . "</td>
+                                <td>" . $row["pca1"] . "</td>
+                                <td>" . $row["pca2"] . "</td>
                             </tr>";
                     }
                 } else {

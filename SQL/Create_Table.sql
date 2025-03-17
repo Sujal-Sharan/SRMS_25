@@ -24,7 +24,7 @@ CREATE TABLE `srms`.`student_records` (`TID_STU_REC` INT(8) NOT NULL AUTO_INCREM
     `stream` VARCHAR(31) NOT NULL , 
     PRIMARY KEY (`TID_STU_REC`), UNIQUE `UNIQUE_ROLL` (`roll`)) ENGINE = InnoDB COMMENT = 'Holds student records';
 
--- Student Marks --
+-- Student CA Marks --
 
 CREATE TABLE `srms`.`marks_ca` (`TID_CA` INT(11) NOT NULL AUTO_INCREMENT ,
     `name` VARCHAR(31) NOT NULL ,
@@ -37,5 +37,14 @@ CREATE TABLE `srms`.`marks_ca` (`TID_CA` INT(11) NOT NULL AUTO_INCREMENT ,
     `ca4` VARCHAR(2) NULL , 
     PRIMARY KEY (`TID_CA`)) ENGINE = InnoDB COMMENT = 'Stores student marks';
 
--- -- 
+--  Student PCA Marks-- 
+
+CREATE TABLE `srms`.`marks_pca` (`TID_PCA` INT(11) NOT NULL AUTO_INCREMENT ,
+    `name` VARCHAR(31) NOT NULL ,
+    `roll` VARCHAR(15) NOT NULL , 
+    `subject_code` VARCHAR(15) NOT NULL , 
+    `subject_name` VARCHAR(31) NOT NULL , 
+    `pca1` VARCHAR(2) NULL , 
+    `pca2` VARCHAR(2) NULL , 
+    PRIMARY KEY (`TID_PCA`)) ENGINE = InnoDB COMMENT = 'Stores student PCA marks';
 
