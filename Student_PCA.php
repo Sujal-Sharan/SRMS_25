@@ -121,7 +121,7 @@ $result = $stmt->get_result();
         </nav>
     </div>
     <div class="container">
-        <h2>Internal Marks(Continous Assessment)</h2>
+        <h2>Internal Marks (PCA)</h2>
 
         <table>
             <tr>

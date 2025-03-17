@@ -34,6 +34,10 @@ if(isset($_GET['submit'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -177,7 +181,37 @@ if(isset($_GET['submit'])){
             }
             ?>
         </table>
+        <div class="buttons">
+            <button class="pdf-btn" onclick="exportToPDF()">Export to PDF</button>
+            <button class="csv-btn" onclick="exportToCSV()">Export to CSV</button>
+        </div>
     </div>
+
+    <script>
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.text("Student Report", 14, 10);
+            doc.autoTable({ html: "#studentTable", startY: 20 });
+            doc.save("student_report.pdf");
+        }
+
+        function exportToCSV() {
+            let table = document.getElementById("studentTable");
+            let csv = [];
+            for (let row of table.rows) {
+                let cols = Array.from(row.cells).map(cell => cell.innerText);
+                csv.push(cols.join(","));
+            }
+            let csvContent = "data:text/csv;charset=utf-8," + csv.join("\n");
+            let link = document.createElement("a");
+            link.setAttribute("href", encodeURI(csvContent));
+            link.setAttribute("download", "student_report.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+    </script>
+
 
 </body>
 </html>
