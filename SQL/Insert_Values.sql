@@ -20,7 +20,12 @@ INSERT INTO `marks_ca` (`TID_CA`, `name`, `roll`, `subject_code`, `subject_name`
 INSERT INTO `marks_pca` (`TID_PCA`, `name`, `roll`, `subject_code`, `subject_name`, `pca1`, `pca2`) 
     VALUES (NULL, 'student', '101', 'S-1', 'Subject_1', '20', '17');
 
--- -- 
+-- Attendance -- 
+
+INSERT INTO `attendance` (`TID_ATDN`, `userId`, `date`, `status`) 
+    VALUES (NULL, '101', '2025-03-17', 'Present')
+
+-- --
 
 
 

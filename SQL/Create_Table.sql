@@ -48,3 +48,15 @@ CREATE TABLE `srms`.`marks_pca` (`TID_PCA` INT(11) NOT NULL AUTO_INCREMENT ,
     `pca2` VARCHAR(2) NULL , 
     PRIMARY KEY (`TID_PCA`)) ENGINE = InnoDB COMMENT = 'Stores student PCA marks';
 
+-- Attendance --
+
+CREATE TABLE `srms`.'attendance' (`TID_ATDN` BIGINT(15) NOT NULL AUTO_INCREMENT ,
+    `userId` VARCHAR(20) NOT NULL , 
+    `date` DATE NOT NULL , 
+    `status` ENUM('Present','Absent','No Class','') NOT NULL , 
+    PRIMARY KEY (`TID_ATDN`)) ENGINE = InnoDB COMMENT = 'Stores attendance status of students';
+
+-- -- 
+
+
+

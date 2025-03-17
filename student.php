@@ -133,6 +133,7 @@ $result = $stmt->get_result();
             <h3>Actions</h3>
             <br>
             <button class="btn" onclick="navigateTo('marks.php')">View Marks</button>
+            <button class="btn" onclick="navigateTo('Student_Attendance.php')">Attendance</button>
             <button class="btn">View Documents</button>
             <button class="btn">Update Details</button>
         </div>
