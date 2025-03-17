@@ -120,9 +120,9 @@ $result = $stmt->get_result();
                         "<p>Roll : " . $row["roll"] . "</p><br>" .
                         "<p>Stream : " . $row["stream"] . "</p><br>" ;
 
-                    // $_SESSION['roll'] = $row['roll'];   //Storing roll
-                    // $_SESSION['name'] = $row['name'];   //Storing name
-                    // $_SESSION['stream'] = $row['stream'];   //Storing stream
+                    $_SESSION['roll'] = $row['roll'];   //Storing roll
+                    $_SESSION['name'] = $row['name'];   //Storing name
+                    $_SESSION['stream'] = $row['stream'];   //Storing stream
                 }
             } else {
                 echo "No records found";

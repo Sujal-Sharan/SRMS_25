@@ -30,7 +30,7 @@ session_start();
             <br>
             <br>
             <div class="categories">
-                <div class="category-box" onclick="location.href='displayCA.php'">CA Marks</div>
+                <div class="category-box" onclick="location.href='Student_CA.php'">CA Marks</div>
                 <div class="category-box" onclick="location.href='marks_page.html?category=PCA'">PCA Marks</div>
                 <div class="category-box" onclick="location.href='marks_page.html?category=Semester'">Semester Marks</div>
             </div>

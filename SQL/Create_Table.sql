@@ -24,3 +24,18 @@ CREATE TABLE `srms`.`student_records` (`TID_STU_REC` INT(8) NOT NULL AUTO_INCREM
     `stream` VARCHAR(31) NOT NULL , 
     PRIMARY KEY (`TID_STU_REC`), UNIQUE `UNIQUE_ROLL` (`roll`)) ENGINE = InnoDB COMMENT = 'Holds student records';
 
+-- Student Marks --
+
+CREATE TABLE `srms`.`marks_ca` (`TID_CA` INT(11) NOT NULL AUTO_INCREMENT ,
+    `name` VARCHAR(31) NOT NULL ,
+    `roll` VARCHAR(15) NOT NULL , 
+    `subject_code` VARCHAR(15) NOT NULL , 
+    `subject_name` VARCHAR(31) NOT NULL , 
+    `ca1` VARCHAR(2) NULL , 
+    `ca2` VARCHAR(2) NULL , 
+    `ca3` VARCHAR(2) NULL , 
+    `ca4` VARCHAR(2) NULL , 
+    PRIMARY KEY (`TID_CA`)) ENGINE = InnoDB COMMENT = 'Stores student marks';
+
+-- -- 
+
