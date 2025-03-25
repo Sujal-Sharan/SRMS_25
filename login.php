@@ -134,7 +134,9 @@ session_start();
         $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
 
         if(empty($userId)){
-            echo "Missing User ID";
+            // echo "Missing User ID";
+            echo "<script>alert('Missing User-ID!'); window.history.back();</script>";
+
         }
         elseif(empty($password)){
             // echo "Missing Password";

@@ -30,7 +30,8 @@ $result = $stmt->get_result();
         }
         .sidebar {
             width: 250px;
-            background: #0d1b2a;
+            height: auto;
+            background:rgb(22, 40, 60);
             color: white;
             padding: 20px;
         }
@@ -38,6 +39,8 @@ $result = $stmt->get_result();
             margin-bottom: 20px;
         }
         .sidebar ul {
+            height: 100vh;
+            background-color: rgb(33, 50, 70);;
             list-style: none;
         }
         .sidebar ul li {
@@ -45,6 +48,7 @@ $result = $stmt->get_result();
             cursor: pointer;
         }
         .sidebar ul li:hover {
+            border: 1px, solid, white;
             background: #1b263b;
         }
         .main-content {
@@ -69,7 +73,9 @@ $result = $stmt->get_result();
         .card {
             background: white;
             padding: 20px;
-            margin-bottom: 15px;
+            margin-left: 15px;
+            margin-right: 50px;
+            margin-bottom: 25px;
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -91,9 +97,9 @@ $result = $stmt->get_result();
 </head>
 <body>
     <div class="sidebar">
-        <h2>Techno International NewTown</h2>
+        <h2>{Logo}  TINT</h2>
         <ul>
-            <li>Dashboard</li>
+            <li onclick="navigateTo('dashboard.php')">Dashboard</li>
             <li>View Marks</li>
             <li>Documents</li>
             <li>Update Details</li>
@@ -102,14 +108,14 @@ $result = $stmt->get_result();
     </div>
     <div class="main-content">
         <div class="profile-section">
-            <img src="profile.jpg" alt="Profile Picture"><br>
+            <img src="profile.jpg" alt="Profile Picture" ><br>
             <?php 
             if(isset($_SESSION['userName'])) {
                 echo "<h2>Welcome " . $_SESSION['userName'] . "<h2>"; // Output: Welcome "JohnDoe"
             } else {
                 echo "Session variable not set.";
             }
-            ?><br>        
+            ?><br>    
         </div>
         <div class="card">
             <h3>Student Details</h3>
