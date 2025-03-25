@@ -100,10 +100,13 @@ $result = $stmt->get_result();
         <h2>{Logo}  TINT</h2>
         <ul>
             <li onclick="navigateTo('dashboard.php')">Dashboard</li>
-            <li>View Marks</li>
+            <!-- TODO: Change attendance URL to proper student one -->
+            <li onclick="navigateTo('attendance.php')">Attendance</li>  
+            <li onclick="navigateTo('marks.php')">View Marks</li>
             <li>Documents</li>
             <li>Update Details</li>
             <li>Settings</li>
+            <li onclick="navigateTo('logout.php')">Log out</li>
         </ul>
     </div>
     <div class="main-content">
