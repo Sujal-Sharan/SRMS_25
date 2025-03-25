@@ -1,37 +1,112 @@
 <?php
-$servername = "localhost";
-$username = "root";  // Change as per your DB credentials
-$password = "";
-$dbname = "srms"; // Change as per your DB name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname); 
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once("DB_Connect.php");
+session_start();
 
 // Get the current month and year dynamically
 $currentMonth = date('m'); // Example: 02 for February
 $currentYear = date('Y');  // Example: 2025
 
-// SQL query to fetch attendance percentage
-$sql = "
+// Old SQL query to fetch attendance percentage
+$sql_1 = "
     SELECT
-        student_id,
-        MONTH(attendance_date) AS month,
-        YEAR(attendance_date) AS year,
-        COUNT(CASE WHEN attendance_status = 'Present' THEN 1 END) AS total_present_days,
+        userId,
+        MONTH(date) AS month,
+        YEAR(date) AS year,
+        COUNT(CASE WHEN status = 'Present' THEN 1 END) AS total_present_days,
         COUNT(*) AS total_working_days,
-        (COUNT(CASE WHEN attendance_status = 'Present' THEN 1 END) * 100.0) / COUNT(*) AS attendance_percentage
+        (COUNT(CASE WHEN status = 'Present' THEN 1 END) * 100.0) / COUNT(*) AS attendance_percentage
     FROM attendance
-    WHERE MONTH(attendance_date) = $currentMonth AND YEAR(attendance_date) = $currentYear
-    GROUP BY student_id, YEAR(attendance_date), MONTH(attendance_date)
-    ORDER BY student_id, year, month;
+    WHERE MONTH(date) = $currentMonth AND YEAR(date) = $currentYear
+    GROUP BY userId, YEAR(date), MONTH(date)
+    ORDER BY userId, year, month;
 ";
 
-$result = $conn->query($sql);
+//----  Test Area Start --
+
+// Default values (optional filtering)
+$filters = [];
+$params = [];
+$types = "";
+
+// Check if user provided a `userId`
+if (!empty($_GET['userId'])) {
+    $filters[] = "userId = ?";
+    $params[] = $_GET['userId'];
+    $types .= "i"; // Integer
+}
+
+// Check if user provided a `month`
+if (!empty($_GET['month'])) {
+    $filters[] = "MONTH(date) = ?";
+    $params[] = $_GET['month'];
+    $types .= "i"; // Integer
+}
+
+// Check if user provided a `year`
+if (!empty($_GET['year'])) {
+    $filters[] = "YEAR(date) = ?";
+    $params[] = $_GET['year'];
+    $types .= "i"; // Integer
+}
+
+// Base SQL query
+$sql = "
+    SELECT
+        userId,
+        MONTH(date) AS month,
+        YEAR(date) AS year,
+        COUNT(CASE WHEN status = 'Present' THEN 1 END) AS total_present_days,
+        COUNT(CASE WHEN (status = 'Present' OR status = 'Absent') THEN 1 END) AS total_working_days,
+        ( ((COUNT(CASE WHEN status = 'Present' THEN 1 END)) * 100 ) / COUNT(CASE WHEN (status = 'Present' OR status = 'Absent') THEN 1 END) ) AS attendance_percentage
+    FROM attendance
+";
+
+//-- Testing Alternate Query--
+$sql_test = "
+WITH attendance_summary AS (
+    SELECT 
+        userId, 
+        MONTH(date) AS month, 
+        YEAR(date) AS year,
+        COUNT(CASE WHEN status = 'Present' THEN 1 END) AS total_present_days,
+        COUNT(CASE WHEN status IN ('Present', 'Absent') THEN 1 END) AS total_working_days
+    FROM attendance
+    GROUP BY userId, YEAR(date), MONTH(date)
+    ORDER BY userId, year, month
+)
+SELECT 
+    userId, 
+    month, 
+    year, 
+    total_present_days, 
+    total_working_days, 
+    (total_present_days * 100.0) / NULLIF(total_working_days, 0) AS attendance_percentage
+FROM attendance_summary;
+";
+// --Test Alternate END --
+
+// Add filters if any were provided
+if (!empty($filters)) {
+    $sql .= " WHERE " . implode(" AND ", $filters);
+}
+
+// Add grouping and ordering
+$sql .= " GROUP BY userId, YEAR(date), MONTH(date) ORDER BY userId, year, month";
+
+// Prepare statement
+$stmt = $conn->prepare($sql);
+
+// Bind parameters if any exist
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+//-- Test Area END --
+
+// $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -49,36 +124,39 @@ $result = $conn->query($sql);
 </head>
 <body>
 
-<h2>Student Attendance Report - <?php echo date("F Y"); ?></h2>
+    <h2>Student Attendance Report - <?php echo date("F Y"); ?></h2>
 
-<table>
-    <tr>
-        <th>Student ID</th>
-        <th>Month</th>
-        <th>Year</th>
-        <th>Present Days</th>
-        <th>Total Working Days</th>
-        <th>Attendance %</th>
-    </tr>
+    <table>
+        <tr>
+            <th>Student ID</th>
+            <th>Month</th>
+            <th>Year</th>
+            <th>Present Days</th>
+            <th>Total Working Days</th>
+            <th>Attendance %</th>
+        </tr>
 
-    <?php
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                    <td>{$row['student_id']}</td>
-                    <td>{$row['month']}</td>
-                    <td>{$row['year']}</td>
-                    <td>{$row['total_present_days']}</td>
-                    <td>{$row['total_working_days']}</td>
-                    <td>" . round($row['attendance_percentage'], 2) . "%</td>
-                </tr>";
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                #Adding row background color as visual filter
+                $rowColor = ((round($row['attendance_percentage'], 2)) < 70) ? "style='background-color: #FFCCCC; color: red;'" : "";
+
+                echo "<tr $rowColor>
+                        <td>{$row['userId']}</td>
+                        <td>{$row['month']}</td>
+                        <td>{$row['year']}</td>
+                        <td>{$row['total_present_days']}</td>
+                        <td>{$row['total_working_days']}</td>
+                        <td>" . round($row['attendance_percentage'], 2) . "%</td>
+                    </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='6'>No records found</td></tr>";
         }
-    } else {
-        echo "<tr><td colspan='6'>No records found</td></tr>";
-    }
-    ?>
+        ?>
 
-</table>
+    </table>
 
 </body>
 </html>

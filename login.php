@@ -145,7 +145,7 @@ session_start();
 
             try{
                 $stmt = $conn->prepare("SELECT * FROM login WHERE userId = ?");
-                $stmt->bind_param("s", $_POST['userId']);
+                $stmt->bind_param("s", $userId);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc(); 
