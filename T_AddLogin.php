@@ -25,12 +25,14 @@
 <form action="T_insert.php" method="post">
     <table id="userTable" border="1">
         <tr>
-            <th>Name</th>
+            <th>User Name</th>
+            <th>User ID</th>
             <th>Password</th>
             <th>Role</th>
         </tr>
         <tr>
             <td><input type="text" name="name[]" required></td>
+            <td><input type="text" name="id[]" required></td>
             <td><input type="password" name="password[]" required></td>
             <td>
                 <select name="role[]">
