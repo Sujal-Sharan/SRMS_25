@@ -80,15 +80,7 @@
             justify-content: center;
             font-weight: bold;
         }
-        .addon-services {
-            position: fixed;
-            right: 0;
-            top: 60%;
-            background: #FFC107;
-            padding: 25px;
-            transform: rotate(-90deg);
-            transform-origin: right;
-        }
+        
     </style>
 </head>
 <body>
@@ -119,32 +111,21 @@
             <div class="card" onclick="navigateTo('students.php')">
                 <button>Student<br>Total: 6000</button>
             </div>
-            <div class="card" onclick="navigateTo('faculty.php')">
+            <div class="card" onclick="navigateTo('faculty_details.html')">
                 <button>Faculty<br>Total: 2000</button>
             </div>
-            <div class="card" onclick="navigateTo('parents.php')">
-                <button>Parents</button>
+            <div class="card" onclick="navigateTo('subject_details.html')">
+                <button>Subjects</button>
             </div>
             <div class="card" onclick="navigateTo('attendance.php')">
                 <button>Attendance</button>
             </div>
-            <div class="card" onclick="navigateTo('class.php')">
-                <button>Class<br>Total: 3000</button>
-            </div>
             <div class="card" onclick="navigateTo('academics.php')">
                 <button>Academics</button>
-            </div>
-            <div class="card" onclick="navigateTo('settings.php')">
-                <button>Settings</button>
-            </div>
-            <div class="card" onclick="navigateTo('card.php')">
-                <button>Card</button>
             </div>
             <div class="card" onclick="navigateTo('https://tint.techtron.net')">
                 <button>Pay Semester Fees Online</button>
             </div>
-            <div class="addon-services">Addon Services</div>
-        </div>
     </div>
     <script>
         function navigateTo(url) {

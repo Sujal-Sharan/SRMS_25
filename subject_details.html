@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Details</title>
+    <style>
+        body {
+            background-image: url('https://cdn2.advanceinfotech.org/bharatdirectory.in/1200x675/business/3135/techno-2-1709631821.webp');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 82%;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #FFD700;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Subject Details</h2>
+        <label for="year">Select Year:</label>
+        <select id="year"></select>
+        
+        <label for="stream">Select Stream:</label>
+        <select id="stream">
+            <option value="B.Tech">B.Tech</option>
+            <option value="BCA">BCA</option>
+        </select>
+        
+        <label for="semester">Select Semester:</label>
+        <select id="semester"></select>
+        
+        <label for="department" id="departmentLabel" style="display:none;">Select Department:</label>
+        <select id="department" style="display:none;">
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="ME">ME</option>
+            <option value="CE">CE</option>
+            <option value="IT">IT</option>
+            <option value="EE">EE</option>
+            <option value="CSBS">CSBS</option>
+        </select>
+        
+        <br>
+        <button onclick="loadSubjects()">Show Subjects</button>
+        
+        <table id="subjectTable">
+            <thead>
+                <tr>
+                    <th>Subject Name</th>
+                    <th>Paper Code</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        function updateYearOptions() {
+            const stream = document.getElementById('stream').value;
+            const yearSelect = document.getElementById('year');
+            const departmentSelect = document.getElementById('department');
+            const departmentLabel = document.getElementById('departmentLabel');
+            
+            yearSelect.innerHTML = '';
+            const totalYears = stream === 'B.Tech' ? 4 : 3;
+            for (let i = 1; i <= totalYears; i++) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} Year`;
+                yearSelect.appendChild(option);
+            }
+            
+            if (stream === 'B.Tech') {
+                departmentSelect.style.display = 'inline';
+                departmentLabel.style.display = 'inline';
+            } else {
+                departmentSelect.style.display = 'none';
+                departmentLabel.style.display = 'none';
+            }
+            
+            updateSemesterOptions();
+        }
+
+        function updateSemesterOptions() {
+            const stream = document.getElementById('stream').value;
+            const semesterSelect = document.getElementById('semester');
+            semesterSelect.innerHTML = '';
+            const totalSemesters = stream === 'B.Tech' ? 8 : 6;
+            for (let i = 1; i <= totalSemesters; i++) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i} Semester`;
+                semesterSelect.appendChild(option);
+            }
+        }
+
+        document.getElementById('stream').addEventListener('change', updateYearOptions);
+        window.onload = updateYearOptions;
+
+        function loadSubjects() {
+            const year = document.getElementById('year').value;
+            const stream = document.getElementById('stream').value;
+            const semester = document.getElementById('semester').value;
+            const department = document.getElementById('department').value;
+            
+            const subjects = {
+                '1': { '1': [['Mathematics I', 'M101'], ['Physics', 'P102'], ['C Programming', 'C103']], '2': [['Mathematics II', 'M201'], ['Chemistry', 'C202'], ['Data Structures', 'D203']] },
+                '2': { '3': [['DBMS', 'DB301'], ['OOPs', 'OOP302'], ['OS', 'OS303']], '4': [['Computer Networks', 'CN401'], ['Software Engineering', 'SE402'], ['Microprocessors', 'MP403']] },
+                '3': { '5': [['Machine Learning', 'ML501'], ['Artificial Intelligence', 'AI502'], ['Cyber Security', 'CS503']], '6': [['Big Data', 'BD601'], ['Cloud Computing', 'CC602'], ['IoT', 'IoT603']] },
+                '4': { '7': [['Multimedia Systems', 'BC701'], ['DevOps', 'DO702'], ['Cloud Computing', 'QC703']], '8': [['Final Year Project', 'FYP801'], ['Advanced Algorithms', 'AA802'], ['Data Science', 'DS803']] }
+            };
+
+            const subjectTable = document.getElementById('subjectTable').getElementsByTagName('tbody')[0];
+            subjectTable.innerHTML = '';
+            
+            if (subjects[year] && subjects[year][semester]) {
+                subjects[year][semester].forEach(sub => {
+                    let row = subjectTable.insertRow();
+                    let cell1 = row.insertCell(0);
+                    let cell2 = row.insertCell(1);
+                    cell1.textContent = sub[0];
+                    cell2.textContent = sub[1];
+                });
+            }
+        }
+    </script>
+</body>
+</html>
