@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['id'])) {
 
     // Prepare SQL statement
     $stmt = $conn->prepare("INSERT INTO login (userName, userId, password, role) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sss", $name, $id, $password, $role);
+    $stmt->bind_param("ssss", $name, $id, $password, $role);
 
     // Loop through submitted data and insert each row
     for ($i = 0; $i < count($nameArray); $i++) {

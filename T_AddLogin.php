@@ -8,11 +8,12 @@
             var row = table.insertRow();
             row.innerHTML = `
                 <td><input type="text" name="name[]" required></td>
+                <td><input type="text" name="id[]" required></td>
                 <td><input type="password" name="password[]" required></td>
                 <td>
                     <select name="role[]">
-                        <option value="A">Admin</option>
-                        <option value="S">Student</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Student">Student</option>
                     </select>
                 </td>
             `;

@@ -4,8 +4,8 @@ session_start();
 
 // TODO: Update the query to search with userID instead on name
 
-$stmt = $conn->prepare("SELECT * FROM student_records WHERE name = ?");
-$stmt->bind_param("s", $_SESSION['userName']);
+$stmt = $conn->prepare("SELECT * FROM student_records WHERE roll = ?");
+$stmt->bind_param("s", $_SESSION['userId']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -127,10 +127,15 @@ $result = $stmt->get_result();
                 while ($row = $result->fetch_assoc()) {
                     echo "<br><p>Name : " . $row["name"] . "</p><br>" .
                         "<p>Roll : " . $row["roll"] . "</p><br>" .
+                        "<p>Roll : " . $row["reg_no"] . "</p><br>" .
+                        "<p>Roll : " . $row["email"] . "</p><br>" .
+                        "<p>Roll : " . $row["mobile"] . "</p><br>" .
                         "<p>Stream : " . $row["stream"] . "</p><br>" ;
 
                     $_SESSION['roll'] = $row['roll'];   //Storing roll
-                    $_SESSION['name'] = $row['name'];   //Storing name
+                    $_SESSION['reg_no'] = $row['reg_no'];   //Storing registration_no
+                    $_SESSION['email'] = $row['email'];   //Storing email address
+                    $_SESSION['mobile'] = $row['mobile'];   //Storing mobile_no
                     $_SESSION['stream'] = $row['stream'];   //Storing stream
                 }
             } else {

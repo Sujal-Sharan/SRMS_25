@@ -125,7 +125,6 @@ $result = $stmt->get_result();
 
         <table>
             <tr>
-                <th>Name</th>
                 <th>Roll</th>
                 <th>Subject Name</th>
                 <th>Subject Code</th>
@@ -138,7 +137,6 @@ $result = $stmt->get_result();
                 if($result->num_rows > 0){
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
-                                <td>" . $row["name"] . "</td>
                                 <td>" . $row["roll"] . "</td>
                                 <td>" . $row["subject_code"] . "</td>
                                 <td>" . $row["subject_name"] . "</td>
@@ -149,7 +147,7 @@ $result = $stmt->get_result();
                             </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='8'>No records found</td></tr>";
+                    echo "<tr><td colspan='7'>No records found</td></tr>";
                 }
             ?>
         </table>
