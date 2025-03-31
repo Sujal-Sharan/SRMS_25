@@ -86,6 +86,14 @@ session_start();
             color: rgb(10, 155, 212);
             font-weight: bold;
         }
+        .error{
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+            margin: 20px, auto;
+        }
     </style>
 
 </head>
@@ -98,6 +106,11 @@ session_start();
         <div class="right">
             <h2>Welcome</h2>
             <p>Please login to your account</p><br>
+
+            <!-- Displays error message -->
+            <?php if(isset($_GET['error'])){ ?>
+                <p class = "error"> <?php echo $_GET['error']; ?>
+            <?php } ?>
 
             <form action="login.php" method="post">
                 <label> Select Role: </label>
@@ -123,7 +136,7 @@ session_start();
     </div>
 </body>
 </html>
-<!-- TODO: Add custom pop-up -->
+
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
@@ -134,13 +147,12 @@ session_start();
         $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
 
         if(empty($userId)){
-            // echo "Missing User ID";
-            echo "<script>alert('Missing User-ID!'); window.history.back();</script>";
-
+            header('location: login.php?error=Missing User ID');
+            exit();
         }
         elseif(empty($password)){
-            // echo "Missing Password";
-            echo "<script>alert('Missing password!'); window.history.back();</script>";
+            header('location: login.php?error=Missing Password');
+            exit();
         }
         else{
             $hash = password_hash($password, PASSWORD_BCRYPT); // Hash password
@@ -153,12 +165,10 @@ session_start();
                 $user = $result->fetch_assoc(); 
                 
                 if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
-                    // $_SESSION['id'] = $id;
                     $_SESSION['userId'] = $userId;
                     $_SESSION['userName'] = $user['userName'];
                     $_SESSION['role'] = $role;
 
-                    // header('location: student.php');
                     if($user['role'] == "Student")
                     {
                         header('location: student.php');
@@ -170,8 +180,19 @@ session_start();
                     exit;
                 } 
                 else {
-                    // echo "Incorrect Username or Password";
-                    echo "<script>alert('User ID or Password or Selected Role is incorrect!'); window.history.back();</script>";
+
+                    if(!$user){
+                        header('location: login.php?error=User does not exists!');
+                        exit();  
+                    }
+                    else if(!password_verify($password, $user['password'])){
+                        header('location: login.php?error=Incorrect Password');
+                        exit();
+                    }
+                    else{
+                        header('location: login.php?error=Please select the correct Role');
+                        exit();
+                    }
                 }
 
                 $stmt->close();
