@@ -2,15 +2,14 @@
 include("DB_Connect.php");
 session_start();
 
-// TODO: Update the query to search with userID instead on name
-
+// Get student details from DB
 $stmt = $conn->prepare("SELECT * FROM student_records WHERE roll = ?");
 $stmt->bind_param("s", $_SESSION['userId']);
 $stmt->execute();
 $result = $stmt->get_result();
 
 ?>
-<!-- TODO: Fetch user values and dynamic display here -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,10 +125,10 @@ $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<br><p>Name : " . $row["name"] . "</p><br>" .
-                        "<p>Roll : " . $row["roll"] . "</p><br>" .
-                        "<p>Roll : " . $row["reg_no"] . "</p><br>" .
-                        "<p>Roll : " . $row["email"] . "</p><br>" .
-                        "<p>Roll : " . $row["mobile"] . "</p><br>" .
+                        "<p>Roll No.: " . $row["roll"] . "</p><br>" .
+                        "<p>Registration Id : " . $row["reg_no"] . "</p><br>" .
+                        "<p>Email : " . $row["email"] . "</p><br>" .
+                        "<p>Mobile No. : " . $row["mobile"] . "</p><br>" .
                         "<p>Stream : " . $row["stream"] . "</p><br>" ;
 
                     $_SESSION['roll'] = $row['roll'];   //Storing roll
