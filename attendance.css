@@ -1,33 +1,60 @@
 /* General Styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
-    background: url(background-image.jpg) no-repeat center center/cover;
+    background: url(techno.jpg) no-repeat center center/cover;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(90deg, #0A1931, #1E3A8A);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    padding: 10px 20px;
+}
+
+header img {
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+header h1 {
+    font-size: 30px;
+    color: #FFD700;
+    margin: 0;
+}
+
+header p {
+    font-size: 14px;
+    color: #FFD700;
+    margin: 0;
 }
 
 /* Container */
 .container {
-    width: 80%;
-    margin: 50px auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 85%;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Heading */
 h2 {
     text-align: center;
-    color: #333;
+    color: #1E3A8A;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 /* Dropdown Styling */
 label {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     margin-right: 10px;
+    color: #333;
 }
 
 select {
@@ -36,6 +63,12 @@ select {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 20px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+select:hover, select:focus {
+    border-color: #1E3A8A;
 }
 
 /* Table Styling */
@@ -43,43 +76,59 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 14px;
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 12px;
     text-align: center;
 }
 
 th {
-    background-color: #ffc107;
-    color: #333;
+    background-color: #1E3A8A;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
 }
 
 /* Input Fields */
 input {
-    width: 50px;
-    padding: 5px;
+    width: 60px;
+    padding: 6px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #1E3A8A;
 }
 
 /* Button */
 button {
     display: block;
     width: 100%;
-    background-color: #ffc107;
-    color: #333;
-    padding: 12px;
+    background-color: #1E3A8A;
+    color: #ffffff;
+    padding: 14px;
     font-size: 16px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #e0a800;
+    background-color: #163a6f;
 }
