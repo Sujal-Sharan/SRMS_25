@@ -10,14 +10,33 @@
             background-size: cover;
             font-family: Arial, sans-serif;
             text-align: center;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(90deg, #0A1931, #1063e8);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header img {
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        header h1 {
+            font-size: 28px;
+            color: #FFD700;
+        }
+        header p {
+            font-size: 16px;
+            color: #FFD700;
         }
         .container {
-            background: white;
+            background: #f9f9f9;
             width: 85%;
             margin: 50px auto;
-            padding: 20px;
+            margin-top: 100px;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
         }
         table {
             width: 100%;
@@ -30,36 +49,78 @@
             text-align: left;
         }
         th {
-            background: #FFD700;
+            background: linear-gradient(90deg, #FFD700, #FFC107);
+            color: #333;
+            font-weight: bold;
+        }
+        table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        table tr:hover {
+            background: #FFC107;
+            color: #0A1931;
         }
         .filter-section {
             margin-bottom: 20px;
         }
-        .filter-section select {
+        .filter-section select, .filter-section input {
             padding: 8px;
             margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        .filter-section input {
+            width: 200px; /* Match the width of the department filter dropdown */
+        }
+        .filter-section select:focus, .filter-section input:focus {
+            border-color: #FFC107;
         }
         .save-btn {
-            background: #FFD700;
+            background: linear-gradient(90deg, #FFD700, #FFC107);
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             font-size: 16px;
             margin-top: 10px;
+            color: #333;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .save-btn:hover {
+            background: #FFC107;
+            color: #0A1931;
         }
     </style>
     <script>
         function filterFaculties() {
-            let department = document.getElementById('departmentFilter').value;
+            let department = document.getElementById('departmentFilter').value.toLowerCase();
+            let name = document.getElementById('nameFilter').value.toLowerCase();
             let rows = document.querySelectorAll('.faculty-row');
+            
             rows.forEach(row => {
-                row.style.display = (department === 'All' || row.dataset.department === department) ? '' : 'none';
+                let rowDepartment = row.dataset.department.toLowerCase();
+                let rowName = row.cells[0].textContent.toLowerCase();
+                let matchesDepartment = (department === 'all' || rowDepartment === department);
+                let matchesName = (name === '' || rowName.includes(name));
+                row.style.display = (matchesDepartment && matchesName) ? '' : 'none';
             });
         }
     </script>
 </head>
 <body>
-    <h2>Techno International New Town</h2>
+    <header style="background: #105fe8; color: white; padding: 10px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
+            <p style="margin: 0; font-size: 14px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 14px;">
+            <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723  </p></span>
+        </div>
+    </header>
+    
     <div class="container">
         <h3>Faculty Details</h3>
         <div class="filter-section">
@@ -74,6 +135,8 @@
                 <option value="CSBS">Computer Science and Business Systems</option>
                 <option value="BCA">Bachelor of Computer Applications</option>
             </select>
+            <label for="nameFilter" style="margin-left: 20px;">Filter by Faculty Name: </label>
+            <input type="text" id="nameFilter" oninput="filterFaculties()" placeholder="Enter faculty name">
         </div>
         <table>
             <tr>
