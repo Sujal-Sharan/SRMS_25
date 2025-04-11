@@ -2,7 +2,25 @@
 session_start();
 $conn = new mysqli("localhost", "root", "", "srms");
 
-$error = "";
+// Check for cookies if session not set
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['user_id'])) {
+    $_SESSION['user_id'] = $_COOKIE['user_id'];
+    $_SESSION['username'] = $_COOKIE['username'];
+    $_SESSION['role'] = $_COOKIE['role'];
+}
+
+// If already logged in, redirect based on role
+if (isset($_SESSION['user_id'])) {
+    switch ($_SESSION['role']) {
+        case 'admin':
+            header("Location: dashboard.php"); break;
+        case 'faculty':
+            header("Location: dashboard.php"); break;
+        case 'student':
+            header("Location: dashboard.php"); break;
+    }
+    exit;
+}
 
 if (isset($_POST["login"])) {
     $username = $conn->real_escape_string($_POST["username"]);
@@ -15,57 +33,22 @@ if (isset($_POST["login"])) {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['password'])) {
-            // ✅ Credentials OK
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            // Redirect based on role
-            switch ($user['role']) {
-                case 'admin':
-                    header("Location: admin_dashboard.php");
-                    break;
-                case 'faculty':
-                    header("Location: faculty_dashboard.php");
-                    break;
-                case 'student':
-                    header("Location: student_dashboard.php");
-                    break;
+            if (isset($_POST['remember_me'])) {
+                setcookie("user_id", $user['user_id'], time() + (7 * 24 * 60 * 60), "/");
+                setcookie("username", $user['username'], time() + (7 * 24 * 60 * 60), "/");
+                setcookie("role", $user['role'], time() + (7 * 24 * 60 * 60), "/");
             }
-            exit;
+
+            header("Location: dashboard.php"); // re-check for redirection
         } else {
-            $error = "❌ Invalid username or password!";
+            header("Location: Test_login.php?error=Invalid username or password");
         }
     } else {
-        $error = "❌ Invalid username or password!";
+        header("Location: Test_login.php?error=Invalid username or password");
     }
 }
 ?>
-
-<!-- HTML + Form Section -->
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-
-<h2>Login to Student Record System</h2>
-
-<?php if (!empty($error)): ?>
-    <p style="color:red;"><?php echo $error; ?></p>
-<?php endif; ?>
-
-<form action="Test_auth.php" method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
-
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-
-    <button type="submit" name="login">Login</button>
-</form>
-
-</body>
-</html>
