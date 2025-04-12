@@ -13,13 +13,19 @@
             display: flex;
             background: url('https://cdn2.advanceinfotech.org/bharatdirectory.in/1200x675/business/3135/techno-2-1709631821.webp') no-repeat center center;
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
         .sidebar {
-            width: 250px;
+            width: 226px;
             background: #0A1931;
             color: white;
-            padding: 20px;
+            padding: 16px;
             height: 100vh;
+            margin-top: 110px; 
+            position: fixed;
+            overflow-y: auto;
         }
         .sidebar .profile {
             font-weight: bold;
@@ -42,8 +48,10 @@
             background: #FFC107;
         }
         .main-content {
-            flex: 1;
+            margin-left: 250px; 
             padding: 20px;
+            padding-top: 130px; 
+            width: calc(100% - 250px);
         }
         header {
             display: flex;
@@ -84,6 +92,17 @@
     </style>
 </head>
 <body>
+    <header style="background: #105fe8; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
+            <p style="margin: 0; font-size: 14px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
+            <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+        </div>
+    </header>
     <div class="sidebar">
         <div class="profile">Welcome User</div>
         <nav>
@@ -100,9 +119,7 @@
         </nav>
     </div>
     <div class="main-content">
-        <header>
-            <h1>Techno International New Town</h1>
-        </header>
+        
         
         <div class="grid">
             <div class="card" onclick="navigateTo('student.php')">
