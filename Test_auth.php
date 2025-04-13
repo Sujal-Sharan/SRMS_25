@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['user_id'])) {
 if (isset($_SESSION['user_id'])) {
     switch ($_SESSION['role']) {
         case 'admin':
-            header("Location: dashboard.php"); break;
+            header("Location: Test_dashboard_responsive.html"); break;
         case 'faculty':
             header("Location: dashboard.php"); break;
         case 'student':
@@ -23,11 +23,14 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if (isset($_POST["login"])) {
-    $username = $conn->real_escape_string($_POST["username"]);
-    $password = $_POST["password"];
 
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
+    $user_id = filter_input(INPUT_POST, "userId", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize user_Id
+    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
+
+    $stmt = $conn->prepare("SELECT * FROM login WHERE user_id = ?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
@@ -43,7 +46,7 @@ if (isset($_POST["login"])) {
                 setcookie("role", $user['role'], time() + (7 * 24 * 60 * 60), "/");
             }
 
-            header("Location: dashboard.php"); // re-check for redirection
+            header("Location: Test_dashboard_responsive.html"); // re-check for redirection
         } else {
             header("Location: Test_login.php?error=Invalid username or password");
         }
