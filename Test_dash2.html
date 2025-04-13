@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Record Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("mobileSidebar");
+      sidebar.classList.toggle("translate-x-0");
+      sidebar.classList.toggle("-translate-x-full");
+    }
+  </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-800">Student Record Management System</h1>
+    <div class="flex items-center space-x-4">
+      <span class="text-sm text-gray-600">Welcome, <span id="userName">John Doe</span> (Admin)</span>
+      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" onclick="window.location.href='logout.html'">Logout</button>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gradient-to-b from-indigo-600 to-purple-700 text-white p-6 hidden md:block min-h-screen">
+      <nav class="space-y-4">
+
+        <!-- Admin Sidebar Links -->
+        <div id="adminLinks" class="hidden">
+          <a href="admin_dashboard.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Dashboard</a>
+          <a href="manage_students.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Manage Students</a>
+          <a href="manage_faculty.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Manage Faculty</a>
+          <a href="view_documents.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">View Documents</a>
+        </div>
+
+        <!-- Faculty Sidebar Links -->
+        <div id="facultyLinks" class="hidden">
+          <a href="faculty_dashboard.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Dashboard</a>
+          <a href="view_students.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">View Students</a>
+          <a href="assign_marks.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Assign Marks</a>
+          <a href="view_documents.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">View Documents</a>
+        </div>
+
+        <!-- Student Sidebar Links -->
+        <div id="studentLinks" class="hidden">
+          <a href="student_dashboard.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Dashboard</a>
+          <a href="view_marks.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">View Marks</a>
+          <a href="view_attendance.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Attendance</a>
+          <a href="view_courses.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Courses</a>
+          <a href="upload_documents.html" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Upload Documents</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Mobile Sidebar -->
+    <div id="mobileSidebar" class="fixed top-0 left-0 w-64 bg-gradient-to-b from-indigo-600 to-purple-700 text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden h-full z-50">
+        <nav class="space-y-4">
+          <button class="mb-4 text-white font-bold" onclick="toggleSidebar()">✕ Close</button>
+          <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Dashboard</a>
+          <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Manage Students</a>
+          <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">Manage Faculty</a>
+          <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">View Documents</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+
+      <!-- Role-Based Content -->
+      <div id="adminContent" class="hidden">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Admin Dashboard</h2>
+      
+        <!-- Quick Stats Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Total Students</h3>
+            <p class="text-2xl font-bold text-indigo-700">1,245</p>
+          </div>
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Total Faculty</h3>
+            <p class="text-2xl font-bold text-green-600">150</p>
+          </div>
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Total Documents</h3>
+            <p class="text-2xl font-bold text-yellow-500">850</p>
+          </div>
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Pending Requests</h3>
+            <p class="text-2xl font-bold text-red-500">42</p>
+          </div>
+        </div>
+      
+        <!-- Recent Activity -->
+        <section class="bg-gray-50 p-6 rounded-lg mb-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-700 mb-4">Recent Activity</h3>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li>📁 John updated "HR Records" — 2 hours ago</li>
+            <li>✅ Jane approved request #2045 — 1 day ago</li>
+            <li>✏️ Mark edited "Finance Logs" — 3 days ago</li>
+            <li>🗑️ Admin deleted "Old Invoices" — 4 days ago</li>
+          </ul>
+        </section>
+      
+        <!-- Student Overview -->
+        <section class="bg-white p-6 rounded-lg shadow-sm mb-6">
+          <h3 class="text-lg font-semibold text-gray-700 mb-4">Student Overview</h3>
+          <table class="min-w-full table-auto">
+            <thead>
+              <tr>
+                <th class="text-left text-sm font-semibold text-gray-600">Student Name</th>
+                <th class="text-left text-sm font-semibold text-gray-600">Course</th>
+                <th class="text-left text-sm font-semibold text-gray-600">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-gray-200">
+                <td class="py-3 px-6">Alice Brown</td>
+                <td class="py-3 px-6">Computer Science</td>
+                <td class="py-3 px-6 text-green-500">Active</td>
+              </tr>
+              <tr class="border-t border-gray-200">
+                <td class="py-3 px-6">John Smith</td>
+                <td class="py-3 px-6">Business Management</td>
+                <td class="py-3 px-6 text-red-500">Suspended</td>
+              </tr>
+              <!-- More rows as needed -->
+            </tbody>
+          </table>
+        </section>
+      </div>
+      
+
+      <div id="facultyContent" class="hidden">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Faculty Dashboard</h2>
+        <p>Here, you can view student profiles, assign marks, and check documents.</p>
+        <!-- Further details for Faculty can go here -->
+      </div>
+
+      <div id="studentContent" class="hidden">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Student Dashboard</h2>
+      
+        <!-- Quick Stats Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Current GPA</h3>
+            <p class="text-2xl font-bold text-indigo-700">3.8</p>
+          </div>
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Attendance</h3>
+            <p class="text-2xl font-bold text-green-600">90%</p>
+          </div>
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Course Enrolled</h3>
+            <p class="text-2xl font-bold text-yellow-500">Software Engineering</p>
+          </div>
+          <div class="bg-white p-6 rounded shadow">
+            <h3 class="text-sm text-gray-500">Documents Uploaded</h3>
+            <p class="text-2xl font-bold text-blue-500">5</p>
+          </div>
+        </div>
+      
+        <!-- Marks Overview -->
+        <section class="bg-white p-6 rounded-lg shadow-sm mb-6">
+          <h3 class="text-lg font-semibold text-gray-700 mb-4">Marks Overview</h3>
+          <table class="min-w-full table-auto">
+            <thead>
+              <tr>
+                <th class="text-left text-sm font-semibold text-gray-600">Course</th>
+                <th class="text-left text-sm font-semibold text-gray-600">Marks</th>
+                <th class="text-left text-sm font-semibold text-gray-600">Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-gray-200">
+                <td class="py-3 px-6">Computer Science</td>
+                <td class="py-3 px-6">88</td>
+                <td class="py-3 px-6 text-green-500">A</td>
+              </tr>
+              <tr class="border-t border-gray-200">
+                <td class="py-3 px-6">Mathematics</td>
+                <td class="py-3 px-6">75</td>
+                <td class="py-3 px-6 text-yellow-500">B</td>
+              </tr>
+              <!-- More rows as needed -->
+            </tbody>
+          </table>
+        </section>
+      
+        <!-- Document Upload Section -->
+        <section class="bg-white p-6 rounded-lg shadow-sm mb-6">
+          <h3 class="text-lg font-semibold text-gray-700 mb-4">Upload Documents</h3>
+          <form action="#" method="POST" class="space-y-4">
+            <input type="file" name="document" class="border p-2 rounded" required />
+            <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded">Upload Document</button>
+          </form>
+        </section>
+      
+      </div>
+      
+
+    </main>
+  </div>
+
+  <script>
+    // Simulate Role Based Content
+    const userRole = 'admin'; // this would be dynamically set based on login (e.g., 'admin', 'faculty', 'student')
+
+    if (userRole === 'admin') {
+      document.getElementById('adminLinks').classList.remove('hidden');
+      document.getElementById('adminContent').classList.remove('hidden');
+    } else if (userRole === 'faculty') {
+      document.getElementById('facultyLinks').classList.remove('hidden');
+      document.getElementById('facultyContent').classList.remove('hidden');
+    } else if (userRole === 'student') {
+      document.getElementById('studentLinks').classList.remove('hidden');
+      document.getElementById('studentContent').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

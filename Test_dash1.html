@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Record System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("mobileSidebar");
+      sidebar.classList.toggle("translate-x-0");
+      sidebar.classList.toggle("-translate-x-full");
+    }
+  </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-800">Record Management System</h1>
+
+    <!-- Mobile Toggle -->
+    <button class="md:hidden text-indigo-600 font-bold" onclick="toggleSidebar()">☰ Menu</button>
+  </header>
+
+  <div class="flex min-h-screen">
+
+    <!-- Sidebar for desktop -->
+    <aside class="w-64 bg-gradient-to-b from-indigo-600 to-purple-700 text-white p-6 hidden md:block min-h-screen">
+      <nav class="space-y-4">
+        <a href="Test_dashboard_responsive.html" class="block bg-white text-indigo-700 font-semibold rounded-l-full px-4 py-2 shadow-md">
+          Dashboard
+        </a>
+        <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">
+          Records
+        </a>
+        <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">
+          Users
+        </a>
+        <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">
+          Settings
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Sidebar for mobile -->
+    <div id="mobileSidebar" class="fixed top-0 left-0 w-64 bg-gradient-to-b from-indigo-600 to-purple-700 text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden h-full z-50">
+      <nav class="space-y-4">
+        <button class="mb-4 text-white font-bold" onclick="toggleSidebar()">✕ Close</button>
+        <a href="Test_dashboard_responsive.html" class="block bg-white text-indigo-700 font-semibold rounded-l-full px-4 py-2 shadow-md">
+          Dashboard
+        </a>
+        <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">
+          Records
+        </a>
+        <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">
+          Users
+        </a>
+        <a href="#" class="block hover:bg-indigo-500 hover:text-white transition px-4 py-2 rounded-l-full">
+          Settings
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main content -->
+    <main class="flex-1 p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Cards -->
+          <a href="page1.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 1</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 1.</p>
+          </a>
+  
+          <a href="page2.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 2</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 2.</p>
+          </a>
+  
+          <a href="page3.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 3</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 3.</p>
+          </a>
+  
+          <a href="page4.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 4</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 4.</p>
+          </a>
+  
+          <a href="page5.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 5</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 5.</p>
+          </a>
+  
+          <a href="page6.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 6</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 6.</p>
+          </a>
+  
+          <a href="page7.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 7</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 7.</p>
+          </a>
+  
+          <a href="page8.html" class="bg-white p-4 rounded shadow hover:shadow-md transition">
+            <h2 class="text-xl font-semibold text-gray-800">Card 8</h2>
+            <p class="text-gray-600 text-sm mt-2">Short description for card 8.</p>
+          </a>
+        </div>
+      </main>
+  </div>
+</body>
+</html>
+ 
