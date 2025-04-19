@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Marks Upload</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      background: url('https://cdn2.advanceinfotech.org/bharatdirectory.in/1200x675/business/3135/techno-2-1709631821.webp') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .header {
+      background-color: rgba(0, 76, 255, 0.9);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      margin: 100px auto ;
+      max-width: 1200px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 35px;
+      border-radius: 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 20px;
+      background-color: #004cff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0036b3;
+    }
+
+    .success-message {
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+    <header style="background: #105fe8; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
+            <p style="margin: 0; font-size: 14px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 14px;">
+            <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723  </p></span>
+        </div>
+    </header>
+  
+  <div class="container">
+    <form id="marksForm">
+      <label for="stream">Select Stream</label>
+      <select id="stream" name="stream">
+        <option value="">Select Stream</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="ECE">ECE</option>
+        <option value="EE">EE</option>
+        <option value="ME">ME</option>
+        <!-- Add more streams as needed -->
+      </select>
+
+      <label for="subject">Subject</label>
+      <select id="subject" name="subject">
+        <option value="">Select Subject</option>
+      </select>
+
+      <label for="student">Student Roll</label>
+      <input type="text" id="student" name="student" placeholder="Enter Roll Number" maxlength="20">
+
+      <label for="ca_marks">Continuous Assessment (CA) Marks</label>
+      <input type="number" id="ca_marks" name="ca_marks" min="0" max="25">
+
+      <label for="pca_marks">Practical Continuous Assessment (PCA) Marks</label>
+      <input type="number" id="pca_marks" name="pca_marks" min="0" max="40">
+
+      <button type="submit">Upload Marks</button>
+    </form>
+    <div class="success-message" id="successMessage">
+      CA & PCA marks uploaded successfully!
+    </div>
+  </div>
+
+  <script>
+    const streamSubjects = {
+      CSE: [
+        { value: "CSE101", label: "CSE101 - Programming" },
+        { value: "CSE102", label: "CSE102 - Data Structures" },
+      ],
+      IT: [
+        { value: "IT201", label: "IT201 - Web Development" },
+        { value: "IT202", label: "IT202 - Network Security" },
+      ],
+      ECE: [
+        { value: "ECE301", label: "ECE301 - Signal Processing" },
+        { value: "ECE302", label: "ECE302 - Microprocessors" },
+      ],
+      EEE: [
+        { value: "EEE401", label: "EEE401 - Electrical Machines" },
+        { value: "EEE402", label: "EEE402 - Power Systems" },
+      ],
+      ME: [
+        { value: "ME501", label: "ME501 - Thermodynamics" },
+        { value: "ME502", label: "ME502 - Machine Design" },
+      ]
+    };
+
+    document.getElementById("stream").addEventListener("change", function () {
+      const stream = this.value;
+      const subjectSelect = document.getElementById("subject");
+      subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+
+      if (streamSubjects[stream]) {
+        streamSubjects[stream].forEach(subject => {
+          const option = document.createElement("option");
+          option.value = subject.value;
+          option.textContent = subject.label;
+          subjectSelect.appendChild(option);
+        });
+      }
+    });
+
+    document.getElementById("marksForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      document.getElementById("successMessage").style.display = "block";
+    });
+  </script>
+</body>
+</html>
