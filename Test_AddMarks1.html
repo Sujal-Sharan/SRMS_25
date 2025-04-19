@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Marks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+      async function fetchStudents(courseCode) {
+    if (!courseCode) return;
+
+    const res = await fetch(`Test_FetchStudents1.php?course_code=${courseCode}`);
+
+    const students = await res.json();
+
+    const tbody = document.getElementById("studentsTableBody");
+    tbody.innerHTML = "";
+
+    if (students.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3">No students</td></tr>`;
+      return;
+    }
+
+    students.forEach(s => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${s.id}</td>
+          <td>${s.name}</td>
+          <td><input type="number" name="marks[${s.id}]" /></td>
+        </tr>
+      `;
+    });
+  }
+    // async function fetchStudents(courseCode) {
+    //   if (!courseCode) return;
+
+    //   const response = await fetch(`Test_FetchStudents1.php?course_code=${courseCode}`);
+    //   const data = await response.json();
+
+    //   const tbody = document.getElementById("studentsTableBody");
+    //   tbody.innerHTML = "";
+
+    //   if (data.length === 0) {
+    //     tbody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-500 py-4">No students found.</td></tr>`;
+    //     return;
+    //   }
+
+    //   data.forEach(student => {
+    //     tbody.innerHTML += `
+    //       <tr class="border-b">
+    //         <td class="px-4 py-3">${student.student_id}</td>
+    //         <td class="px-4 py-3">${student.name}</td>
+    //         <td class="px-4 py-3">
+    //           <input type="number" name="marks[${student.student_id}]" class="w-24 p-2 border rounded" min="0" max="100" required />
+    //         </td>
+    //       </tr>
+    //     `;
+    //   });
+    // }
+
+    // async function submitForm(event) {
+    //   event.preventDefault();
+
+    //   const form = document.getElementById("marksForm");
+    //   const formData = new FormData(form);
+
+    //   const res = await fetch("Test_SubmitMarks1.php", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
+
+    //   const result = await res.json();
+
+    //   const alertBox = document.getElementById("alertBox");
+    //   alertBox.innerText = result.message;
+    //   alertBox.className = result.success
+    //     ? "bg-green-200 text-green-800 px-4 py-2 rounded mb-4"
+    //     : "bg-red-200 text-red-800 px-4 py-2 rounded mb-4";
+
+    //   alertBox.scrollIntoView({ behavior: "smooth" });
+    // }
+  </script>
+</head>
+<body class="bg-gray-100 p-6">
+
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">Add Marks</h2>
+
+  <!-- Alerts -->
+  <div id="alertBox" class="mb-4"></div>
+
+  <!-- Course Dropdown -->
+  <div class="mb-6">
+    <label class="block mb-2 font-medium text-gray-700">Select Course</label>
+    <!-- <select id="courseDropdown" name="course_code" class="border p-2 rounded w-full" onchange="fetchStudents(this.value)">
+      <option value="">-- Choose a Course --</option>
+      <option value="CS101">CS101 - Data Structures</option>
+      <option value="MATH201">MATH201 - Calculus II</option>
+      <option value="ENG102">ENG102 - Communication Skills</option>
+    </select> -->
+    <select onchange="fetchStudents(this.value)" class="border p-2">
+        <option value="">-- Select --</option>
+        <option value="CS101">CS101</option>
+      </select>
+      
+
+  </div>
+
+  <!-- Form -->
+  <form id="marksForm" onsubmit="submitForm(event)">
+    <input type="hidden" name="course_code" id="selectedCourseCode" />
+
+    <div class="overflow-x-auto mb-4">
+    <table border="1">
+        <thead><tr><th>ID</th><th>Name</th><th>Marks</th></tr></thead>
+        <tbody id="studentsTableBody">
+            <tr><td colspan="3">Select a course</td></tr>
+        </tbody>
+    </table>
+      <!-- <table class="min-w-full bg-white rounded shadow">
+        <thead class="bg-indigo-600 text-white">
+          <tr>
+            <th class="px-4 py-2 text-left">Student ID</th>
+            <th class="px-4 py-2 text-left">Student Name</th>
+            <th class="px-4 py-2 text-left">Marks</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTableBody" class="text-gray-800">
+          <tr>
+            <td colspan="3" class="text-center text-gray-400 py-4">Select a course to load students.</td>
+          </tr>
+        </tbody>
+      </table> -->
+    </div>
+
+    <div class="text-right">
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded">
+        Submit Marks
+      </button>
+    </div>
+  </form>
+</body>
+</html>
