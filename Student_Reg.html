@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -182,8 +183,50 @@
             </section>
         </main>
     </div>
+    <script>
+         document.getElementById('studentForm').addEventListener('submit', function(e) {
+         e.preventDefault();
+        
+        const photoFile = document.getElementById('uploadPhoto').files[0];
+        
+         if (photoFile) {
+         const reader = new FileReader();
+         reader.onload = function () {
+         const base64Photo = reader.result;
+        
+         const studentData = {
+         studentName: document.getElementById('studentName').value,
+         fatherName: document.getElementById('fatherName').value,
+         motherName: document.getElementById('motherName').value,
+         address: document.getElementById('address').value,
+         gender: document.getElementById('Gender').value,
+         pincode: document.getElementById('pincode').value,
+         state: document.getElementById('state').value,
+         district: document.getElementById('district').value,
+         city: document.getElementById('City').value,
+         phone: document.getElementById('phone').value,
+         registrationNo: document.getElementById('registrationNo').value,
+         email: document.getElementById('email').value,
+         dob: document.getElementById('dob').value,
+         bloodGroup: document.getElementById('bloodGroup').value,
+         disabilities: document.getElementById('disabilities').value,
+         photo: base64Photo
+         };
+        
+         sessionStorage.setItem("studentInfo", JSON.stringify(studentData));
+         window.location.href = "Student_Info.php";
+         };
+         reader.readAsDataURL(photoFile);
+         } else {
+         alert("Please upload a photo.");
+         }
+        });
+         </script>
+        </body>
+        </html>
+        
 
-    <script src="Student_Reg.js"></script>
+    <!--<script src="Student_Reg.js"></script>-->
 </body>
 </html>
 
