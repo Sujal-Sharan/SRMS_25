@@ -125,7 +125,7 @@ session_start();
             </form>
 
             <div class="links">
-                <a href="#">Forgot Password?</a>
+                <a href="forgotpassword_login.php" class="highlight">Forgot Password?</a>
                 <br>
                 <br>
                 <a href="Student_Reg.html" class="highlight">New User?   Register Here</a>
