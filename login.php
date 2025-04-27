@@ -159,15 +159,14 @@ session_start();
             $hash = password_hash($password, PASSWORD_BCRYPT); // Hash password
 
             try{
-                $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+                $stmt = $conn->prepare("SELECT * FROM login WHERE user_id = ?");
                 $stmt->bind_param("s", $user_Id);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc(); 
                 
-                if ($user && password_verify($password, $user['password_hash']) && ($user['role'] === $role)) {
-                    $_SESSION['userId'] = $userId;
-                    $_SESSION['username'] = $user['username'];
+                if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
+                    $_SESSION['user_Id'] = $user_Id;
                     $_SESSION['role'] = $role;
 
                     if($role === 'student'){
@@ -189,7 +188,7 @@ session_start();
                         header('location: login.php?error=User does not exists!');
                         exit();  
                     }
-                    else if(!password_verify($password, $user['password_hash'])){
+                    else if(!password_verify($password, $user['password'])){
                         header('location: login.php?error=Incorrect Password');
                         exit();
                     }

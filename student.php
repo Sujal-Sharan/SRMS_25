@@ -3,8 +3,8 @@ include("DB_Connect.php");
 session_start();
 
 // Get student details from DB
-$stmt = $conn->prepare("SELECT * FROM student_records WHERE roll = ?");
-$stmt->bind_param("s", $_SESSION['userId']);
+$stmt = $conn->prepare("SELECT * FROM students WHERE college_roll = ?");
+$stmt->bind_param("s", $_SESSION['user_Id']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -109,33 +109,28 @@ $result = $stmt->get_result();
         </ul>
     </div>
     <div class="main-content">
-        <div class="profile-section">
+        <!-- <div class="profile-section">
             <img src="profile.jpg" alt="Profile Picture" ><br>
-            <?php 
-            if(isset($_SESSION['userName'])) {
-                echo "<h2>Welcome " . $_SESSION['userName'] . "<h2>"; // Output: Welcome "JohnDoe"
-            } else {
-                echo "Session variable not set.";
-            }
-            ?><br>    
-        </div>
+        </div> -->
         <div class="card">
             <h3>Student Details</h3>
             <?php
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<br><p>Name : " . $row["name"] . "</p><br>" .
-                        "<p>Roll No.: " . $row["roll"] . "</p><br>" .
-                        "<p>Registration Id : " . $row["reg_no"] . "</p><br>" .
+                        "<p>University Roll : " . $row["university_roll"] . "</p><br>" .
+                        "<p>College Roll : " . $row["college_roll"] . "</p><br>" .
+                        "<p>Department : " . $row["department"] . "</p><br>" .
+                        "<p>Batch : " . $row["batch_year"] . "</p><br>" .
                         "<p>Email : " . $row["email"] . "</p><br>" .
-                        "<p>Mobile No. : " . $row["mobile"] . "</p><br>" .
-                        "<p>Stream : " . $row["stream"] . "</p><br>" ;
+                        "<p>Phone No. : " . $row["phone"] . "</p><br>";
 
-                    $_SESSION['roll'] = $row['roll'];   //Storing roll
-                    $_SESSION['reg_no'] = $row['reg_no'];   //Storing registration_no
-                    $_SESSION['email'] = $row['email'];   //Storing email address
-                    $_SESSION['mobile'] = $row['mobile'];   //Storing mobile_no
-                    $_SESSION['stream'] = $row['stream'];   //Storing stream
+                    $_SESSION['name'] = $row["name"];
+                    $_SESSION['university_roll'] = $row["university_roll"];
+                    $_SESSION['college_roll'] = $row["college_roll"];
+                    $_SESSION['department'] = $row["department"];
+                    $_SESSION['batch_year'] = $row["batch_year"];
+                    
                 }
             } else {
                 echo "No records found";
