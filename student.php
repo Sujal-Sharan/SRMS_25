@@ -1,5 +1,5 @@
 <?php
-include("DB_Connect.php");
+require_once("DB_Connect.php");
 session_start();
 
 // Get student details from DB
@@ -15,7 +15,8 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - Techno International New Town</title>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="Styles/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -26,29 +27,6 @@ $result = $stmt->get_result();
         body {
             display: flex;
             height: 100vh;
-        }
-        .sidebar {
-            width: 250px;
-            height: auto;
-            background:rgb(22, 40, 60);
-            color: white;
-            padding: 20px;
-        }
-        .sidebar h2 {
-            margin-bottom: 20px;
-        }
-        .sidebar ul {
-            height: 100vh;
-            background-color: rgb(33, 50, 70);;
-            list-style: none;
-        }
-        .sidebar ul li {
-            padding: 10px;
-            cursor: pointer;
-        }
-        .sidebar ul li:hover {
-            border: 1px, solid, white;
-            background: #1b263b;
         }
         .main-content {
             flex: 1;
@@ -95,19 +73,20 @@ $result = $stmt->get_result();
     </style>
 </head>
 <body>
+
     <div class="sidebar">
         <h2>{Logo}  TINT</h2>
-        <ul>
-            <li onclick="navigateTo('dashboard.php')">Dashboard</li>
-            <!-- TODO: Change attendance URL to proper student one -->
-            <li onclick="navigateTo('attendance.php')">Attendance</li>  
-            <li onclick="navigateTo('marks.php')">View Marks</li>
-            <li>Documents</li>
-            <li>Update Details</li>
-            <li>Settings</li>
-            <li onclick="navigateTo('logout.php')">Log out</li>
-        </ul>
+        <nav>
+            <a href="/SRMS/SRMS_25/student.php" id="active">Dashboard</a>
+            <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
+            <a href="/SRMS/SRMS_25/marks.php">View Marks</a>
+            <a>Documents</a>
+            <a>Update Details</a>
+            <a>Settings</a>
+            <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+        </nav>
     </div>
+
     <div class="main-content">
         <!-- <div class="profile-section">
             <img src="profile.jpg" alt="Profile Picture" ><br>
@@ -137,6 +116,7 @@ $result = $stmt->get_result();
             }
             ?>
         </div>
+
         <div class="card">
             <h3>Actions</h3>
             <br>
@@ -145,7 +125,9 @@ $result = $stmt->get_result();
             <button class="btn">View Documents</button>
             <button class="btn">Update Details</button>
         </div>
+
     </div>
+    
     <script>
         function navigateTo(url) {
             window.location.href = url;

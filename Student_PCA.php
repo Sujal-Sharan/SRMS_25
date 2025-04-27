@@ -1,12 +1,14 @@
 <?php
-include_once("DB_Connect.php");
+require_once("DB_Connect.php");
 session_start();
 
-// TODO: Add a filter to only show marks from current sem. (Would need changes in student_records to get current sem)
-// Might remove name and roll fields
+$stmt = $conn->prepare("SELECT subject_id, semester, 
+    MAX(CASE WHEN test_type = 'PCA1' THEN marks_obtained END) AS PCA1_marks, 
+    MAX(CASE WHEN test_type = 'PCA2' THEN marks_obtained END) AS PCA2_marks 
+    FROM marks 
+    WHERE student_id = ?");
 
-$stmt = $conn->prepare("SELECT * FROM marks_pca WHERE roll = ?");
-$stmt->bind_param("s", $_SESSION['roll']);
+$stmt->bind_param("s", $_SESSION['college_roll']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -17,6 +19,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="Styles/sidebar.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,70 +81,42 @@ $result = $stmt->get_result();
         input[type="submit"]:hover {
             background-color: #e69a00;
         }
-        .sidebar {
-            width: 250px;
-            background: #0A1931;
-            color: white;
-            padding: 20px;
-            height: 100vh;
-        }
-        .sidebar .profile {
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .sidebar nav ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar nav ul li {
-            margin: 10px 0;
-        }
-        .sidebar nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            display: block;
-        }
     </style>
 </head>
 <body>
+
     <div class="sidebar">
-        <div class="profile">Welcome User</div>
+        <h2>{Logo}  TINT</h2>
         <nav>
-            <ul>
-                <li><a href="#">Go To Super Admin</a></li>
-                <li ><a>My College</a>
-                    <ul>
-                        <li class="active"><a href="#">Dashboard</a></li>
-                        <li><a href="#">Enquiry</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Management</a></li>
-            </ul>
+            <a href="/SRMS/SRMS_25/student.php">Dashboard</a>
+            <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
+            <a href="/SRMS/SRMS_25/marks.php" id="active"   >View Marks</a>
+            <a>Documents</a>
+            <a>Update Details</a>
+            <a>Settings</a>
+            <a href="/SRMS/SRMS_25/logout.php">Log out</a>
         </nav>
     </div>
+
     <div class="container">
         <h2>Internal Marks (PCA)</h2>
 
         <table>
             <tr>
-                <th>Name</th>
-                <th>Roll</th>
-                <th>Subject Name</th>
-                <th>Subject Code</th>
-                <th>PCA1</th>
-                <th>PCA2</th>
+                <th>Subject</th>
+                <th>Semester</th>
+                <th>PCA_1</th>
+                <th>PCA_2</th>
+
             </tr>
             <?php
                 if($result->num_rows > 0){
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
-                                <td>" . $row["name"] . "</td>
-                                <td>" . $row["roll"] . "</td>
-                                <td>" . $row["subject_code"] . "</td>
-                                <td>" . $row["subject_name"] . "</td>
-                                <td>" . $row["pca1"] . "</td>
-                                <td>" . $row["pca2"] . "</td>
+                                <td>" . $row["subject_id"] . "</td>
+                                <td>" . $row["semester"] . "</td>
+                                <td>" . $row["PCA1_marks"] . "</td>
+                                <td>" . $row["PCA2_marks"] . "</td>
                             </tr>";
                     }
                 } else {
