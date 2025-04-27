@@ -65,6 +65,7 @@ header {
 
 .sidebar nav a:hover {
     background-color: #d89013;
+    border: 2px, solid, black;
 }
 
 .sidebar .profile {
@@ -96,9 +97,14 @@ header {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.card h3{
+    margin-left: 20px;
+}
+
 .filters {
     display: flex;
     gap: 100px;
+    margin: 20px;
 }
 
 select {
@@ -127,10 +133,10 @@ th {
 
 .btn {
     background: #ffcc00;
-    border: none;
+    border: 1px, solid, white;
     padding: 10px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 4cm;
     font-size: 16px;
 }
 
