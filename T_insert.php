@@ -14,22 +14,22 @@ if ($conn->connect_error) {
 
 // Check if data was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['id'])) {
-    // $tidArray = $_POST['tid'];
+
     $nameArray = $_POST['name'];
     $idArray = $_POST['id'];
     $passwordArray = $_POST['password'];
     $roleArray = $_POST['role'];
 
     // Prepare SQL statement
-    $stmt = $conn->prepare("INSERT INTO login (userName, userId, password, role) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $name, $id, $password, $role);
+    $stmt = $conn->prepare("INSERT INTO users (user_id, username, password_hash, role) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $id, $name, $password, $role);
 
     // Loop through submitted data and insert each row
-    for ($i = 0; $i < count($nameArray); $i++) {
-        // $tid = intval($tidArray[$i]);
-        $name = $nameArray[$i];
+    for ($i = 0; $i < count($idArray); $i++) {
+
         $id = $idArray[$i];
-        $password = password_hash($passwordArray[$i], PASSWORD_BCRYPT); // Secure password storage
+        $name = $nameArray[$i];
+        $password = password_hash($passwordArray[$i], PASSWORD_BCRYPT); // Storing hashed password
         $role = $roleArray[$i];
 
         $stmt->execute();

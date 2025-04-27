@@ -7,13 +7,14 @@
             var table = document.getElementById("userTable");
             var row = table.insertRow();
             row.innerHTML = `
-                <td><input type="text" name="name[]" required></td>
                 <td><input type="text" name="id[]" required></td>
+                <td><input type="text" name="name[]" required></td>
                 <td><input type="password" name="password[]" required></td>
                 <td>
                     <select name="role[]">
-                        <option value="Admin">Admin</option>
-                        <option value="Student">Student</option>
+                        <option value="admin">Admin</option>
+                        <option value="faculty">Faculty</option>
+                        <option value="student">Student</option>
                     </select>
                 </td>
             `;
@@ -26,19 +27,20 @@
 <form action="T_insert.php" method="post">
     <table id="userTable" border="1">
         <tr>
-            <th>User Name</th>
-            <th>User ID</th>
+            <th>User_ID</th>
+            <th>Username</th>
             <th>Password</th>
             <th>Role</th>
         </tr>
         <tr>
-            <td><input type="text" name="name[]" required></td>
             <td><input type="text" name="id[]" required></td>
+            <td><input type="text" name="name[]" required></td>
             <td><input type="password" name="password[]" required></td>
             <td>
                 <select name="role[]">
-                    <option value="Admin">Admin</option>
-                    <option value="Student">Student</option>
+                    <option value="admin">Admin</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="student">Student</option>
                 </select>
             </td>
         </tr>

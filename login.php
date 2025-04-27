@@ -1,5 +1,5 @@
 <?php 
-include_once("DB_Connect.php");
+require_once("DB_Connect.php");
 session_start();
 ?>
 <!DOCTYPE html>
@@ -115,11 +115,12 @@ session_start();
             <form action="login.php" method="post">
                 <label> Select Role: </label>
                 <select name="role">
-                    <option value="Admin">Admin</option>
-                    <option value="Student">Student</option>
+                    <option value="admin">Admin</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="student">Student</option>
                 </select>
 
-                <input type="text" name="userId" placeholder="User ID">
+                <input type="text" name="user_id" placeholder="User ID">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" class="btn" name="login" value="Log In">
             </form>
@@ -142,11 +143,11 @@ session_start();
     {
         // TODO: Maybe add ability to login using either 'userId' or 'userName'
 
-        $userId = filter_input(INPUT_POST, "userId", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
+        $user_Id = filter_input(INPUT_POST, "user_id", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize username
         $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
         $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_SPECIAL_CHARS); // Sanitize password
 
-        if(empty($userId)){
+        if(empty($user_Id)){
             header('location: login.php?error=Missing User ID');
             exit();
         }
@@ -158,15 +159,15 @@ session_start();
             $hash = password_hash($password, PASSWORD_BCRYPT); // Hash password
 
             try{
-                $stmt = $conn->prepare("SELECT * FROM login WHERE userId = ?");
-                $stmt->bind_param("s", $userId);
+                $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+                $stmt->bind_param("s", $user_Id);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc(); 
                 
-                if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
+                if ($user && password_verify($password, $user['password_hash']) && ($user['role'] === $role)) {
                     $_SESSION['userId'] = $userId;
-                    $_SESSION['userName'] = $user['userName'];
+                    $_SESSION['username'] = $user['username'];
                     $_SESSION['role'] = $role;
 
                     if($user['role'] == "Student")
@@ -185,7 +186,7 @@ session_start();
                         header('location: login.php?error=User does not exists!');
                         exit();  
                     }
-                    else if(!password_verify($password, $user['password'])){
+                    else if(!password_verify($password, $user['password_hash'])){
                         header('location: login.php?error=Incorrect Password');
                         exit();
                     }
