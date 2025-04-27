@@ -32,7 +32,7 @@
             <h2>{Logo}  TINT</h2>
             <nav>
                 <a href="/SRMS/SRMS_25/student.php">Dashboard</a>
-                <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/student_attendance.php">Attendance</a>
                 <a href="/SRMS/SRMS_25/marks.php" id="active"   >View Marks</a>
                 <a>Documents</a>
                 <a>Update Details</a>

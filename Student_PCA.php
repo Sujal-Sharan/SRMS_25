@@ -5,7 +5,7 @@ session_start();
 // Define the parameters (these may be empty or null if the user doesn't provide them)
 
 $roll = $_SESSION['college_roll'];         // Student roll number (already known from student.php)
-$semester = NULL;          // Optional semester param (can be empty or null)
+$semester = $_SESSION['current_semester'];          // Current semester
 $subject_id = NULL;      // Optional subject_id (can be empty or null)
 
 if(isset($_GET['filter'])){
@@ -16,18 +16,17 @@ if(isset($_GET['filter'])){
 $sql = "SELECT 
             m.student_id,
             m.subject_id AS subject_id,
-            m.semester AS sem,
-            s.name AS student_name,
+            m.semester AS semester,
             
             CASE 
                 WHEN MAX(m.test_type = 'PCA1' AND m.is_absent = TRUE AND m.marks_obtained IS NULL) THEN 'ABSENT'
                 ELSE CAST(MAX(CASE WHEN m.test_type = 'PCA1' THEN m.marks_obtained END) AS CHAR)
-            END AS CA1,
+            END AS PCA1,
             
             CASE 
                 WHEN MAX(m.test_type = 'PCA2' AND m.is_absent = TRUE AND m.marks_obtained IS NULL) THEN 'ABSENT'
                 ELSE CAST(MAX(CASE WHEN m.test_type = 'PCA2' THEN m.marks_obtained END) AS CHAR)
-            END AS CA2
+            END AS PCA2
 
         FROM 
             marks m
@@ -76,6 +75,19 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <style>
+        .btn{
+            background-color: rgb(50, 225, 47);
+            border: 1px, solid, black;
+            margin: 20px;
+            margin-bottom: 2px;
+            padding: 10px;
+        }
+        .btn:hover{
+            background-color: rgb(43, 193, 41);
+            border: 2px, solid, black;
+        }
+    </style>
 </head>
 <body>
     <header>Display PCA Marks</header>
@@ -84,7 +96,7 @@ $result = $stmt->get_result();
             <h2>{Logo}  TINT</h2>
             <nav>
                 <a href="/SRMS/SRMS_25/student.php">Dashboard</a>
-                <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/student_attendance.php">Attendance</a>
                 <a href="/SRMS/SRMS_25/marks.php" id="active">View Marks</a>
                 <a>Documents</a>
                 <a>Update Details</a>
@@ -100,7 +112,7 @@ $result = $stmt->get_result();
 
             <div class="card">
                 <h3>Apply Filters</h3><br>
-                <form action="student_CA.php" method="get">
+                <form action="student_PCA.php" method="get">
                     <div class="filters">
                         <select id="filter_subject" name="filter_subject">
                             <option value="">Filter the result by subject</option>
@@ -126,18 +138,22 @@ $result = $stmt->get_result();
                         <th>PCA_2</th>
                     </tr>
                     <?php
+                    try{
                         if($result->num_rows > 0){
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
                                         <td>" . $row["subject_id"] . "</td>
                                         <td>" . $row["semester"] . "</td>
-                                        <td>" . $row["PCA1_marks"] . "</td>
-                                        <td>" . $row["PCA2_marks"] . "</td>
+                                        <td>" . $row["PCA1"] . "</td>
+                                        <td>" . $row["PCA2"] . "</td>
                                     </tr>";
                             }
                         } else {
                             echo "<tr><td colspan='8'>No records found</td></tr>";
                         }
+                    }catch(Exception $e){
+                        echo 'Message: ' .$e->getMessage();
+                    }
                     ?>
                 </table>
             </div>

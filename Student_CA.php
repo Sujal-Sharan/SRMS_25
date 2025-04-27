@@ -5,7 +5,7 @@ session_start();
 // Define the parameters (these may be empty or null if the user doesn't provide them)
 
 $roll = $_SESSION['college_roll'];         // Student roll number (already known from student.php)
-$semester = NULL;          // Optional semester param (can be empty or null)
+$semester = $_SESSION['current_semester'];          // Current semester 
 $subject_id = NULL;      // Optional subject_id (can be empty or null)
 
 if(isset($_GET['filter'])){
@@ -16,8 +16,7 @@ if(isset($_GET['filter'])){
 $sql = "SELECT 
             m.student_id,
             m.subject_id AS subject_id,
-            m.semester AS sem,
-            s.name AS student_name,
+            m.semester AS semester,
             
             CASE 
                 WHEN MAX(m.test_type = 'CA1' AND m.is_absent = TRUE AND m.marks_obtained IS NULL) THEN 'ABSENT'
@@ -60,7 +59,6 @@ if (!empty($semester)) {
     $types .= "i";
     $values[] = $semester;
 }
-
 if (!empty($subject_id)) {
     $sql .= " AND m.subject_id = ?";
     $types .= "i";
@@ -94,7 +92,6 @@ $result = $stmt->get_result();
             margin-bottom: 2px;
             padding: 10px;
         }
-
         .btn:hover{
             background-color: rgb(43, 193, 41);
             border: 2px, solid, black;
@@ -108,7 +105,7 @@ $result = $stmt->get_result();
             <h2>{Logo}  TINT</h2>
             <nav>
                 <a href="/SRMS/SRMS_25/student.php">Dashboard</a>
-                <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/student_attendance.php">Attendance</a>
                 <a href="/SRMS/SRMS_25/marks.php" id="active">View Marks</a>
                 <a>Documents</a>
                 <a>Update Details</a>
@@ -152,11 +149,12 @@ $result = $stmt->get_result();
                         <th>CA 4</th>
                     </tr>
                     <?php
+                    try{
                         if($result->num_rows > 0){
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
                                         <td>" . $row["subject_id"] . "</td>
-                                        <td>" . $row["sem"] . "</td>
+                                        <td>" . $row["semester"] . "</td>
                                         <td>" . $row["CA1"] . "</td>
                                         <td>" . $row["CA2"] . "</td>
                                         <td>" . $row["CA3"] . "</td>
@@ -166,6 +164,9 @@ $result = $stmt->get_result();
                         } else {
                             echo "<tr><td colspan='3'>No records found</td></tr>";
                         }
+                    }catch(Exception $e){
+                        echo 'Message: ' .$e->getMessage();
+                    }
                     ?>
                 </table>
             </div>
@@ -174,5 +175,4 @@ $result = $stmt->get_result();
 
 </body>
 </html>
-
 

@@ -132,7 +132,6 @@ session_start();
                 <a href="Student_Reg.html" class="highlight">New User?   Register Here</a>
                 <br>
             </div>
-
         </div>
     </div>
 </body>
