@@ -170,15 +170,18 @@ session_start();
                     $_SESSION['username'] = $user['username'];
                     $_SESSION['role'] = $role;
 
-                    if($user['role'] == "Student")
-                    {
+                    if($role === 'student'){
                         header('location: student.php');
+                        exit();  
                     }
-                    else
-                    {
+                    else if($role === 'faculty'){
+                        header('location: login.php?error=Faculty page not found');
+                        exit();
+                    }
+                    else{
                         header('location: dashboard.php');
+                        exit();
                     }
-                    exit;
                 } 
                 else {
 
