@@ -16,8 +16,8 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="Styles/sidebar.css">
-    <style>
+    <link rel="stylesheet" href="Styles/global_base.css">
+    <!-- <style>
         * {
             margin: 0;
             padding: 0;
@@ -70,62 +70,66 @@ $result = $stmt->get_result();
         h2 {
             align-items: center;
         }
-    </style>
+    </style> -->
 </head>
 <body>
+    <header>
+        Student Dashboard
+    </header>
 
-    <div class="sidebar">
-        <h2>{Logo}  TINT</h2>
-        <nav>
-            <a href="/SRMS/SRMS_25/student.php" id="active">Dashboard</a>
-            <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
-            <a href="/SRMS/SRMS_25/marks.php">View Marks</a>
-            <a>Documents</a>
-            <a>Update Details</a>
-            <a>Settings</a>
-            <a href="/SRMS/SRMS_25/logout.php">Log out</a>
-        </nav>
-    </div>
+    <div class="layout">
+        <div class="sidebar">
+            <h2>{Logo}  TINT</h2>
+            <nav>
+                <a href="/SRMS/SRMS_25/student.php" id="active">Dashboard</a>
+                <a href="/SRMS/SRMS_25/attendance.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/marks.php">View Marks</a>
+                <a>Documents</a>
+                <a>Update Details</a>
+                <a>Settings</a>
+                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+            </nav>
+        </div>
 
-    <div class="main-content">
-        <!-- <div class="profile-section">
-            <img src="profile.jpg" alt="Profile Picture" ><br>
-        </div> -->
-        <div class="card">
-            <h3>Student Details</h3>
-            <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<br><p>Name : " . $row["name"] . "</p><br>" .
-                        "<p>University Roll : " . $row["university_roll"] . "</p><br>" .
-                        "<p>College Roll : " . $row["college_roll"] . "</p><br>" .
-                        "<p>Department : " . $row["department"] . "</p><br>" .
-                        "<p>Batch : " . $row["batch_year"] . "</p><br>" .
-                        "<p>Email : " . $row["email"] . "</p><br>" .
-                        "<p>Phone No. : " . $row["phone"] . "</p><br>";
+        <div class="main-content">
+            <!-- <div class="profile-section">
+                <img src="profile.jpg" alt="Profile Picture" ><br>
+            </div> -->
+            <div class="card">
+                <h3>Student Details</h3>
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<br><p>Name : " . $row["name"] . "</p><br>" .
+                            "<p>University Roll : " . $row["university_roll"] . "</p><br>" .
+                            "<p>College Roll : " . $row["college_roll"] . "</p><br>" .
+                            "<p>Department : " . $row["department"] . "</p><br>" .
+                            "<p>Batch : " . $row["batch_year"] . "</p><br>" .
+                            "<p>Email : " . $row["email"] . "</p><br>" .
+                            "<p>Phone No. : " . $row["phone"] . "</p><br>";
 
-                    $_SESSION['name'] = $row["name"];
-                    $_SESSION['university_roll'] = $row["university_roll"];
-                    $_SESSION['college_roll'] = $row["college_roll"];
-                    $_SESSION['department'] = $row["department"];
-                    $_SESSION['batch_year'] = $row["batch_year"];
-                    
+                        $_SESSION['name'] = $row["name"];
+                        $_SESSION['university_roll'] = $row["university_roll"];
+                        $_SESSION['college_roll'] = $row["college_roll"];
+                        $_SESSION['department'] = $row["department"];
+                        $_SESSION['batch_year'] = $row["batch_year"];
+                        
+                    }
+                } else {
+                    echo "No records found";
                 }
-            } else {
-                echo "No records found";
-            }
-            ?>
-        </div>
+                ?>
+            </div>
 
-        <div class="card">
-            <h3>Actions</h3>
-            <br>
-            <button class="btn" onclick="navigateTo('marks.php')">View Marks</button>
-            <button class="btn" onclick="navigateTo('Student_Attendance.php')">Attendance</button>
-            <button class="btn">View Documents</button>
-            <button class="btn">Update Details</button>
+            <div class="card">
+                <h3>Actions</h3>
+                <br>
+                <button class="btn" onclick="navigateTo('marks.php')">View Marks</button>
+                <button class="btn" onclick="navigateTo('Student_Attendance.php')">Attendance</button>
+                <button class="btn">View Documents</button>
+                <button class="btn">Update Details</button>
+            </div>
         </div>
-
     </div>
     
     <script>
