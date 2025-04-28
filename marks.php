@@ -50,7 +50,7 @@
             <div class="wrap-card">
                 <div class="card" onclick="navigateTo('student_CA.php')">CA Marks</div>
                 <div class="card" onclick="navigateTo('student_PCA.php')">PCA Marks</div>
-                <div class="card">Semester Marks</div>
+                <div class="card" onclick="navigateTo('student_Marks_Semester.php')">Semester Marks</div>
             </div>
         </div>
     </div>

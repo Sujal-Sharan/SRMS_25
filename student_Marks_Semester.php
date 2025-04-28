@@ -2,6 +2,8 @@
 require_once("DB_Connect.php");
 session_start();
 
+//TODO: Creat table for sem marks 
+
 // Define the parameters (these may be empty or null if the user doesn't provide them)
 
 $roll = isset($_SESSION['college_roll']) ? $_SESSION['college_roll'] : NULL;         // Student roll number (already known from student.php)
@@ -13,20 +15,17 @@ if(isset($_GET['filter'])){
     $subject_id = filter_input(INPUT_GET, "filter_subject", FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
+//TODO: Customize query for sem marks
 $sql = "SELECT 
-            subj.subject_code AS subject_code,
+            m.student_id,
+            m.subject_id,
             subj.subject_name AS subject_name,
             m.semester AS semester,
             
             CASE 
                 WHEN MAX(m.test_type = 'PCA1' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
                 ELSE CAST(MAX(CASE WHEN m.test_type = 'PCA1' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
-            END AS PCA1,
-            
-            CASE 
-                WHEN MAX(m.test_type = 'PCA2' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
-                ELSE CAST(MAX(CASE WHEN m.test_type = 'PCA2' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
-            END AS PCA2
+            END AS final,
 
         FROM 
             marks m
@@ -62,13 +61,15 @@ if (!empty($roll)) {
 
 $sql .= " GROUP BY m.student_id ";  //Required since aggregate MAX used
 
+//Temp query block
+$sql = "SELECT * FROM marks WHERE 1 != 1";
 // Prepare the query
 $stmt = $conn->prepare($sql);
 
 // Bind parameters dynamically
-if (!empty($values)) {
-    $stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
-}
+// if (!empty($values)) {
+//     $stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
+// }
 
 $stmt->execute();
 $result = $stmt->get_result();
@@ -154,7 +155,7 @@ switch($semester){
 
             <div class="card">
                 <h3>Apply Filters</h3><br>
-                <form action="student_PCA.php" method="get">
+                <form action="student_Marks_Semester.php" method="get">
                     <div class="filters">
                         <select id="filter_subject" name="filter_subject">
                             <option value="">Filter the result by subject</option>
@@ -183,8 +184,10 @@ switch($semester){
                     <tr>
                         <th>Subject Code</th>
                         <th>Subject Name</th>
-                        <th>PCA_1</th>
-                        <th>PCA_2</th>
+                        <th>Semester</th>
+                        <th>Points</th>
+                        <th>Credit</th>
+                        <th>Credit Points</th>
                     </tr>
                     <?php
                     try{
@@ -193,8 +196,10 @@ switch($semester){
                                 echo "<tr>
                                         <td>" . $row["subject_code"] . "</td>
                                         <td>" . $row["subject_name"] . "</td>
-                                        <td>" . $row["PCA1"] . "</td>
-                                        <td>" . $row["PCA2"] . "</td>
+                                        <td>" . $row["semester"] . "</td>
+                                        <td>" . $row["points"] . "</td>
+                                        <td>" . $row["credit"] . "</td>
+                                        <td>" . $row["credit_points"] . "</td>
                                     </tr>";
                             }
                         } else {
