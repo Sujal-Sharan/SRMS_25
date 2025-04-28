@@ -65,6 +65,21 @@ if (!empty($subject_id)) {
     $values[] = $subject_id;
 }
 
+
+// TEST START //
+// $sql1 = "SELECT subject_id, test_type, marks_obtained FROM marks WHERE 1";
+// $tmp = $conn->query($sql1);
+// $rows = $tmp->fetch_all(MYSQLI_ASSOC);
+
+// foreach ($rows as $row) {
+//     echo "<tr>";
+//     echo "<td>" . htmlspecialchars($row['subject_id']) . "</td>";
+//     echo "<td>" . htmlspecialchars($row['test_type']) . "</td>";
+//     echo "<td>" . htmlspecialchars($row['marks_obtained']) . "</td><br>";
+//     echo "</tr>";
+// }
+// TEST END //
+
 // Prepare the query
 $stmt = $conn->prepare($sql);
 
@@ -75,6 +90,8 @@ if (!empty($values)) {
 
 $stmt->execute();
 $result = $stmt->get_result();
+
+// $result = NULL;
 
 ?>
 <!DOCTYPE html>
@@ -116,7 +133,7 @@ $result = $stmt->get_result();
 
         <div class="main-content">
             <header>
-                <h3>Internal Marks (PCA)</h3>
+                <h3>Internal Marks (CA)</h3>
             </header><br>
             
             <div class="card">

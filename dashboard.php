@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Styles/global_base.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
@@ -17,7 +17,7 @@
             background-repeat: no-repeat;
             min-height: 100vh;
         }
-        .sidebar {
+        /* .sidebar {
             width: 226px;
             background: #0A1931;
             color: white;
@@ -46,12 +46,17 @@
         }
         .active {
             background: #FFC107;
-        }
+        } */
+        .sidebar{
+            margin-top: 80px;
+            height: 510px;
+         }
         .main-content {
-            margin-left: 250px; 
-            padding: 20px;
-            padding-top: 130px; 
-            width: calc(100% - 250px);
+            margin-top: 80px;
+            /* margin-left: 250px;  */
+            /* padding: 20px; */
+            /* padding-top: 130px;  */
+            /* width: calc(100% - 250px); */
         }
         header {
             display: flex;
@@ -103,46 +108,46 @@
             <span><p>&#9742; +338910530723 / 8910530723</p></span>
         </div>
     </header>
-    <div class="sidebar">
-        <div class="profile">Welcome User</div>
-        <nav>
-            <ul>
-                <li><a href="#">Go To Super Admin</a></li>
-                <li ><a>My College</a>
-                    <ul>
-                        <li class="active"><a href="#">Dashboard</a></li>
-                        <li><a href="#">Enquiry</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Management</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="main-content">
-        
-        
-        <div class="grid">
-            <div class="card" onclick="navigateTo('student.php')">
-                <button>Student Profile</button>
+
+    <div class="layout">
+        <div class="sidebar">
+            <h2>{Logo}  TINT</h2>
+            <nav>
+                <a href="/SRMS/SRMS_25/dashboard.php"  id="active">Dashboard</a>
+                <a href="/SRMS/SRMS_25/test.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/test.php">View Marks</a>
+                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
+                <a>Update Details</a>
+                <a>Settings</a>
+                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <div class="grid">
+                <div class="card" onclick="navigateTo('student.php')">
+                    <button>Student Profile</button>
+                </div>
+                <div class="card" onclick="navigateTo('students.php')">
+                    <button>Student<br>Total: 6000</button>
+                </div>
+                <div class="card" onclick="navigateTo('faculty_details.html')">
+                    <button>Faculty<br>Total: 2000</button>
+                </div>
+                <div class="card" onclick="navigateTo('subject_details.html')">
+                    <button>Subjects</button>
+                </div>
+                <div class="card" onclick="navigateTo('attendance.php')">
+                    <button>Attendance</button>
+                </div>
+                <div class="card" onclick="navigateTo('academics.php')">
+                    <button>Academics</button>
+                </div>
+                <div class="card" onclick="navigateTo('https://tint.techtron.net')">
+                    <button>Pay Semester Fees Online</button>
+                </div>
             </div>
-            <div class="card" onclick="navigateTo('students.php')">
-                <button>Student<br>Total: 6000</button>
-            </div>
-            <div class="card" onclick="navigateTo('faculty_details.html')">
-                <button>Faculty<br>Total: 2000</button>
-            </div>
-            <div class="card" onclick="navigateTo('subject_details.html')">
-                <button>Subjects</button>
-            </div>
-            <div class="card" onclick="navigateTo('attendance.php')">
-                <button>Attendance</button>
-            </div>
-            <div class="card" onclick="navigateTo('academics.php')">
-                <button>Academics</button>
-            </div>
-            <div class="card" onclick="navigateTo('https://tint.techtron.net')">
-                <button>Pay Semester Fees Online</button>
-            </div>
+        </div>
     </div>
     <script>
         function navigateTo(url) {

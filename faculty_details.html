@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Details</title>
+    <link rel="stylesheet" href="Styles/global_base.css">
     <style>
         body {
             background-image: url('https://cdn2.advanceinfotech.org/bharatdirectory.in/1200x675/business/3135/techno-2-1709631821.webp');
@@ -27,6 +28,10 @@
         header p {
             font-size: 16px;
             color: #FFD700;
+        }
+        .sidebar{
+            margin-top: 80px;
+            height: 510px;
         }
         .container {
             background: #f9f9f9;
@@ -121,68 +126,85 @@
         </div>
     </header>
     
-    <div class="container">
-        <h3>Faculty Details</h3>
-        <div class="filter-section">
-            <label for="departmentFilter">Filter by Department: </label>
-            <select id="departmentFilter" onchange="filterFaculties()">
-                <option value="All">All</option>
-                <option value="CSE">Computer Science and Engineering</option>
-                <option value="ECE">Electronics and Communication Engineering</option>
-                <option value="EEE">Electrical and Electronics Engineering</option>
-                <option value="ME">Mechanical Engineering</option>
-                <option value="CE">Civil Engineering</option>
-                <option value="CSBS">Computer Science and Business Systems</option>
-                <option value="BCA">Bachelor of Computer Applications</option>
-            </select>
-            <label for="nameFilter" style="margin-left: 20px;">Filter by Faculty Name: </label>
-            <input type="text" id="nameFilter" oninput="filterFaculties()" placeholder="Enter faculty name">
+    <div class="layout">
+        <div class="sidebar">
+            <h2>{Logo}  TINT</h2>
+            <nav>
+                <a href="/SRMS/SRMS_25/dashboard.php">Dashboard</a>
+                <a href="/SRMS/SRMS_25/test.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/test.php">View Marks</a>
+                <a href="/SRMS/SRMS_25/faculty_details.html"  id="active">Faculty Details</a>
+                <a>Update Details</a>
+                <a>Settings</a>
+                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+            </nav>
         </div>
-        <table>
-            <tr>
-                <th>Faculty Name</th>
-                <th>Department</th>
-                <th>Email</th>
-                <th>Phone</th>
-            </tr>
-            <tr class="faculty-row" data-department="CSE">
-                <td>Dr. A Kumar</td>
-                <td>Computer Science and Engineering</td>
-                <td>a.kumar@tint.edu.in</td>
-                <td>9876543210</td>
-            </tr>
-            <tr class="faculty-row" data-department="ECE">
-                <td>Prof. B Sharma</td>
-                <td>Electronics and Communication Engineering</td>
-                <td>b.sharma@tint.edu.in</td>
-                <td>9876543211</td>
-            </tr>
-            <tr class="faculty-row" data-department="ME">
-                <td>Dr. C Gupta</td>
-                <td>Mechanical Engineering</td>
-                <td>c.gupta@tint.edu.in</td>
-                <td>9876543212</td>
-            </tr>
-            <tr class="faculty-row" data-department="CE">
-                <td>Prof. Sandipan Biswas</td>
-                <td>Bachelor of Civil Engineering</td>
-                <td>s.biswas@tint.edu.in</td>
-                <td>9830561274</td>
-            </tr>
-            <tr class="faculty-row" data-department="CSBS">
-                <td>Prof. Soumya K Das</td>
-                <td>Bachelor of Computer Science and Business Systems</td>
-                <td>sk.das@tint.edu.in</td>
-                <td>9840861374</td>
-            </tr>
-            <tr class="faculty-row" data-department="BCA">
-                <td>Prof. D Singh</td>
-                <td>Bachelor of Computer Applications</td>
-                <td>d.singh@tint.edu.in</td>
-                <td>9876543213</td>
-            </tr>
-        </table>
-        <button class="save-btn">Save Faculty Data</button>
+
+        <div class="main-content">
+        <div class="container">
+            <h3>Faculty Details</h3>
+            <div class="filter-section">
+                <label for="departmentFilter">Filter by Department: </label>
+                <select id="departmentFilter" onchange="filterFaculties()">
+                    <option value="All">All</option>
+                    <option value="CSE">Computer Science and Engineering</option>
+                    <option value="ECE">Electronics and Communication Engineering</option>
+                    <option value="EEE">Electrical and Electronics Engineering</option>
+                    <option value="ME">Mechanical Engineering</option>
+                    <option value="CE">Civil Engineering</option>
+                    <option value="CSBS">Computer Science and Business Systems</option>
+                    <option value="BCA">Bachelor of Computer Applications</option>
+                </select>
+                <label for="nameFilter" style="margin-left: 20px;">Filter by Faculty Name: </label>
+                <input type="text" id="nameFilter" oninput="filterFaculties()" placeholder="Enter faculty name">
+            </div>
+            <table>
+                <tr>
+                    <th>Faculty Name</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+                <tr class="faculty-row" data-department="CSE">
+                    <td>Dr. A Kumar</td>
+                    <td>Computer Science and Engineering</td>
+                    <td>a.kumar@tint.edu.in</td>
+                    <td>9876543210</td>
+                </tr>
+                <tr class="faculty-row" data-department="ECE">
+                    <td>Prof. B Sharma</td>
+                    <td>Electronics and Communication Engineering</td>
+                    <td>b.sharma@tint.edu.in</td>
+                    <td>9876543211</td>
+                </tr>
+                <tr class="faculty-row" data-department="ME">
+                    <td>Dr. C Gupta</td>
+                    <td>Mechanical Engineering</td>
+                    <td>c.gupta@tint.edu.in</td>
+                    <td>9876543212</td>
+                </tr>
+                <tr class="faculty-row" data-department="CE">
+                    <td>Prof. Sandipan Biswas</td>
+                    <td>Bachelor of Civil Engineering</td>
+                    <td>s.biswas@tint.edu.in</td>
+                    <td>9830561274</td>
+                </tr>
+                <tr class="faculty-row" data-department="CSBS">
+                    <td>Prof. Soumya K Das</td>
+                    <td>Bachelor of Computer Science and Business Systems</td>
+                    <td>sk.das@tint.edu.in</td>
+                    <td>9840861374</td>
+                </tr>
+                <tr class="faculty-row" data-department="BCA">
+                    <td>Prof. D Singh</td>
+                    <td>Bachelor of Computer Applications</td>
+                    <td>d.singh@tint.edu.in</td>
+                    <td>9876543213</td>
+                </tr>
+            </table>
+            <button class="save-btn">Save Faculty Data</button>
+        </div>
+        </div>
     </div>
 </body>
 </html>
