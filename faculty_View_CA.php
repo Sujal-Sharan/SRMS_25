@@ -1,0 +1,221 @@
+<?php
+require_once("DB_Connect.php");
+session_start();
+
+// Define the parameters (these may be empty or null if the user doesn't provide them)
+
+$roll = NULL;         // Student roll number (already known from student.php)
+$semester = 1;          // Default should be current semester 
+
+if(isset($_GET['filter'])){
+    $semester = filter_input(INPUT_GET, "filter_semester", FILTER_SANITIZE_SPECIAL_CHARS);
+}
+
+$sql = "SELECT 
+            m.student_id AS student_id,
+            s.name AS student_name,
+            subj.subject_code AS subject_code,
+            subj.subject_name AS subject_name,
+            m.semester AS semester,
+            
+            CASE 
+                WHEN MAX(m.test_type = 'CA1' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
+                ELSE CAST(MAX(CASE WHEN m.test_type = 'CA1' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
+            END AS CA1,
+            
+            CASE 
+                WHEN MAX(m.test_type = 'CA2' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
+                ELSE CAST(MAX(CASE WHEN m.test_type = 'CA2' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
+            END AS CA2,
+            
+            CASE 
+                WHEN MAX(m.test_type = 'CA3' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
+                ELSE CAST(MAX(CASE WHEN m.test_type = 'CA3' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
+            END AS CA3,
+            
+            CASE 
+                WHEN MAX(m.test_type = 'CA4' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
+                ELSE CAST(MAX(CASE WHEN m.test_type = 'CA4' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
+            END AS CA4
+
+        FROM 
+            marks m
+        JOIN 
+            students s ON m.student_id = s.college_roll
+        JOIN 
+            subjects subj ON m.subject_id = subj.subject_id
+        WHERE 1";  // 'WHERE 1' always return true
+
+$types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
+$values = [];  // To hold the values for binding
+
+// Optional filters
+if (!empty($semester)) {
+    $sql .= " AND m.semester = ?";
+    $types .= "i";
+    $values[] = $semester;
+}
+
+// if (!empty($roll)) {
+//     $sql .= " AND s.college_roll = ?";
+//     $types .= "s";
+//     $values[] = $roll;
+// }else{
+//     $sql .= " AND 1 != 1";  //When college_roll has not been set or not available in DB
+// }
+
+$sql .= " GROUP BY m.student_id ";  //Required since aggregate MAX used
+
+// Prepare the query
+$stmt = $conn->prepare($sql);
+
+// Bind parameters dynamically
+if (!empty($values)) {
+    $stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+$table_header = "ERROR";
+switch($semester){
+    case "1":
+        $table_header = "FIRST SEMESTER";
+        break;
+    case "2":
+        $table_header = "SECOND SEMESTER";
+        break;
+    case "3":
+        $table_header = "THIRD SEMESTER";
+        break;
+    case "4":
+        $table_header = "FOURTH SEMESTER";
+        break;
+    case "5":
+        $table_header = "FIFTH SEMESTER";
+        break;
+    case "6":
+        $table_header = "SIXTH SEMESTER";
+        break;
+    case "7":
+        $table_header = "SEVENTH SEMESTER";
+        break;
+    case "8":
+        $table_header = "EIGHTH SEMESTER";
+        break;
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Styles/global_base.css">
+    <style>
+        .btn{
+            background-color: rgb(50, 225, 47);
+            border: 1px, solid, black;
+            margin: 20px;
+            margin-bottom: 2px;
+            padding: 10px;
+        }
+        .btn:hover{
+            background-color: rgb(43, 193, 41);
+            border: 2px, solid, black;
+        }
+        #table_header{
+            border: none;
+            margin-left: 200px;
+            margin-bottom: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body>
+    <header>Display CA Marks</header>
+    <div class="layout">
+        <div class="sidebar">
+            <h2>{Logo}  TINT</h2>
+            <nav>
+                <a href="/SRMS/SRMS_25/faculty_dashboard.php">Dashboard</a>
+                <a href="/SRMS/SRMS_25/faculty_View_attendance.php">Student Attendance</a>
+                <a href="/SRMS/SRMS_25/faculty_View_marks.php" id="active">Student Marks</a>
+                <a>Documents</a>
+                <a>Update Details</a>
+                <a>Settings</a>
+                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h3>Internal Marks (CA)</h3>
+            </header><br>
+            
+            <div class="card">
+                <h3>Apply Filters</h3><br>
+                <form action="student_CA.php" method="get">
+                    <div class="filters">
+                        <select id="filter_option" name="">
+                            <option value="">Filter the result</option>
+                            <option value="Option1">Option 1</option>
+                            <option value="Option2">Option 2</option>
+                        </select>
+                        <select id="filter_semester" name="filter_semester">
+                            <option value="">Filter the result by semester</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
+                    <input type="submit" name="filter" class="btn" value="Submit">
+                </form>
+            </div>
+
+            <div class="card">
+                <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>">
+                <table>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>CA 1</th>
+                        <th>CA 2</th>
+                        <th>CA 3</th>
+                        <th>CA 4</th>
+                    </tr>
+                    <?php
+                    try{
+                        if($result->num_rows > 0){
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>
+                                        <td>" . $row["student_id"] . "</td>
+                                        <td>" . $row["student_name"] . "</td>
+                                        <td>" . $row["CA1"] . "</td>
+                                        <td>" . $row["CA2"] . "</td>
+                                        <td>" . $row["CA3"] . "</td>
+                                        <td>" . $row["CA4"] . "</td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6'>No records found</td></tr>";
+                        }
+                    }catch(Exception $e){
+                        echo 'Message: ' .$e->getMessage();
+                    }
+                    ?>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
