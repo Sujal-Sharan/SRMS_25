@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Dynamic Table</title>
-  
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
 </head>
 <body>
+
+<canvas id="myChart" width="400" height="200"></canvas>
 
 <table id="data-table" border="1">
   <thead>
@@ -25,6 +28,7 @@
   <button class="pdf-btn" onclick="exportTableToPDF()">Export to PDF</button>
   <button class="csv-btn" onclick="exportTableToCSV()">Export to CSV</button>
   <button onclick="exportBrandedPDF()">Export PDF with Branding</button>
+  <button onclick="exportChartAndTableToPDF()">Export Chart and Table to PDF</button>
 
 </div>
 
@@ -59,6 +63,58 @@ fetch('ZTest.php')
   })
   .catch(error => console.error('Error fetching data:', error));
 
+// Chart
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Student 101', 'Student 102'],
+    datasets: [{
+      label: 'Marks',
+      data: [85, 78],
+      backgroundColor: ['#4CAF50', '#2196F3']
+    }]
+  },
+  options: {
+    responsive: false
+  }
+});
+
+async function exportChartAndTableToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const title = document.getElementById('reportTitle').value || 'Student Report';
+  const fileName = (document.getElementById('fileName').value || 'student_report') + '.pdf';
+
+  doc.setFontSize(16);
+  doc.text(title, 10, 20);
+
+  const now = new Date();
+  doc.setFontSize(10);
+  doc.text(`Exported: ${now.toLocaleString()}`, 200, 10, { align: 'right' });
+
+  // Convert chart to image
+  const chartCanvas = document.getElementById('myChart');
+  const chartImage = chartCanvas.toDataURL('image/png', 1.0);
+
+  // Add chart image to PDF
+  doc.addImage(chartImage, 'PNG', 10, 30, 180, 90);
+
+  // Add table after chart
+  doc.autoTable({
+    html: '#data-table',
+    startY: 125,
+    styles: { fontSize: 10 },
+    didDrawPage: function (data) {
+      const pageCount = doc.internal.getNumberOfPages();
+      doc.setFontSize(9);
+      doc.text(`Page ${doc.internal.getCurrentPageInfo().pageNumber} of ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
+    }
+  });
+
+  doc.save(fileName);
+}
 
 
 async function exportTableToPDF() {
