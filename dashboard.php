@@ -49,7 +49,13 @@
         } */
         .sidebar{
             margin-top: 80px;
-            height: 510px;
+            height: 800px;
+            background-color: rgba(10, 25, 49, 0.85); /* Slight transparency */
+            color: white;
+            padding: 16px;
+            width: 226px;
+            position: fixed;
+            overflow-y: auto;
          }
         .main-content {
             margin-top: 80px;
@@ -57,6 +63,13 @@
             /* padding: 20px; */
             /* padding-top: 130px;  */
             /* width: calc(100% - 250px); */
+            margin-left: 250px;
+            padding: 20px;
+            background-color: transparent; /* Ensure it doesn't override background image */
+        }
+        .layout {
+            display: flex;
+            background-color: transparent; /* Remove white background */
         }
         header {
             display: flex;
@@ -111,7 +124,7 @@
 
     <div class="layout">
         <div class="sidebar">
-            <h2>{Logo}  TINT</h2>
+            
             <nav>
                 <a href="/SRMS/SRMS_25/dashboard.php"  id="active">Dashboard</a>
                 <a href="/SRMS/SRMS_25/test.php">Attendance</a>
