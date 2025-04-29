@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Dynamic Table</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 <body>
 
@@ -12,6 +16,17 @@
   </thead>
   <tbody id="table-body"></tbody>
 </table>
+
+<div>
+  <input type="text" id="reportTitle" placeholder="Enter Report Title" />
+  <input type="text" id="fileName" placeholder="Enter File Name" />
+</div>
+<div class="buttons">
+  <button class="pdf-btn" onclick="exportTableToPDF()">Export to PDF</button>
+  <button class="csv-btn" onclick="exportTableToCSV()">Export to CSV</button>
+  <button onclick="exportBrandedPDF()">Export PDF with Branding</button>
+
+</div>
 
 <script>
 // Fetch the data from your PHP file
@@ -43,6 +58,76 @@ fetch('ZTest.php')
     }
   })
   .catch(error => console.error('Error fetching data:', error));
+
+
+
+async function exportTableToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.autoTable({ html: '#data-table' });
+
+  doc.save("table_data.pdf");
+}
+
+function exportTableToCSV() {
+  const table = document.getElementById("data-table");
+  let csv = [];
+
+  for (let row of table.rows) {
+    let rowData = [];
+    for (let cell of row.cells) {
+      rowData.push('"' + cell.innerText.replace(/"/g, '""') + '"');
+    }
+    csv.push(rowData.join(","));
+  }
+
+  const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "table_data.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function exportBrandedPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const title = document.getElementById('reportTitle').value || 'Default Report Title';
+  const fileName = (document.getElementById('fileName').value || 'report') + '.pdf';
+
+  // Report Title
+  doc.setFontSize(16);
+  doc.text(title, 10, 20);
+
+  // Timestamp
+  const now = new Date();
+  doc.setFontSize(10);
+  doc.text(`Exported: ${now.toLocaleString()}`, 200, 10, { align: 'right' });
+
+  // Add Table
+  doc.autoTable({
+    html: '#data-table',
+    startY: 30,
+    styles: { fontSize: 10 },
+    didDrawPage: function (data) {
+      const pageCount = doc.internal.getNumberOfPages();
+      doc.setFontSize(9);
+      doc.text(
+        `Page ${doc.internal.getCurrentPageInfo().pageNumber} of ${pageCount}`,
+        data.settings.margin.left,
+        doc.internal.pageSize.height - 10
+      );
+    }
+  });
+
+  // Save File
+  doc.save(fileName);
+}
+
 </script>
 
 </body>

@@ -55,7 +55,7 @@ CREATE TABLE course_subject_semester (
 -- Stores internal and external marks --
 CREATE TABLE marks (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT NOT NULL,
+    student_id VARCHAR(30) NOT NULL,
     subject_id INT NOT NULL,
     semester INT NOT NULL,
     test_type ENUM('CA1', 'CA2', 'CA3', 'CA4', 'PCA1', 'PCA2', 'FINAL') NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE marks (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (student_id) REFERENCES student(college_roll) ON DELETE CASCADE,
-    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ,
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE,
     UNIQUE (student_id, subject_id, semester, test_type)
 );
 
