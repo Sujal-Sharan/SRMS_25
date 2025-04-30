@@ -11,10 +11,11 @@
             font-family: Arial, sans-serif;
             margin: 0;
             display: flex;
-            background: url('https://cdn2.advanceinfotech.org/bharatdirectory.in/1200x675/business/3135/techno-2-1709631821.webp') no-repeat center center;
+            /*background: url('https://cdn2.advanceinfotech.org/bharatdirectory.in/1200x675/business/3135/techno-2-1709631821.webp') no-repeat center center;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            background-repeat: no-repeat;*/
+            background:white;
             min-height: 100vh;
         }
         /* .sidebar {

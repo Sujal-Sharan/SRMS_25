@@ -124,7 +124,7 @@
     </style>
 </head>
 <body>
-    <header style="background: #105fe8; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <header style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
         <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
         <div style="text-align: center; flex: 1;">
             <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
