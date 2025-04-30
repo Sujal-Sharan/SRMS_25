@@ -139,7 +139,7 @@ switch($semester){
     <header>Display CA Marks</header>
     <div class="layout">
         <div class="sidebar">
-            <h2>{Logo}  TINT</h2>
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-left: 50px;">
             <nav>
                 <a href="/SRMS/SRMS_25/faculty_dashboard.php">Dashboard</a>
                 <a href="/SRMS/SRMS_25/faculty_View_attendance.php">Student Attendance</a>

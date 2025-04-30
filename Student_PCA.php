@@ -135,7 +135,7 @@ switch($semester){
     <header>Display PCA Marks</header>
     <div class="layout">
         <div class="sidebar">
-            <h2>{Logo}  TINT</h2>
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-left: 50px;">
             <nav>
                 <a href="/SRMS/SRMS_25/student.php">Dashboard</a>
                 <a href="/SRMS/SRMS_25/student_attendance.php">Attendance</a>
