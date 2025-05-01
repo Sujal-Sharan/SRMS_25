@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOD Dashboard - Student Record Management System</title>
+  <link rel="stylesheet" href="Styles/global_base.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+    }
+
+    header {
+      background: #1abc9c;
+      color: white;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 110px;
+      z-index: 1000;
+    }
+
+    header img {
+      height: 100px;
+      padding: 5px;
+    }
+
+    .sidebar {
+      width: 226px;
+      background: #0A1931;
+      color: white;
+      height: calc(100vh - 110px);
+      padding-top: 20px;
+      position: fixed;
+      top: 110px;
+      left: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar nav a {
+      display: block;
+      color: white;
+      background-color: #123456;
+      margin: 10px;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 20px 6px 6px 20px;
+      text-align: center;
+    }
+
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
+      background-color: #ffc107;
+      color: black;
+      border-radius: 20px 6px 6px 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: calc(100% - 246px); /* Adjusted for sidebar width */
+      margin-left: 226px;
+      margin-top: 130px; /* Adjusted for header height */
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 90%; /* Adjusted width */
+      max-width: 1000px;
+      overflow: auto;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .filters select,
+    .filters input {
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 1000px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    table th {
+      background: #1abc9c;
+      color: white;
+      padding: 15px;
+      text-align: left;
+      border-bottom: 2px solid #ddd;
+    }
+
+    table td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo">
+    <div style="text-align: center; flex: 1;">
+      <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+      <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+    </div>
+  </header>
+
+  <div class="sidebar">
+    <nav>
+      <a>Dashboard</a>
+      <a id="active">Student Profile</a> <!-- Highlighted as active -->
+      <a>Marks</a>
+      <a>Attendance</a>
+      <a>Faculty Profile</a>
+      <a>Uploaded Documents</a>
+      <a>Log out</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <h3>Student Profile: CSE</h3>
+    <div class="card">
+      <div class="filters">
+        <select id="batch-filter">
+          <option value="all">All Batches</option>
+          <option value="2021-25">2021-25</option>
+          <option value="2022-26">2022-26</option>
+        </select>
+        <select id="dept-filter">
+          <option value="CSE" selected>CSE</option>
+        </select>
+        <select id="section-filter">
+          <option value="all">All Sections</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+        <input type="text" id="search-bar" placeholder="Search by Name or Roll" onkeyup="filterTable()">
+      </div>
+      <table id="student-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Roll</th>
+            <th>Branch</th>
+            <th>Section</th>
+            <th>Batch</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td>123456</td>
+            <td>CSE</td>
+            <td>A</td>
+            <td>2021-2025</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>Jane Smith</td>
+            <td>123457</td>
+            <td>CSE</td>
+            <td>B</td>
+            <td>2021-2025</td>
+          </tr>
+          <tr>
+            <td>003</td>
+            <td>Michael Brown</td>
+            <td>123458</td>
+            <td>CSE</td>
+            <td>A</td>
+            <td>2021-2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function filterTable() {
+      const searchInput = document.getElementById('search-bar').value.toLowerCase();
+      const table = document.getElementById('student-table');
+      const rows = table.getElementsByTagName('tr');
+
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        const name = cells[1].textContent.toLowerCase();
+        const roll = cells[2].textContent.toLowerCase();
+
+        if (name.includes(searchInput) || roll.includes(searchInput)) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+``` 
+
+
+
+
