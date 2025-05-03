@@ -139,6 +139,15 @@ VALUES
 ('Payel Nandi', 'ECE2102', 'REG4102', 'Semester 6 Marksheet', 'uploads/sem6_ece2102.pdf', 'ECE', '2021-25', 6, 'Unverified');
 
 
-
+--Stores faculty details--
+CREATE TABLE faculty (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    category VARCHAR(50),
+    subjects TEXT
+);
 
 
