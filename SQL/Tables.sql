@@ -150,4 +150,15 @@ CREATE TABLE faculty (
     subjects TEXT
 );
 
+INSERT INTO faculty (id, name, department, email, phone, category, subjects) VALUES
+(6, 'Prof R. Mehta', 'CSE', 'r.mehta.cse@tint.edu.in', '9876543210', 'Assistant Professor', 'Data Science, Python Programming'),
+(7, 'N. Banerjee', 'IT', 'n.banerjee.it@tint.edu.in', '9638527410', 'Lab instructor', 'Web Technologies, JavaScript'),
+(8, 'Prof S. Roy', 'ECE', 's.roy.ece@tint.edu.in', '9547612380', 'Senior Professor', 'Microprocessors, VLSI'),
+(9, 'K. Sharma', 'CSE', 'k.sharma.cse@tint.edu.in', '9812345678', 'Lab instructor', 'Database Management Systems, SQL'),
+(10, 'Prof A. Das', 'IT', 'a.das.it@tint.edu.in', '9001234567', 'Assistant Professor', 'Object-Oriented Programming, Software Engineering'),
+(11, 'Prof M. Bose', 'ECE', 'm.bose.ece@tint.edu.in', '9988776655', 'Senior Professor', 'Signal Processing, Analog Circuits'),
+(12, 'T. Mukherjee', 'CSE', 't.mukherjee.cse@tint.edu.in', '9123456780', 'Lab instructor', 'Java Programming, Operating Systems'),
+(13, 'Prof R. Sen', 'IT', 'r.sen.it@tint.edu.in', '9112233445', 'Senior Professor', 'Cloud Computing, Distributed Systems'),
+(14, 'D. Ghosh', 'ECE', 'd.ghosh.ece@tint.edu.in', '9234567810', 'Assistant Professor', 'Control Systems, Communication Engineering'),
+(15, 'Prof P. Nandi', 'CSE', 'p.nandi.cse@tint.edu.in', '9988225566', 'Assistant Professor', 'Machine Learning, Natural Language Processing');
 
