@@ -162,3 +162,50 @@ INSERT INTO faculty (id, name, department, email, phone, category, subjects) VAL
 (14, 'D. Ghosh', 'ECE', 'd.ghosh.ece@tint.edu.in', '9234567810', 'Assistant Professor', 'Control Systems, Communication Engineering'),
 (15, 'Prof P. Nandi', 'CSE', 'p.nandi.cse@tint.edu.in', '9988225566', 'Assistant Professor', 'Machine Learning, Natural Language Processing');
 
+-- Stores Documents for Admin View --
+CREATE TABLE IF NOT EXISTS admin_view_docs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(100),
+    roll_no VARCHAR(20),
+    reg_no VARCHAR(20),
+    stream VARCHAR(10),
+    batch VARCHAR(20),
+    semester INT,
+    document_name TEXT,
+    document_path TEXT,
+    upload_date DATETIME
+
+);
+
+-- Please Create uploads folder in your system.... Example file path: C:\xampp\htdocs\SRMS_25\uploads\zips --
+-- this will create dummy zip file for every student where documents can be stored --
+-- *** Another main thing in your xampp control panel open Apache then click config then click php.ini file then find ;extension:zip please remove ; from that line and save it open apache again then it run properly--
+-- Example Insrtion Data in the table -- 
+INSERT INTO admin_view_docs 
+(student_name, roll_no, reg_no, stream, batch, semester, document_name, document_path, upload_date) 
+VALUES
+-- CSE Students
+('Rohit Sharma', 'CSE202101', 'REG202101', 'CSE', '2020-24', 6, 'Admission Docs, Grade Card, Internship Cert', 'uploads/zips/CSE202101.zip', '2025-04-30 10:45:00'),
+('Ankit Das', 'CSE202103', 'REG202103', 'CSE', '2020-24', 6, 'Admission Docs, Scholarship Form, Fee Receipt', 'uploads/zips/CSE202103.zip', '2025-04-28 11:15:00'),
+
+-- ECE
+('Priya Sen', 'ECE202102', 'REG202102', 'ECE', '2020-24', 6, 'Grade Card, MOOC Certificate', 'uploads/zips/ECE202102.zip', '2025-04-29 14:30:00'),
+
+-- EE
+('Megha Roy', 'EE202104', 'REG202104', 'EE', '2020-24', 6, 'Grade Card, Internship Cert', 'uploads/zips/EE202104.zip', '2025-04-27 12:00:00'),
+
+-- IT, Sem 4
+('Amit Paul', 'IT202204', 'REG202204', 'IT', '2022-26', 4, 'Admission Docs, Grade Card', 'uploads/zips/IT202204.zip', '2025-04-25 09:15:00'),
+
+-- AIML, Sem 2
+('Sneha Das', 'AIML202301', 'REG202301', 'AIML', '2023-27', 2, 'Fee Receipt, MOOC Cert', 'uploads/zips/AIML202301.zip', '2025-03-20 15:00:00'),
+
+-- CIVIL, Sem 8
+('Raju Mondal', 'CIVIL201905', 'REG201905', 'CIVIL', '2019-23', 8, 'Final Semester Report, Internship Cert', 'uploads/zips/CIVIL201905.zip', '2023-12-10 16:00:00'),
+
+-- ME, Sem 7
+('Sourav Ghosh', 'ME202105', 'REG202105', 'ME', '2021-25', 7, 'Project Report, Grade Card', 'uploads/zips/ME202105.zip', '2025-04-26 09:50:00'),
+
+-- Mixed others
+('Neha Kumari', 'CSE202304', 'REG202304', 'CSE', '2023-27', 2, 'Admission Docs', 'uploads/zips/CSE202304.zip', '2025-04-12 11:30:00'),
+('Rajib Dey', 'ECE201907', 'REG201907', 'ECE', '2019-23', 8, 'Internship Cert, Final Grade Card', 'uploads/zips/ECE201907.zip', '2023-12-01 10:00:00');
