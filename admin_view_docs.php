@@ -54,6 +54,32 @@ function createDummyZip($filename) {
             <span><p>&#9742; +338910530723 / 8910530723</p></span>
         </div>
     </header>
+    <div style="
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -20px; 
+        margin-right: 20px;
+        z-index: 10;
+    ">
+    <a href="admin_dashboard.php" style="text-decoration: none;">
+        <button style="
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        " onmouseover="this.style.transform='scale(1.05)'"
+           onmouseout="this.style.transform='scale(1)'">
+            ⬅ Dashboard
+        </button>
+    </a>
+    </div>
 
     <style>
     body {

@@ -147,10 +147,10 @@
       <nav>
         <a id="active">Dashboard</a>
         <a>Student Profile</a>
-        <a>Marks</a>
-        <a>Attendance</a>
-        <a>Faculty Profile</a>
-        <a>Uploaded Documents</a>
+        <a href="/SRMS_25/marks.php" id="active">Marks</a>
+        <a href="/SRMS_25/Student_Attendance.php" id="active">Attendance</a>
+        <a href="/SRMS_25/faculty_profile_admin.php" id="active">Faculty Profile</a>
+        <a href="/SRMS_25/admin_view_docs.php" id="active">Uploaded Documents</a>
         <a>Add/Remove User</a>
         <a>Log out</a>
       </nav>
