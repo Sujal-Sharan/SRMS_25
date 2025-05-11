@@ -131,13 +131,13 @@
         <!--<h2 style="margin-bottom: 20px; color: #0A1931;">Dashboard</h2>-->
             
             <nav>
-                <a href="/SRMS/SRMS_25/dashboard.php"  id="active">Dashboard</a>
-                <a href="/SRMS/SRMS_25/test.php">Attendance</a>
-                <a href="/SRMS/SRMS_25/test.php">View Marks</a>
-                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
+                <a href="/SRMS_25/dashboard.php"  id="active">Dashboard</a>
+                <a href="/SRMS_25/Student_Attendance.php">Attendance</a>
+                <a href="/SRMS_25/marks.php">View Marks</a>
+                <a href="/SRMS_25/faculty_details.html">Faculty Details</a>
                 <a>Update Details</a>
                 <a>Settings</a>
-                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+                <a href="/SRMS_25/logout.php">Log out</a>
             </nav>
     </div>
     
@@ -161,7 +161,7 @@
             <div class="card" onclick="navigateTo('class_routine.php')">
                     <button>Class Routine</button>
             </div>
-            <div class="card" onclick="navigateTo('doc_verify.php')">
+            <div class="card" onclick="navigateTo('doc_Verify.php')">
                     <button>Upload & Verify Documents</button>
             </div>
             <div class="card" onclick="navigateTo('https://tint.edu.in/')">
