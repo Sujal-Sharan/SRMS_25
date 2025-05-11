@@ -173,7 +173,7 @@ session_start();
                         exit();  
                     }
                     else if($role === 'faculty'){
-                        header('location: login.php?error=Faculty page not found');
+                        header('location: faculty_dashboard.php');
                         exit();
                     }
                     else{
