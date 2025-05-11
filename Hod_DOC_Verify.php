@@ -4,7 +4,7 @@ $user = "root";
 $password = ""; // default in XAMPP
 $db = "srms"; 
 
-$conn = new mysqli($host, $user, $password, $db,3307);
+$conn = new mysqli($host, $user, $password, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
