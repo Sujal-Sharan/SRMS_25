@@ -8,81 +8,90 @@
     <link rel="stylesheet" href="Styles/global_base.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            display: flex;
+        
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: white;
+        min-height: 100vh;
+    }
 
-            background: white;
-            min-height: 100vh;
-        }
+    .layout {
+        display: flex;
+        background-color: transparent;
+    }
 
-        .sidebar {
-            margin-top: 80px;
-            height: 800px;
-            background-color: rgba(10, 25, 49, 0.85);
-            /* Slight transparency */
-            color: white;
-            padding: 16px;
-            width: 226px;
-            position: fixed;
-            overflow-y: auto;
-        }
+    .sidebar {
+        margin-top: 80px;
+        height: calc(100vh - 80px);
+        background-color: rgba(10, 25, 49, 0.85);
+        color: white;
+        padding: 16px;
+        width: 226px;
+        position: fixed;
+        overflow-y: auto;
+    }
 
-        .main-content {
-            margin-top: 80px;
+    .main-content {
+        margin-top: 80px;
+        margin-left: 226px; /* exactly matches sidebar width */
+        padding: 30px;
+        flex-grow: 1;
+        background-color: transparent;
+        min-height: calc(100vh - 80px);
+    }
 
-            margin-left: 250px;
-            padding: 20px;
-            background-color: transparent;
-            /* Ensure it doesn't override background image */
-        }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .layout {
-            display: flex;
-            background-color: transparent;
-            /* Remove white background */
-        }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 50px;
+    }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .card {
+        background: #FFC107;
+        padding: 0;
+        text-align: center;
+        border: 4px solid #FFC107;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 50px;
-        }
+    .card:hover {
+        transform: scale(1.03);
+    }
 
-        .card {
-            background: #FFC107;
-            padding: 15px;
-            text-align: center;
-            border: 2px solid #FFC107;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 110px;
-            width: 292px;
-        }
+    .card button {
+        background: none;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.4;
+        white-space: normal;
+    }
 
-        .card button {
-            background: none;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-            display: block;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
+       
     </style>
 </head>
 
@@ -109,13 +118,13 @@
 
 
             <nav>
-                <a href="/SRMS/SRMS_25/dashboard.php" id="active">Dashboard</a>
-                <a href="/SRMS/SRMS_25/test.php">Attendance</a>
-                <a href="/SRMS/SRMS_25/test.php">View Marks</a>
-                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
+                <a href="/SRMS_25/dashboard.php" id="active">Dashboard</a>
+                <a href="/SRMS_25/test.php">Attendance</a>
+                <a href="/SRMS_25/marks.php">View Marks</a>
+                <a href="/SRMS_25/faculty_details.html">Faculty Details</a>
                 <a>Add New Faculty</a>
                 <a>Department Settings</a>
-                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+                <a href="/SRMS_25/logout.php">Log out</a>
             </nav>
         </div>
 
@@ -136,10 +145,10 @@
                 <div class="card" onclick="navigateTo('Student_Attendance.php')">
                     <button>Attendance</button>
                 </div>
-                <div class="card" onclick="navigateTo('class_routine.php')">
+                <div class="card" onclick="navigateTo('class_routine.pdf')">
                     <button>Class Routine</button>
                 </div>
-                <div class="card" onclick="navigateTo('doc_verify.php')">
+                <div class="card" onclick="navigateTo('HOD_DOC_Verify.php')">
                     <button>Verify Documents</button>
                 </div>
                 <div class="card" onclick="navigateTo('https://tint.edu.in/')">

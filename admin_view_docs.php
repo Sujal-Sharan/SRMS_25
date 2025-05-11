@@ -58,6 +58,7 @@ function createDummyZip($filename) {
         position: relative;
         display: flex;
         justify-content: flex-end;
+        gap: 6px;
         margin-top: -20px; 
         margin-right: 20px;
         z-index: 10;
@@ -77,6 +78,24 @@ function createDummyZip($filename) {
         " onmouseover="this.style.transform='scale(1.05)'"
            onmouseout="this.style.transform='scale(1)'">
             ⬅ Dashboard
+        </button>
+    </a>
+     <a href="logout.php" style="text-decoration: none;">
+        <button style="
+            background: red;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            min-width: 130px;
+        " onmouseover="this.style.transform='scale(1.05)'"
+           onmouseout="this.style.transform='scale(1)'">
+            Logout
         </button>
     </a>
     </div>

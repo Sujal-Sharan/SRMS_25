@@ -4,7 +4,7 @@ $user = "root";
 $password = ""; // default in XAMPP
 $db = "srms"; 
 
-$conn = new mysqli($host, $user, $password, $db);
+$conn = new mysqli($host, $user, $password, $db,3307);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -140,6 +140,7 @@ $result = $conn->query($sql);
     <!--<div style="margin-top: 80px; text-align: center; background:rgb(50, 182, 120); padding: 7px 0; font-size: 16px; font-weight: bold; border-bottom: 1px solid #white;">
     Documents Verification Panel (HOD)
     </div>-->
+    
 
     <?php
     $unverifiedCount = $conn->query("SELECT COUNT(*) AS count FROM student_documents WHERE status='Unverified'")->fetch_assoc()['count'];
@@ -229,3 +230,4 @@ $result = $conn->query($sql);
 </body>
 </html>
 <?php $conn->close(); ?>
+
