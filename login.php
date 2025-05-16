@@ -177,7 +177,7 @@ session_start();
                         exit();
                     }
                     else{
-                        header('location: dashboard.php');
+                        header('location: admin_dashboard.php');
                         exit();
                     }
                 } 

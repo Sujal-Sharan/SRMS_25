@@ -1,0 +1,24 @@
+Student:
+
+Login Page (login.php)
+    Student's Dashboard (student.php)
+        Attendance  (student_attendance.php)
+        View Marks (marks.php)
+            CA Marks (student_CA.php)
+            PCA (student_PCA.php)
+            Semester (student_Marks_Semester.php)
+        Log-out (logout.php)
+    
+    Faculty (faculty_dashboard.php)
+        Student List ()
+        Upload Marks ()
+        Attendance ()
+        Document Verification ()
+        Log-out (logout.php)
+
+    Admin (admin_dashboard.php)
+        View Faculty Details (faculty_profile_admin.php)
+        Log-out (logout.php)
+    
+
+

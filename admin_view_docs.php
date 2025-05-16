@@ -1,31 +1,43 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "srms");
+require_once("DB_Connect.php");
+session_start();
+// $conn = new mysqli("localhost", "root", "", "srms");
 
-$batch = $_GET['batch'] ?? '';
-$stream = $_GET['stream'] ?? '';
-$semester = $_GET['semester'] ?? '';
-$roll_no = $_GET['roll_no'] ?? '';
-$reg_no = $_GET['reg_no'] ?? '';
+// $batch = $_GET['batch'] ?? '';
+// $stream = $_GET['stream'] ?? '';
+// $semester = $_GET['semester'] ?? '';
+// $roll_no = $_GET['roll_no'] ?? '';
+// $reg_no = $_GET['reg_no'] ?? '';
 
-$sql = "SELECT * FROM admin_view_docs WHERE 1=1";
-if ($batch) $sql .= " AND batch = '$batch'";
-if ($stream) $sql .= " AND stream = '$stream'";
-if ($semester) $sql .= " AND semester = '$semester'";
-if ($roll_no) $sql .= " AND roll_no = '$roll_no'";
-if ($reg_no) $sql .= " AND reg_no = '$reg_no'";
-$sql .= " ORDER BY roll_no";
+// $sql = "SELECT * FROM admin_view_docs WHERE 1=1";
+$sql = "SELECT * FROM students WHERE 1=1";
+// if ($batch) $sql .= " AND batch = '$batch'";
+// if ($stream) $sql .= " AND stream = '$stream'";
+// if ($semester) $sql .= " AND semester = '$semester'";
+// if ($roll_no) $sql .= " AND roll_no = '$roll_no'";
+// if ($reg_no) $sql .= " AND reg_no = '$reg_no'";
+// $sql .= " ORDER BY roll_no";
 
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
 
-$batches = ['2019-23', '2020-24', '2021-25', '2022-26', '2023-27'];
-$streams = ['CSE', 'IT', 'AIML', 'ECE', 'EE', 'ME', 'CIVIL'];
-$semesters = range(1, 8);
+// Bind parameters dynamically
+if (!empty($values)) {
+    $stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+// $batches = ['2019-23', '2020-24', '2021-25', '2022-26', '2023-27'];
+// $streams = ['CSE', 'IT', 'AIML', 'ECE', 'EE', 'ME', 'CIVIL'];
+// $semesters = range(1, 8);
 
 // Create dummy ZIPs if missing
 $uploadDir = "uploads/zips/";
 if (!file_exists($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
+
 function createDummyZip($filename) {
     $zip = new ZipArchive();
     if ($zip->open($filename, ZipArchive::CREATE) === TRUE) {
@@ -41,9 +53,36 @@ function createDummyZip($filename) {
     <meta charset="UTF-8">
     <!--<title>Student Documents (Uploaded By Students & Verified By HOD and Faculty)</title>-->
     <link rel="stylesheet" href="Styles/global_base.css">
+
+    <style>
+        body {
+            padding-top: 120px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100% !important;
+        }
+    </style>
 </head>
 <body>
-<header style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <header style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
         <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
         <div style="text-align: center; flex: 1;">
             <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
@@ -54,6 +93,7 @@ function createDummyZip($filename) {
             <span><p>&#9742; +338910530723 / 8910530723</p></span>
         </div>
     </header>
+
     <div style="
         position: relative;
         display: flex;
@@ -61,8 +101,7 @@ function createDummyZip($filename) {
         gap: 6px;
         margin-top: -20px; 
         margin-right: 20px;
-        z-index: 10;
-    ">
+        z-index: 10;">
     <a href="admin_dashboard.php" style="text-decoration: none;">
         <button style="
             background: linear-gradient(135deg, #3498db, #2ecc71);
@@ -74,8 +113,8 @@ function createDummyZip($filename) {
             border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        " onmouseover="this.style.transform='scale(1.05)'"
+            transition: all 0.3s ease;"
+            onmouseover="this.style.transform='scale(1.05)'"
            onmouseout="this.style.transform='scale(1)'">
             ⬅ Dashboard
         </button>
@@ -100,38 +139,11 @@ function createDummyZip($filename) {
     </a>
     </div>
 
-    <style>
-    body {
-        padding-top: 120px;
-    }
-
-    .filter-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 20px;
-        align-items: flex-end;
-    }
-
-    .filter-group {
-        flex: 1;
-        min-width: 150px;
-    }
-
-    .table-responsive {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100% !important;
-    }
-</style>
-
     <div class="container-fluid mt-5">
     <h2 class="text-center mb-4">Student Documents</h2>
     
 
-    <form method="GET" class="filter-row">
+    <form action="admin_view_docs.php" method="GET" class="filter-row">
         <div class="filter-group">
             <label for="batch" class="form-label">Batch</label>
             <select name="batch" id="batch" class="form-control">
@@ -171,6 +183,7 @@ function createDummyZip($filename) {
             <button type="submit" class="btn btn-success w-100">Filter</button>
         </div>
     </form>
+    
     <div class="table-responsive">
     <table class="table table-bordered table-striped text-center align-middle w-100">
         <!-- table headers and rows -->

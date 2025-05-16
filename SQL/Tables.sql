@@ -87,6 +87,28 @@ CREATE TABLE attendance (
     UNIQUE (student_id, subject_id, attendance_date)  --  Prevent duplicate entries for same student, subject, date
 );
 
+-- Stores faculty details --
+CREATE TABLE faculty (
+    faculty_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    department VARCHAR(50) NOT NULL,
+    designation VARCHAR(50),
+    phone VARCHAR(15),
+    email VARCHAR(100),
+    joined_at DATE NOT NULL
+);
+
+-- Joining faculty_subject --
+CREATE TABLE faculty_subject (
+    faculty_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    PRIMARY KEY (faculty_id, subject_id),
+    FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE
+);
+
+
 --Students Documents Stroing Table--
 CREATE TABLE student_documents (
     id INT AUTO_INCREMENT PRIMARY KEY,

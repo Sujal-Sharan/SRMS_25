@@ -147,14 +147,15 @@
       <nav>
         <a id="active">Dashboard</a>
         <a>Student Profile</a>
-        <a href="/SRMS_25/marks.php" id="active">Marks</a>
-        <a href="/SRMS_25/Student_Attendance.php" id="active">Attendance</a>
-        <a href="/SRMS_25/faculty_profile_admin.php" id="active">Faculty Profile</a>
-        <a href="/SRMS_25/admin_view_docs.php" id="active">Uploaded Documents</a>
+        <a href="/SRMS/SRMS_25/marks.php">Marks</a>
+        <a href="/SRMS/SRMS_25/Student_Attendance.php">Attendance</a>
+        <a href="/SRMS/SRMS_25/faculty_profile_admin.php">Faculty Profile</a>
+        <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
         <a>Add/Remove User</a>
-        <a>Log out</a>
+        <a href="/SRMS/SRMS_25/logout.php">Log out</a>
       </nav>
     </div>
+    
     <main class="content">
       <h2>Admin Dashboard</h2>
       <div class="dashboard-cards">
@@ -185,7 +186,7 @@
         </ul>
       </div>
 
-      <div class="student-overview">
+      <!-- <div class="student-overview">
         <h3>Student Overview</h3>
         <table>
           <thead>
@@ -211,7 +212,7 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
     </main>
   </div>
 

@@ -1,11 +1,11 @@
 <?php
-// DB connection
-include 'DB_Connect.php';
+require_once("DB_Connect.php");
+session_start();
 
-function buildTable($conn, $department, $category, $search, $page, $limit) {
+function buildTable($conn, $department, $designation, $search, $page, $limit) {
     $where = "WHERE 1=1";
     if (!empty($department)) $where .= " AND department = '$department'";
-    if (!empty($category)) $where .= " AND category = '$category'";
+    if (!empty($designation)) $where .= " AND designation = '$designation'";
     if (!empty($search)) $where .= " AND (name LIKE '%$search%' OR email LIKE '%$search%')";
 
     $start_from = ($page - 1) * $limit;
@@ -13,7 +13,7 @@ function buildTable($conn, $department, $category, $search, $page, $limit) {
     $sql = "SELECT * FROM faculty $where LIMIT $start_from, $limit";
     $result = $conn->query($sql);
 
-    $sql_count = "SELECT COUNT(id) as total FROM faculty $where";
+    $sql_count = "SELECT COUNT(faculty_id) as total FROM faculty $where";
     $count_result = $conn->query($sql_count);
     $row = $count_result->fetch_assoc();
     $total_records = $row['total'];
@@ -27,23 +27,22 @@ function buildTable($conn, $department, $category, $search, $page, $limit) {
             <th>Department</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Category</th>
+            <th>Designation</th>
             <th>Subjects</th>
           </tr>';
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
-                    <td>{$row['id']}</td>
+                    <td>{$row['faculty_id']}</td>
                     <td>{$row['name']}</td>
                     <td>{$row['department']}</td>
                     <td>{$row['email']}</td>
                     <td>{$row['phone']}</td>
-                    <td>{$row['category']}</td>
-                    <td>{$row['subjects']}</td>
+                    <td>{$row['designation']}</td>
                   </tr>";
         }
     } else {
-        echo '<tr><td colspan="7">No records found</td></tr>';
+        echo '<tr><td colspan="5">No records found</td></tr>';
     }
     echo '</table>';
 
@@ -188,14 +187,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="layout">
         <div class="sidebar">
-
-        <!-- Header -->
-
             <nav>
-                <a href="/SRMS/SRMS_25/dashboard.php"  id="active">Dashboard</a>
+                <a href="/SRMS/SRMS_25/dashboard.php">Dashboard</a>
                 <a href="/SRMS/SRMS_25/test.php">Attendance</a>
                 <a href="/SRMS/SRMS_25/test.php">View Marks</a>
-                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
+                <a href="/SRMS/SRMS_25/faculty_details.html"  id="active">Faculty Details</a>
                 <a>Update Details</a>
                 <a>Settings</a>
                 <a href="/SRMS/SRMS_25/logout.php">Log out</a>
@@ -221,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="Technician">Technician</option>
             </select>
             <input type="text" id="searchBox" placeholder="Search by name or email">
-        </div>
+        </div>  
         <div id="facultyTable"></div>
     </div>
 
