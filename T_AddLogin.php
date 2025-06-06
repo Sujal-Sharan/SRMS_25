@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insert Multiple Users</title>
+    <title>Add New Users</title>
     <link rel="stylesheet" href="Styles/global_base.css">
     <script>
         function addRow() {
@@ -20,6 +20,7 @@
             `;
         }
     </script>
+    <!-- TODO: Align table content -->
     <style>
         .btn{
             background-color: rgb(50, 225, 47);

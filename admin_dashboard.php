@@ -1,4 +1,18 @@
+<?php
+require_once("DB_Connect.php");
+session_start();
 
+// TODO: Dynamic bind all display values
+// Query to fecth distinct number of students
+$stmt = $conn->prepare("SELECT DISTINCT COUNT(*) AS total FROM students");
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+// Storing total student numbers
+$_SESSION['total_student'] = $row['total'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -161,7 +175,8 @@
       <div class="dashboard-cards">
         <div class="card">
           <h3>Total Students</h3>
-          <div class="value" style="color: blue;">1,245</div>
+          <!-- Dynamic value bidning for no. of students -->
+          <div class="value" style="color: blue;"><?php echo $_SESSION['total_student'] ?></div>
         </div>
         <div class="card">
           <h3>Total Faculty</h3>
