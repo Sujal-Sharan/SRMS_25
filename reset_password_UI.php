@@ -3,7 +3,7 @@ require_once("DB_Connect.php");
 session_start();
 
 // Checking for proper role
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+if ($_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
@@ -34,6 +34,7 @@ $result = $conn->query("SELECT user_id, role FROM login");
                 <a href="faculty_profile_admin.php">Faculty Profile</a>
                 <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
                 <a href="T_AddLogin.php">Add/Remove User</a>
+                <a href="reset_password_UI.php">Reset Password</a>
                 <a href="/SRMS/SRMS_25/logout.php">Log out</a>
             </nav>
         </div>

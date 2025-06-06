@@ -165,7 +165,7 @@ session_start();
                 $user = $result->fetch_assoc(); 
                 
                 if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
-                    $_SESSION['user_Id'] = $user_Id;
+                    $_SESSION['user_id'] = $user_Id;
                     $_SESSION['role'] = $role;
 
                     if($role === 'student'){

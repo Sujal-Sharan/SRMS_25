@@ -3,7 +3,7 @@ require_once("DB_Connect.php");
 session_start();
 
 // Checking for proper role
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+if ($_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
