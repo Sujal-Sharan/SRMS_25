@@ -12,6 +12,14 @@ $row = $result->fetch_assoc();
 // Storing total student numbers
 $_SESSION['total_student'] = $row['total'];
 
+// Query to fecth distinct number of faculty
+$stmt = $conn->prepare("SELECT DISTINCT COUNT(*) AS total FROM faculty");
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+$_SESSION['total_faculty'] = $row['total']
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -180,7 +188,7 @@ $_SESSION['total_student'] = $row['total'];
         </div>
         <div class="card">
           <h3>Total Faculty</h3>
-          <div class="value" style="color: green;">150</div>
+          <div class="value" style="color: green;"><?php echo $_SESSION['total_faculty'] ?></div>
         </div>
         <div class="card">
           <h3>Total Documents</h3>
@@ -192,6 +200,7 @@ $_SESSION['total_student'] = $row['total'];
         </div>
       </div>
 
+      <!-- Might remove this section -->
       <div class="recent-activity">
         <h3>Recent Activity</h3><br>
         <ul>
@@ -200,34 +209,6 @@ $_SESSION['total_student'] = $row['total'];
           <li>Attendance report generated - 5 hours ago</li><br>
         </ul>
       </div>
-
-      <!-- <div class="student-overview">
-        <h3>Student Overview</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Course</th>
-              <th>Marks</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>001</td>
-              <td>John Doe</td>
-              <td>CSE</td>
-              <td>87%</td>
-            </tr>
-            <tr>
-              <td>002</td>
-              <td>Jane Smith</td>
-              <td>IT</td>
-              <td>92%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
     </main>
   </div>
 

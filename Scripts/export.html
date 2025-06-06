@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Excel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+</head>
+<body>
+  <table id="myTable" border="1">
+    <thead><tr><th>Name</th><th>Age</th></tr></thead>
+    <tbody><tr><td>Alice</td><td>24</td></tr><tr><td>Bob</td><td>30</td></tr></tbody>
+  </table>
+
+  <button onclick="exportTableToPDF()">Export as PDF</button>
+  <button onclick="exportTableToExcel()">Export as Excel</button>
+
+  <script>
+    function exportTableToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Report_Title", 14, 10);
+      doc.autoTable({ html: '#myTable' });
+      doc.save('Saved_Name.pdf');
+    }
+
+    function exportTableToExcel() {
+      const table = document.getElementById('myTable');
+      const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+      XLSX.writeFile(wb, 'table.xlsx');
+    }
+  </script>
+</body>
+</html>
