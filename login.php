@@ -167,6 +167,7 @@ session_start();
                 if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
                     $_SESSION['user_id'] = $user_Id;
                     $_SESSION['role'] = $role;
+                    // $_SESSION['LAST_ACTIVITY'] = time();
 
                     if($role === 'student'){
                         header('location: student.php');
