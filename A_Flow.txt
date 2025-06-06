@@ -18,7 +18,9 @@ Login Page (login.php)
 
     Admin (admin_dashboard.php)
         View Faculty Details (faculty_profile_admin.php)
+        Add/Remove user (T_AddLogin.php)
         Log-out (logout.php)
+
     
 
 

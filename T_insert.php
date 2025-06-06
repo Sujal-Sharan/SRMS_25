@@ -1,16 +1,6 @@
 <?php
-$servername = "localhost";  // e.g., "localhost"
-$username = "root";    // e.g., "root"
-$password = "";
-$dbname = "srms";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once("DB_Connect.php");
+session_start();
 
 // Check if data was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['id'])) {
@@ -37,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['id'])) {
     $conn->close();
 
     echo "Data inserted successfully!";
+    //TODO: ADD redirect to dashboard to prev page
 } else {
     echo "No data submitted!";
 }

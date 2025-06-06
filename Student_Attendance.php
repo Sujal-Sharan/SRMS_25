@@ -59,6 +59,34 @@ if (!empty($values)) {
 $stmt->execute();
 $result = $stmt->get_result();
 
+//Table display header
+$table_header = "ERROR";
+switch($semester){
+    case "1":
+        $table_header = "FIRST SEMESTER";
+        break;
+    case "2":
+        $table_header = "SECOND SEMESTER";
+        break;
+    case "3":
+        $table_header = "THIRD SEMESTER";
+        break;
+    case "4":
+        $table_header = "FOURTH SEMESTER";
+        break;
+    case "5":
+        $table_header = "FIFTH SEMESTER";
+        break;
+    case "6":
+        $table_header = "SIXTH SEMESTER";
+        break;
+    case "7":
+        $table_header = "SEVENTH SEMESTER";
+        break;
+    case "8":
+        $table_header = "EIGHTH SEMESTER";
+        break;
+}
 ?>
 
 <!DOCTYPE html>
@@ -79,6 +107,14 @@ $result = $stmt->get_result();
         .btn:hover{
             background-color: rgb(43, 193, 41);
             border: 2px, solid, black;
+        }
+        #table_header{
+            border: none;
+            margin-left: 200px;
+            margin-bottom: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: medium;
         }
     </style>
 </head>
@@ -123,6 +159,7 @@ $result = $stmt->get_result();
             </div>
 
             <div class="card">
+                <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>">
                 <table>
                     <tr>
                         <th>Subject</th>

@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="layout">
         <div class="sidebar">
             <nav>
-                <a href="/SRMS/SRMS_25/dashboard.php">Dashboard</a>
+                <a href="/SRMS/SRMS_25/admin_dashboard.php">Dashboard</a>
                 <a href="/SRMS/SRMS_25/test.php">Attendance</a>
                 <a href="/SRMS/SRMS_25/test.php">View Marks</a>
                 <a href="/SRMS/SRMS_25/faculty_details.html"  id="active">Faculty Details</a>
