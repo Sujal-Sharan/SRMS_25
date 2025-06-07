@@ -4,7 +4,7 @@ session_start();
 
 // Get student details from DB
 $stmt = $conn->prepare("SELECT * FROM students WHERE college_roll = ?");
-$stmt->bind_param("s", $_SESSION['user_Id']);
+$stmt->bind_param("s", $_SESSION['user_id']);
 $stmt->execute();
 $result = $stmt->get_result();
 
