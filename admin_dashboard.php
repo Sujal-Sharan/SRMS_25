@@ -176,7 +176,7 @@ $_SESSION['total_faculty'] = $row['total']
         <a id="active" href="admin_dashboard.php">Dashboard</a>
         <a href="studentProfile.php">Student Profile</a>
         <a href="view_Student_Marks.php">Marks</a>
-        <a href="">Attendance</a>
+        <a href="view_Student_Attendance.php">Attendance</a>
         <a href="faculty_profile_admin.php">Faculty Profile</a>
         <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
         <a href="T_AddLogin.php">Add/Remove User</a>

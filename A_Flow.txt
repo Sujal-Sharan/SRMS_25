@@ -17,8 +17,10 @@ Login Page (login.php)
         Log-out (logout.php)
 
     Admin (admin_dashboard.php)
+        View Student Marks (view_Student_Marks.php)
+        View Student Attendance (view_Student_Attendance.php)
         View Faculty Details (faculty_profile_admin.php)
-        Add/Remove user (T_AddLogin.php)
+        Add/Remove(?) user (T_AddLogin.php)
         Reset/Update any user password (reset_password_UI.php)
         Log-out (logout.php)
 
