@@ -39,6 +39,7 @@ function buildTable($conn, $department, $designation, $search, $page, $limit) {
                     <td>{$row['email']}</td>
                     <td>{$row['phone']}</td>
                     <td>{$row['designation']}</td>
+                    <td>{$row['subjects']}</td>
                   </tr>";
         }
     } else {
