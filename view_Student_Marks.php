@@ -121,7 +121,17 @@ else{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Marks</title>
     <link rel="stylesheet" href="Styles/global_base.css">
-
+    <style>
+        /* TODO: Fix bug: Text goes over box bound */
+        #table_header{
+            border: none;
+            margin-left: 200px;
+            margin-bottom: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: medium;
+        }
+    </style>
 </head>
 <body>
     <header>Top Header</header>
