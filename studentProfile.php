@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HOD Dashboard - Student Record Management System</title>
+  <title>Student Profile View</title>
   <link rel="stylesheet" href="Styles/global_base.css">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-  <style>
+  <!-- <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -132,7 +132,7 @@
     table tr:nth-child(even) {
       background-color: #f9f9f9;
     }
-  </style>
+  </style> -->
 </head>
 <body>
   <header>
@@ -142,77 +142,100 @@
       <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
     </div>
   </header>
+  
+  <div class="layout">
+    <div class="sidebar">
+      <nav>
+        <a href="admin_dashboard.php">Dashboard</a>
+        <a id="active" href="studentProfile.php">Student Profile</a>
+        <a href="">Marks</a>
+        <a href="">Attendance</a>
+        <a href="faculty_profile_admin.php">Faculty Profile</a>
+        <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
+        <a href="T_AddLogin.php">Add/Remove User</a>
+        <a href="reset_password_UI.php">Reset Password</a>
+        <a href="/SRMS/SRMS_25/logout.php"> Log out</a>
+      </nav>
+    </div>
 
-  <div class="sidebar">
-    <nav>
-      <a>Dashboard</a>
-      <a id="active">Student Profile</a> <!-- Highlighted as active -->
-      <a>Marks</a>
-      <a>Attendance</a>
-      <a>Faculty Profile</a>
-      <a>Uploaded Documents</a>
-      <a>Log out</a>
-    </nav>
-  </div>
+    <div class="main-content">
+      <div class="card">
+        <header>View Student Data</header>
+        <form>
+          <div class="filters">
+            <select id="batch-filter">
+              <option value="all">All Batches</option>
+              <option>TODO: Add batch to student table</option>
+              <option value="2021-25">2021-25</option>
+              <option value="2022-26">2022-26</option>
+            </select>
 
-  <div class="container">
-    <h3>Student Profile: CSE</h3>
-    <div class="card">
-      <div class="filters">
-        <select id="batch-filter">
-          <option value="all">All Batches</option>
-          <option value="2021-25">2021-25</option>
-          <option value="2022-26">2022-26</option>
-        </select>
-        <select id="dept-filter">
-          <option value="CSE" selected>CSE</option>
-        </select>
-        <select id="section-filter">
-          <option value="all">All Sections</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-        </select>
-        <input type="text" id="search-bar" placeholder="Search by Name or Roll" onkeyup="filterTable()">
+            <select id="dept-filter" required>
+              <option value="" selected>CSE</option>
+              <option value="CSE" >CSE</option>
+              <option value="CSE" >CSE</option>
+              <option value="CSE" >CSE</option>
+              <option value="CSE" >CSE</option>
+            </select>
+
+            <select id="section-filter">
+              <option value="">All Sections</option>
+              <option value="A">Section A</option>
+              <option value="B">Section B</option>
+              <option value="C">Section C</option>
+            </select>
+
+            <select id="group-filter">
+              <option value="">All Groups</option>
+              <option value="A">Section A</option>
+              <option value="B">Section B</option>
+              <option value="C">Section C</option>
+            </select>
+
+            <input type="text" id="search-bar" placeholder="Search by Name or Roll" onkeyup="filterTable()">
+          </div>
+        </form>
+        <br>
+
+        <table id="student-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Roll</th>
+              <th>Branch</th>
+              <th>Section</th>
+              <th>Batch</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>John Doe</td>
+              <td>123456</td>
+              <td>CSE</td>
+              <td>A</td>
+              <td>2021-2025</td>
+            </tr>
+            <tr>
+              <td>002</td>
+              <td>Jane Smith</td>
+              <td>123457</td>
+              <td>CSE</td>
+              <td>B</td>
+              <td>2021-2025</td>
+            </tr>
+            <tr>
+              <td>003</td>
+              <td>Michael Brown</td>
+              <td>123458</td>
+              <td>CSE</td>
+              <td>A</td>
+              <td>2021-2025</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <table id="student-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Roll</th>
-            <th>Branch</th>
-            <th>Section</th>
-            <th>Batch</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>001</td>
-            <td>John Doe</td>
-            <td>123456</td>
-            <td>CSE</td>
-            <td>A</td>
-            <td>2021-2025</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>Jane Smith</td>
-            <td>123457</td>
-            <td>CSE</td>
-            <td>B</td>
-            <td>2021-2025</td>
-          </tr>
-          <tr>
-            <td>003</td>
-            <td>Michael Brown</td>
-            <td>123458</td>
-            <td>CSE</td>
-            <td>A</td>
-            <td>2021-2025</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 

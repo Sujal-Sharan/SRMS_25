@@ -92,6 +92,12 @@ $_SESSION['total_faculty'] = $row['total']
       border-radius: 20px 6px 6px 20px;
     }
 
+    /* TODO: Some style changes to nav elements, such as active, hover and base */
+    #active{
+      color: black;
+      border-color: #666;
+    }
+
     .content {
       margin-left: 226px;
       padding: 20px;
@@ -168,14 +174,14 @@ $_SESSION['total_faculty'] = $row['total']
     <div class="sidebar">
       <nav>
         <a id="active" href="admin_dashboard.php">Dashboard</a>
-        <a href="studentProfile.html">Student Profile</a>
-        <a href="/SRMS/SRMS_25/marks.php">Marks</a>
-        <a href="/SRMS/SRMS_25/Student_Attendance.php">Attendance</a>
+        <a href="studentProfile.php">Student Profile</a>
+        <a href="">Marks</a>
+        <a href="">Attendance</a>
         <a href="faculty_profile_admin.php">Faculty Profile</a>
         <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
         <a href="T_AddLogin.php">Add/Remove User</a>
         <a href="reset_password_UI.php">Reset Password</a>
-        <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+        <a href="/SRMS/SRMS_25/logout.php"> Log out</a>
       </nav>
     </div>
     
