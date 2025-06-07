@@ -18,6 +18,7 @@ if(isset($_GET['filter'])){
 }
 
 $sql = "SELECT
+    student_id,
     subject_id,
     semester,
     COUNT(CASE WHEN status = 'Present' THEN 1 END) AS days_present  ,
@@ -47,6 +48,8 @@ if (!empty($subject_id)) {
     $types .= "i";
     $values[] = $subject_id;
 }
+
+$sql .= " GROUP BY subject_id";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -140,7 +143,6 @@ switch($semester){
             </header>
 
             <div class="card">
-                <h3>Apply Filters</h3><br>
                 <form action="student_attendance.php" method="get">
                     <div class="filters">
                         <select id="filter_subject" name="filter_subject">

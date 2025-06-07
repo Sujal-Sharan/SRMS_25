@@ -51,7 +51,7 @@ if (!empty($dept)) {
     $values[] = $dept;
 }
 
-// $sql .= "GROUP BY a.student_id";
+$sql .= " GROUP BY a.student_id";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -212,13 +212,18 @@ else{
                         <th>Student_Name</th>
                         <th>Department</th>
                         <th>Subject_Id</th>
-                        <th>Subject_Id</th>
-                        <th>Subject_Id</th>
+                        <th>Semester</th>
+                        <th>Present</th>
+                        <th>Total_Days</th>
+                        <th>Percentage</th>
                     </tr>
                     <?php
                     try{
                         if($result->num_rows > 0){
                             while ($row = $result->fetch_assoc()) {
+                                // TOOD: Add custom colour breakpoints instead of hard coded
+                                $rowColor = ((round($row['attendance_percentage'], 2)) < 60) ? "style='background-color: #FFCCCC; color: red;'" : "style='background-color:rgb(172, 235, 166); color: green;'";
+
                                 echo "<tr>
                                         <td>" . $row["student_id"] . "</td>
                                         <td>" . $row["name"] . "</td>
@@ -227,7 +232,7 @@ else{
                                         <td>" . $row["semester"] . "</td>
                                         <td>" . $row["days_present"] . "</td>
                                         <td>" . $row["total_working_days"] . "</td>
-                                        <td>" . $row["attendance_percentage"] . "</td>
+                                        <td $rowColor>" . $row["attendance_percentage"] . "</td>
                                     </tr>";
                             }
                         } else {
