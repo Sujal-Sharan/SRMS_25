@@ -1,6 +1,9 @@
-Adjust nav pane to reflect correct access pages (Currently a copy of student nav pane)
-Check file paths for re-directs 
-Remove 'Faculty Details' from 'faculty_dashboard.php'
+Add Attendance  Upload UI
+Add Marks Upload UI
+Implement proper UI for view marks + view attendance filters
+Replace Admin "Recent Activity" portion with a TO-DO list
+Add session login timer/ cookies
+Add page to remove user (?)
+Implement UI + Backend for doc verification
 
-Update 'faculty_profile_admin.php' query to also get details of subject taught
-
+Clean up code and create proper structure
