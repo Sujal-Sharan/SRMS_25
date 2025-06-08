@@ -249,3 +249,20 @@ CREATE TABLE admin_dismissed_tasks (
     task_hash VARCHAR(255) UNIQUE,
     dismissed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- attendance new (upload)
+
+CREATE TABLE `attendance` (
+  `student_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) DEFAULT NULL,
+  `faculty_id` int(11) DEFAULT NULL,
+  `attendance_date` date DEFAULT NULL,
+  `is_present` tinyint(1) DEFAULT NULL,
+  UNIQUE KEY `student_id` (`student_id`,`subject_id`,`faculty_id`,`attendance_date`),
+  KEY `subject_id` (`subject_id`),
+  KEY `faculty_id` (`faculty_id`),
+  CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `attendance_ibfk_3` FOREIGN KEY (`faculty_id`) REFERENCES `faculty_details` (`faculty_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
