@@ -18,9 +18,67 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-$_SESSION['total_faculty'] = $row['total']
+$_SESSION['total_faculty'] = $row['total'];
 
+// TO-DO List Query
+// Handle AJAX Dismissal
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
+    $hash = $conn->real_escape_string($_POST["dismiss_hash"]);
+    $conn->query("INSERT IGNORE INTO admin_dismissed_tasks (task_hash) VALUES ('$hash')");
+    exit;
+}
+
+$todoItems = [];
+// 1. Check for students without assigned department/section
+$unassignedStudents = $conn->query("SELECT COUNT(*) as count FROM student_details WHERE section IS NULL OR department IS NULL");
+$row = $unassignedStudents->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Assign department/section to $row[count] newly added student(s)";
+}
+
+// 2. Faculty without subjects
+$facultyUnassigned = $conn->query("SELECT COUNT(*) as count FROM faculty WHERE faculty_id NOT IN (SELECT DISTINCT fac_id FROM faculty_subjects)");
+$row = $facultyUnassigned->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Assign subjects to $row[count] new faculty member(s)";
+}
+
+// 3. Students missing uploaded documents
+$missingDocs = $conn->query("SELECT COUNT(*) as count FROM students WHERE id NOT IN (SELECT id FROM student_documents)");
+$row = $missingDocs->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "$row[count] student(s) missing required documents";
+}
+
+// 4. Documents pending verification
+$pendingVerification = $conn->query("SELECT COUNT(*) as count FROM student_documents WHERE status = 'Unverified'");
+$row = $pendingVerification->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Verify $row[count] pending document(s)";
+}
+
+// 5. Password reset requests
+$resetRequests = $conn->query("SELECT COUNT(*) as count FROM password_resets WHERE status = 'pending'");
+$row = $resetRequests->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Review $row[count] pending password reset request(s)";
+}
+
+// 6. CA/PCA marks not submitted
+$pendingMarks = $conn->query("SELECT COUNT(*) as count FROM subjects WHERE subject_id NOT IN (SELECT DISTINCT subject_id FROM marks)");
+$row = $pendingMarks->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Submit CA/PCA marks for $row[count] subject(s)";
+}
+
+// Get dismissed tasks
+$dismissed = [];
+$res = $conn->query("SELECT task_hash FROM admin_dismissed_tasks");
+while ($row = $res->fetch_assoc()) {
+    $dismissed[] = $row['task_hash'];
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -207,14 +265,24 @@ $_SESSION['total_faculty'] = $row['total']
         </div>
       </div>
 
-      <!-- Might remove this section -->
-      <div class="recent-activity">
-        <h3>Recent Activity</h3><br>
-        <ul>
-          <li>Marks uploaded for CSE - 2 hours ago</li> <br>
-          <li>New students added - 1 hour ago</li><br>
-          <li>Attendance report generated - 5 hours ago</li><br>
-        </ul>
+      <!-- TO-DO List Card -->
+      <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0px 1px 6px rgba(0,0,0,0.1);">
+        <h4 style="margin-bottom: 15px; font-weight: 600;">Admin TO-DO List</h4>
+        <?php
+        $filtered = array_diff_key($todoItems, array_flip($dismissed));
+        if (count($filtered) > 0):
+        ?>
+            <ul style="list-style: none; padding-left: 0;" id="todoList">
+              <?php foreach ($filtered as $hash => $item): ?>
+                <li id="<?= $hash ?>" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px 12px; background: #f8f9fa; border-left: 4px solid #007bff; border-radius: 6px;">
+                    <span><?= htmlspecialchars($item) ?></span>
+                    <button onclick="dismissTask('<?= $hash ?>')" style="background: #28a745; color: white; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer;">Done</button>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+          <p style="color: green;">✅ All admin tasks are up to date!</p>
+        <?php endif; ?>
       </div>
     </main>
   </div>
@@ -226,6 +294,19 @@ $_SESSION['total_faculty'] = $row['total']
         item.classList.add('active');
       });
     });
+
+    function dismissTask(hash) {
+    fetch("", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "dismiss_hash=" + hash
+    }).then(() => {
+        document.getElementById(hash).remove();
+        if (document.querySelectorAll("#todoList li").length === 0) {
+            document.getElementById("todoList").outerHTML = "<p style='color: green;'>✅ All admin tasks are up to date!</p>";
+        }
+    });
+}
   </script>
 </body>
 </html>
