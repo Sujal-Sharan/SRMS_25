@@ -231,3 +231,21 @@ VALUES
 -- Mixed others
 ('Neha Kumari', 'CSE202304', 'REG202304', 'CSE', '2023-27', 2, 'Admission Docs', 'uploads/zips/CSE202304.zip', '2025-04-12 11:30:00'),
 ('Rajib Dey', 'ECE201907', 'REG201907', 'ECE', '2019-23', 8, 'Internship Cert, Final Grade Card', 'uploads/zips/ECE201907.zip', '2023-12-01 10:00:00');
+
+
+//TO-DO List existing tables with needed columns
+Table Name	        Required Columns
+students	        id, section, faculty_id
+faculty	            id
+faculty_subjects	faculty_id, subject_id
+documents	        student_id, verified (BOOLEAN or 0/1)
+password_resets	    id, status
+marks	            subject_id
+subjects	        id
+
+// To store deleted tasks from the list
+CREATE TABLE admin_dismissed_tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    task_hash VARCHAR(255) UNIQUE,
+    dismissed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
