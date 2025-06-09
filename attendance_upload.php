@@ -81,41 +81,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filter'])) {
     <title>Upload Attendance</title>
 
     <!-- Embedded working CSS -->
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding-top: 120px; /* Space for fixed header */
-        }
-
+    <style>
+        body{
+            margin: 0px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding-top: 120px; /* Space for fixed header */
+        }
         header {
-            background: #1abc9c;
-            color: white;
-            padding: 7px;
-            display: flex;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+            background: #1abc9c;
+            color: white;
+            padding: 7px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
 
         .layout {
-            display: flex;
-        }
+            display: flex;
+        }
 
-        .sidebar {
-            width: 220px;
-            background: #2c3e50;
-            min-height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-            top: 120px;
-            left: 0;
-            overflow-y: auto;
-        }
+        /* Fix found: Remove all whitespaces then tab for appropriate spacing */
+        /* Do as shown below for all, then apply proper spacing */
+        .sidebar {width: 220px;background: #2c3e50;min-height: 100vh;padding-top: 20px;position: fixed;top: 120px;left: 0;overflow-y: auto;}
 
         .sidebar nav a {
             display: block;
@@ -194,7 +186,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filter'])) {
         }
 </style>
 </head>
-<body>
 
 <body>
     <header
