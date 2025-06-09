@@ -6,6 +6,8 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="Styles/global_base.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -125,11 +127,10 @@
 
     <div class="layout">
         <div class="sidebar">
-        
-        
+
         <!-- Header -->
         <!--<h2 style="margin-bottom: 20px; color: #0A1931;">Dashboard</h2>-->
-            
+
             <nav>
                 <a href="/SRMS/SRMS_25/dashboard.php"  id="active">Dashboard</a>
                 <a href="/SRMS/SRMS_25/Student_Attendance.php">Attendance</a>
@@ -139,10 +140,9 @@
                 <a>Settings</a>
                 <a href="/SRMS/SRMS_25/logout.php">Log out</a>
             </nav>
+        </div>
     </div>
-    
         
-
     <div class="main-content">
         <h2>Faculty Dashboard</h2>
         <div class="grid">
@@ -152,7 +152,7 @@
             <div class="card" onclick="navigateTo('students.php')">
                     <button>Student List<br>Total: 6000</button>
             </div>
-                <div class="card" onclick="navigateTo('marks.php')">
+                <div class="card" onclick="navigateTo('marks_upload(faculty).php')">
                     <button>Marks Upload<br>(Internal & External)</button>
             </div>
                 <div class="card" onclick="navigateTo('Student_Attendance.php')">
@@ -167,53 +167,66 @@
             <div class="card" onclick="navigateTo('https://tint.edu.in/')">
                     <button>Department Notices</button>
             </div>
-                
             <div class="card" onclick="navigateTo('https://makautexam.net/routine.html')">
                     <button>Exam Schedules</button>
             </div>
-                
             <div class="card" onclick="navigateTo('export.html')">
                     <button>Report<br>(Generate & Download)</button>
             </div>
-                
             <div class="card" onclick="navigateTo('subject_details.html')">
                 <button>Subjects</button>
             </div>
-                
         </div>
-<div style="margin-top: 40px;">
-    <h2 style="margin-bottom: 20px; color: #0A1931;">Faculty Activity Overview :</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-        <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #ff9800;">
-            <strong>Student Verification:</strong>
-            <p><span id="verifyCount">5</span> students are left to verify. Please verify them!</p>
+
+        <section id="at-risk-section" style="padding: 2rem; background: #f9fbfe; width: 60%; text-align: center;">
+            <h2 style="text-align: center;">
+                <span style="color: red;">🔔</span> 
+                <strong>Students At Risk (Attendance &lt; 75% &amp; Marks &lt; 40%)</strong>
+            </h2>
+
+            <div style="text-align: right; margin-bottom: 1rem;">
+                <label for="deptFilter">Department:</label>
+                <select id="deptFilter">
+                    <option value="all">All</option>
+                    <option value="cse">CSE</option>
+                    <option value="it">IT</option>
+                    <option value="ece">ECE</option>
+                    <!-- Add more departments as needed -->
+                </select>
+            </div>
+
+            <div id="chart-container" style="display: flex; justify-content: center;">
+                <canvas id="atRiskChart" style="width: 100px; height:50px;"></canvas>
+            </div>
+        </section>
+        <div style="margin-top: 40px;">
+            <h2 style="margin-bottom: 20px; color: #0A1931;">Faculty Activity Overview :</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #ff9800;">
+                        <strong>Student Verification:</strong>
+                        <p><span id="verifyCount">5</span> students are left to verify. Please verify them!</p>
+                    </div>
+                    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #2196f3;">
+                        <strong>Internal Marks Submission:</strong>
+                        <p>Marks submission pending.<br>Last Date: <span id="marksDeadline">05/10/2025</span></p>
+                    </div>
+                    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #f44336;">
+                        <strong>Low Attendance Alerts:</strong>
+                        <p><span id="lowAttendanceCount">25</span> students have low attendance.</p>
+                    </div>
+                    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #9c27b0;">
+                        <strong>Document Verification:</strong>
+                        <p><span id="docCount">4</span> students documents are left to verify.</p>
+                    </div>
+                    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #4caf50;">
+                            <strong>Report Upload Reminder:</strong>
+                            <p>Please generate and upload final reports.</p>
+                    </div>
+
+                </div>
         </div>
-    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #2196f3;">
-            <strong>Internal Marks Submission:</strong>
-            <p>Marks submission pending.<br>Last Date: <span id="marksDeadline">05/10/2025</span></p>
-        </div>
-        <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #f44336;">
-            <strong>Low Attendance Alerts:</strong>
-            <p><span id="lowAttendanceCount">25</span> students have low attendance.</p>
-        </div>
-    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #9c27b0;">
-            <strong>Document Verification:</strong>
-            <p><span id="docCount">4</span> students documents are left to verify.</p>
-        </div>
-    <div style="background: #f1f1f1; padding: 15px; border-left: 6px solid #4caf50;">
-                <strong>Report Upload Reminder:</strong>
-                <p>Please generate and upload final reports.</p>
-        </div>
-        
     </div>
-</div>
-    
 
-
-        
-            
-        
-    
     <script>
         function navigateTo(url) {
             window.location.href = url;
@@ -234,7 +247,66 @@
         document.getElementById("lowAttendanceCount").textContent = 25;
         document.getElementById("docCount").textContent = 4;
     });
-    </script>
+
     
+const ctx = document.getElementById('atRiskChart').getContext('2d');
+
+let atRiskChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Alice (101)', 'Bob (105)'],
+    datasets: [
+      {
+        label: 'Attendance (%)',
+        data: [60, 70],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+      },
+      {
+        label: 'Average Marks',
+        data: [25, 25],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'At-Risk Students'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100
+      }
+    }
+  }
+});
+
+// Filter function (dummy for now — extend with backend/AJAX logic)
+document.getElementById('deptFilter').addEventListener('change', function () {
+  const selectedDept = this.value;
+
+  // Example logic for filtering chart data
+  if (selectedDept === 'cse') {
+    atRiskChart.data.labels = ['Alice (101)'];
+    atRiskChart.data.datasets[0].data = [60];
+    atRiskChart.data.datasets[1].data = [25];
+  } else if (selectedDept === 'ece') {
+    atRiskChart.data.labels = ['Bob (105)'];
+    atRiskChart.data.datasets[0].data = [70];
+    atRiskChart.data.datasets[1].data = [25];
+  } else {
+    atRiskChart.data.labels = ['Alice (101)', 'Bob (105)'];
+    atRiskChart.data.datasets[0].data = [60, 70];
+    atRiskChart.data.datasets[1].data = [25, 25];
+  }
+
+  atRiskChart.update();
+});
+</script>
+
 </body>
 </html>

@@ -2,6 +2,24 @@
 require_once("DB_Connect.php");
 session_start();
 
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Check if session has expired
+if (time() - $_SESSION['login_time'] > $_SESSION['expire_after']) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php?session_expired=1");
+    exit();
+} else {
+    // Reset login_time to extend session
+    $_SESSION['login_time'] = time();
+}
+
+
 // Get student details from DB
 $stmt = $conn->prepare("SELECT * FROM students WHERE college_roll = ?");
 $stmt->bind_param("s", $_SESSION['user_id']);
@@ -88,6 +106,11 @@ $result = $stmt->get_result();
         function navigateTo(url) {
             window.location.href = url;
         }
+        
+        setTimeout(() => {
+            alert("Your session is about to expire!");
+        }, 25 * 60 * 1000); // Warn after 25 minutes
+
     </script>
 </body>
 </html>
