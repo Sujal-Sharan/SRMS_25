@@ -1,6 +1,7 @@
 <?php 
 require_once("DB_Connect.php");
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -167,6 +168,10 @@ session_start();
                 if ($user && password_verify($password, $user['password']) && ($user['role'] === $role)) {
                     $_SESSION['user_id'] = $user_Id;
                     $_SESSION['role'] = $role;
+    
+                    $_SESSION['login_time'] = time(); // Store login time
+                    $_SESSION['expire_after'] = 1800; // Session expires after 30 minutes
+
                     // $_SESSION['LAST_ACTIVITY'] = time();
 
                     if($role === 'student'){
