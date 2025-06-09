@@ -76,115 +76,137 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filter'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Attendance</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Attendance</title>
 
-    <!-- Embedded working CSS -->
-    <style>
-        body{
-            margin: 0px;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding-top: 120px; /* Space for fixed header */
-        }
-        header {
-            background: #1abc9c;
-            color: white;
-            padding: 7px;
-            display: flex;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+    <!-- Embedded working CSS -->
+      <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        .layout {
-            display: flex;
-        }
+    header {
+      background: #1abc9c;
+      color: white;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 110px;
+      z-index: 1000;
+    }
 
-        /* Fix found: Remove all whitespaces then tab for appropriate spacing */
-        /* Do as shown below for all, then apply proper spacing */
-        .sidebar {width: 220px;background: #2c3e50;min-height: 100vh;padding-top: 20px;position: fixed;top: 120px;left: 0;overflow-y: auto;}
+    header img {
+      height: 100px;
+      padding: 5px;
+    }
 
-        .sidebar nav a {
-            display: block;
-            padding: 12px;
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px solid #34495e;
-        }
+    .container {
+      display: flex;
+      margin-top: 110px;
+      border-radius: 6px;
+    }
 
-        .sidebar nav a:hover, .sidebar nav a#active {
-            background: #1abc9c;
-        }
+    .sidebar {
+      width: 226px;
+      background: #0A1931;
+      color: white;
+      height: calc(100vh - 110px);
+      padding-top: 20px;
+      position: fixed;
+      top: 110px;
+      left: 0;
+      overflow-y: auto;
+      
+    }
 
-        .main-content {
-            margin-left: 240px;
-            padding: 20px;
-            width: calc(100% - 240px);
-        }
+    .sidebar nav a {
+      display: block;
+      color: white;
+      background-color: #123456;
+      margin: 10px;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 10px;
+      text-align: center;
+      border-radius: 20px 6px 6px 20px;
+    }
 
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-        }
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
+      background-color: #ffc107;
+      color: black;
+      border-radius: 20px 6px 6px 20px;
+    }
 
-        form {
-            background: white;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 900px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+    /* TODO: Some style changes to nav elements, such as active, hover and base */
+    #active{
+      color: black;
+      border-color: #666;
+    }
 
-        form label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
+    .content {
+      margin-left: 226px;
+      padding: 20px;
+      flex: 1;
+      background: #f4f4f4;
+      min-height: calc(100vh - 110px);
+    }
 
-        select, input[type="date"], input[type="submit"], button {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    .dashboard-cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 45px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      flex: 1;
+      min-width: 200px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
+    .card h3 {
+      font-size: 1rem;
+      color: #666;
+      text-align: center;
+    }
 
-        table th {
-            background-color: #f2f2f2;
-        }
+    .card .value {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      text-align: center;
+    }
 
-        button {
-            background: #1abc9c;
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
+    .recent-activity,
+    .student-overview {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .success {
-            color: green;
-            font-weight: bold;
-            text-align: center;
-        }
-</style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th,
+    table td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+  </style>
 </head>
 
 <body>
