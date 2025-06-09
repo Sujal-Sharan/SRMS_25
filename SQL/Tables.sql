@@ -231,3 +231,38 @@ VALUES
 -- Mixed others
 ('Neha Kumari', 'CSE202304', 'REG202304', 'CSE', '2023-27', 2, 'Admission Docs', 'uploads/zips/CSE202304.zip', '2025-04-12 11:30:00'),
 ('Rajib Dey', 'ECE201907', 'REG201907', 'ECE', '2019-23', 8, 'Internship Cert, Final Grade Card', 'uploads/zips/ECE201907.zip', '2023-12-01 10:00:00');
+
+
+//TO-DO List existing tables with needed columns
+Table Name	        Required Columns
+students	        id, section, faculty_id
+faculty	            id
+faculty_subjects	faculty_id, subject_id
+documents	        student_id, verified (BOOLEAN or 0/1)
+password_resets	    id, status
+marks	            subject_id
+subjects	        id
+
+// To store deleted tasks from the list
+CREATE TABLE admin_dismissed_tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    task_hash VARCHAR(255) UNIQUE,
+    dismissed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- attendance new (upload)
+
+CREATE TABLE `attendance` (
+  `student_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) DEFAULT NULL,
+  `faculty_id` int(11) DEFAULT NULL,
+  `attendance_date` date DEFAULT NULL,
+  `is_present` tinyint(1) DEFAULT NULL,
+  UNIQUE KEY `student_id` (`student_id`,`subject_id`,`faculty_id`,`attendance_date`),
+  KEY `subject_id` (`subject_id`),
+  KEY `faculty_id` (`faculty_id`),
+  CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `attendance_ibfk_3` FOREIGN KEY (`faculty_id`) REFERENCES `faculty_details` (`faculty_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
