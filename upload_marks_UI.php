@@ -19,6 +19,7 @@ if(isset($_GET['apply_Filter'])){
     $sql = "SELECT 
                 m.student_id AS student_id,
                 s.name AS student_name,
+                subj.subject_id AS subject_id,
                 subj.subject_code AS subject_code,
                 subj.subject_name AS subject_name,
                 m.semester AS semester,
@@ -104,7 +105,7 @@ if(isset($_GET['apply_Filter'])){
                 <form id="filterForm" action="" method="GET">
                     <div class="filters">
                         
-                        <select id="department" name="department">
+                        <select id="department" name="department" required>
                             <option value="">Select Department</option>
                             <?php
                                 $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
@@ -112,7 +113,7 @@ if(isset($_GET['apply_Filter'])){
                             ?>
                         </select>
 
-                        <select id="semester" name="semester">
+                        <select id="semester" name="semester" required>
                             <option value="">Semester</option>
                             <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
                         </select>
@@ -121,7 +122,7 @@ if(isset($_GET['apply_Filter'])){
                             <option value="">Select Subject</option>
                         </select>
                         
-                        <select id="test" name="test">
+                        <select id="test" name="test" required>
                             <option value="">Select Test</option>
                             <option value="CA1">CA1</option>
                             <option value="CA2">CA2</option>
@@ -153,6 +154,9 @@ if(isset($_GET['apply_Filter'])){
 
             <div class="card">
                 <form action="upload_marks_Backend.php" method="POST">
+
+                    <button id="submit" type="submit" name="save">Save Marks</button>
+
                     <table>
                         <tr>
                             <th>Student_Id</th>
@@ -170,9 +174,9 @@ if(isset($_GET['apply_Filter'])){
                                         echo "<tr>
                                                 <td><input type='text' name='student_id[]' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
                                                 <td><input type='text' name='name[]' value='" . htmlspecialchars($row["student_name"]) . "' readonly></td>
-                                                <td><input type='text' name='subject[]' value='" . htmlspecialchars($row["subject_code"]) . "' readonly></td>
+                                                <td><input type='text' name='subject' value='" . htmlspecialchars($row["subject_id"]) . "' readonly></td>
                                                 <td><input type='text' name='test' value='" . htmlspecialchars($test) . "' readonly></td>
-                                                <td><input type='text' name='sem[]' value='" . htmlspecialchars($semester) . "' readonly></td>
+                                                <td><input type='text' name='semester' value='" . htmlspecialchars($semester) . "' readonly></td>
                                                 <td><input type='text' name='mark[]' value='" .  htmlspecialchars($row["marks"]) . "' " . (is_null($row["marks"]) ? "" : "readonly") . "></td>
                                             </tr>";
                                     }
@@ -198,12 +202,6 @@ if(isset($_GET['apply_Filter'])){
             document.getElementById("group").value = "";
             // document.getElementById("subject").value = "";
             // document.getElementById("searchInput").value = "";
-        }
-
-        function setTestForAllRows(value) {
-            document.querySelectorAll(".testInput").forEach(input => {
-                input.value = value;
-            });
         }
     </script>
 </body>

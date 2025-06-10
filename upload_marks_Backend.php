@@ -6,12 +6,14 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $studentArray = filter_input(INPUT_POST, 'student_id', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-    $subArray = filter_input(INPUT_POST, 'subject_id', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-    $semArray = filter_input(INPUT_POST, 'semester', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-    $markArray = filter_input(INPUT_POST, 'semester', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-    $statusArray = filter_input(INPUT_POST, 'all_ids', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    // $subArray = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    // $semArray = filter_input(INPUT_POST, 'semester', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    $markArray = filter_input(INPUT_POST, 'mark', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    // $statusArray = filter_input(INPUT_POST, 'all_ids', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
 
-    $test = $_POST['test_type'];
+    $subject = $_POST['subject'] ?? NULL;
+    $sem = $_POST['semester'] ?? NULL;
+    $test = $_POST['test'] ?? NULL;
 
     $maxMark = 25;
     switch($test){
@@ -25,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $maxMark = 25;
     }
 
-    $date = date('Y-m-d', strtotime($_POST['attendance_date']));
+    // $date = date('Y-m-d', strtotime($_POST['attendance_date']));
 
     if(is_null($studentArray)){
         $conn->close();
@@ -41,12 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         for ($i = 0; $i < count($studentArray); $i++) {
 
             $student = $studentArray[$i];
-            $subject = $subArray[$i];
-            $sem = $semArray[$i];
+            // $subject = $subArray[$i];
+            // $sem = $semArray[$i];
             $mark = $markArray[$i];
-
-            // $status = (($statusArray[$i] == 1) ? 'PRESENT' : 'ABSENT');
-            $status = isset($_POST['attendance'][$statusArray[$i]]) ? 'PRESENT' : 'ABSENT';
+            $status = is_null($mark) ? 1 : 0;
 
             $stmt->execute();
         }
