@@ -28,55 +28,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
     exit;
 }
 
-$todoItems = [];
-// 1. Check for students without assigned department/section
-$unassignedStudents = $conn->query("SELECT COUNT(*) as count FROM student_details WHERE section IS NULL OR department IS NULL");
-$row = $unassignedStudents->fetch_assoc();
-if ($row['count'] > 0) {
-    $todoItems[] = "Assign department/section to $row[count] newly added student(s)";
-}
+// $todoItems = [];
+// // 1. Check for students without assigned department/section
+// $unassignedStudents = $conn->query("SELECT COUNT(*) as count FROM student_details WHERE section IS NULL OR department IS NULL");
+// $row = $unassignedStudents->fetch_assoc();
+// if ($row['count'] > 0) {
+//     $todoItems[] = "Assign department/section to $row[count] newly added student(s)";
+// }
 
-// 2. Faculty without subjects
-$facultyUnassigned = $conn->query("SELECT COUNT(*) as count FROM faculty WHERE faculty_id NOT IN (SELECT DISTINCT fac_id FROM faculty_subjects)");
-$row = $facultyUnassigned->fetch_assoc();
-if ($row['count'] > 0) {
-    $todoItems[] = "Assign subjects to $row[count] new faculty member(s)";
-}
+// // 2. Faculty without subjects
+// $facultyUnassigned = $conn->query("SELECT COUNT(*) as count FROM faculty WHERE faculty_id NOT IN (SELECT DISTINCT fac_id FROM faculty_subjects)");
+// $row = $facultyUnassigned->fetch_assoc();
+// if ($row['count'] > 0) {
+//     $todoItems[] = "Assign subjects to $row[count] new faculty member(s)";
+// }
 
-// 3. Students missing uploaded documents
-$missingDocs = $conn->query("SELECT COUNT(*) as count FROM students WHERE id NOT IN (SELECT id FROM student_documents)");
-$row = $missingDocs->fetch_assoc();
-if ($row['count'] > 0) {
-    $todoItems[] = "$row[count] student(s) missing required documents";
-}
+// // 3. Students missing uploaded documents
+// $missingDocs = $conn->query("SELECT COUNT(*) as count FROM students WHERE id NOT IN (SELECT id FROM student_documents)");
+// $row = $missingDocs->fetch_assoc();
+// if ($row['count'] > 0) {
+//     $todoItems[] = "$row[count] student(s) missing required documents";
+// }
 
-// 4. Documents pending verification
-$pendingVerification = $conn->query("SELECT COUNT(*) as count FROM student_documents WHERE status = 'Unverified'");
-$row = $pendingVerification->fetch_assoc();
-if ($row['count'] > 0) {
-    $todoItems[] = "Verify $row[count] pending document(s)";
-}
+// // 4. Documents pending verification
+// $pendingVerification = $conn->query("SELECT COUNT(*) as count FROM student_documents WHERE status = 'Unverified'");
+// $row = $pendingVerification->fetch_assoc();
+// if ($row['count'] > 0) {
+//     $todoItems[] = "Verify $row[count] pending document(s)";
+// }
 
-// 5. Password reset requests
-$resetRequests = $conn->query("SELECT COUNT(*) as count FROM password_resets WHERE status = 'pending'");
-$row = $resetRequests->fetch_assoc();
-if ($row['count'] > 0) {
-    $todoItems[] = "Review $row[count] pending password reset request(s)";
-}
+// // 5. Password reset requests
+// $resetRequests = $conn->query("SELECT COUNT(*) as count FROM password_resets WHERE status = 'pending'");
+// $row = $resetRequests->fetch_assoc();
+// if ($row['count'] > 0) {
+//     $todoItems[] = "Review $row[count] pending password reset request(s)";
+// }
 
-// 6. CA/PCA marks not submitted
-$pendingMarks = $conn->query("SELECT COUNT(*) as count FROM subjects WHERE subject_id NOT IN (SELECT DISTINCT subject_id FROM marks)");
-$row = $pendingMarks->fetch_assoc();
-if ($row['count'] > 0) {
-    $todoItems[] = "Submit CA/PCA marks for $row[count] subject(s)";
-}
+// // 6. CA/PCA marks not submitted
+// $pendingMarks = $conn->query("SELECT COUNT(*) as count FROM subjects WHERE subject_id NOT IN (SELECT DISTINCT subject_id FROM marks)");
+// $row = $pendingMarks->fetch_assoc();
+// if ($row['count'] > 0) {
+//     $todoItems[] = "Submit CA/PCA marks for $row[count] subject(s)";
+// }
 
-// Get dismissed tasks
-$dismissed = [];
-$res = $conn->query("SELECT task_hash FROM admin_dismissed_tasks");
-while ($row = $res->fetch_assoc()) {
-    $dismissed[] = $row['task_hash'];
-}
+// // Get dismissed tasks
+// $dismissed = [];
+// $res = $conn->query("SELECT task_hash FROM admin_dismissed_tasks");
+// while ($row = $res->fetch_assoc()) {
+//     $dismissed[] = $row['task_hash'];
+// }
 ?>
 
 <!DOCTYPE html>
@@ -235,6 +235,7 @@ while ($row = $res->fetch_assoc()) {
         <a href="studentProfile.php">Student Profile</a>
         <a href="view_Student_Marks.php">Marks</a>
         <a href="view_Student_Attendance.php">Attendance</a>
+        <a href="upload_attendance.php">Add Attendance</a>
         <a href="faculty_profile_admin.php">Faculty Profile</a>
         <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
         <a href="T_AddLogin.php">Add/Remove User</a>

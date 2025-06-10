@@ -7,3 +7,9 @@ Add page to remove user (?)
 Implement UI + Backend for doc verification
 
 Clean up code and create proper structure
+
+Future Scope:
+
+Placement assist
+Develop testing suite
+Event logger

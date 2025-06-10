@@ -338,7 +338,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_attendance'])) {
     </header>
 
     <div class="container">
-            <div class="sidebar">
+        <div class="sidebar">
             <nav>
                 <a href="admin_dashboard.php">Dashboard</a>
                 <a href="studentProfile.php">Student Profile</a>
@@ -351,73 +351,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_attendance'])) {
                 <a href="/SRMS/SRMS_25/logout.php"> Log out</a>
             </nav>
         </div>
+
+        <div class="main-content">
+            <h2>📋 Attendance Upload Panel</h2>
+            <form id="filterForm">
+                <select id="department" name="department" required>
+                    <option value="">Select Department</option>
+                    <?php
+                    $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
+                    foreach($departments as $d) echo "<option value='$d'>$d</option>";
+                    ?>
+                </select>
+
+                <select id="year" name="year" required>
+                    <option value="">Year</option>
+                    <?php for ($i = 1; $i <= 4; $i++) echo "<option value='$i'>$i</option>"; ?>
+                </select>
+
+                <select id="semester" name="semester" required>
+                    <option value="">Semester</option>
+                    <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
+                </select>
+
+                <select id="section" name="section" required>
+                    <option value="">Section</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+
+                <select id="group" name="group" required>
+                    <option value="">Group</option>
+                    <option value="G1">G1</option>
+                    <option value="G2">G2</option>
+                    <option value="Both">Both</option>
+                </select>
+
+                <select id="subject" name="subject" required><option value="">Select Subject ID</option></select>
+                <select id="faculty" name="faculty" required><option value="">Select Faculty ID</option></select>
+                <input type="date" name="attendance_date" id="date" required>
+
+                <button type="button" onclick="loadStudents()">Load Students</button>
+            </form>
+
+            <form id="attendanceForm" method="POST" class="hidden">
+                <input type="hidden" name="subject" id="form_subject">
+                <input type="hidden" name="faculty" id="form_faculty">
+                <input type="hidden" name="date" id="form_date">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Faculty ID</th>
+                            <th>Subject ID</th>
+                            <th>Attendance(Present/Absent)</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button type="submit" name="save_attendance">Save Attendance</button>
+            </form>
+        </div>
     </div>
-
-
-
-
-<h2>📋 Attendance Upload Panel</h2>
-
-<div class="main-content">
-<form id="filterForm">
-    <select id="department" name="department" required>
-        <option value="">Select Department</option>
-        <?php
-        $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-        foreach($departments as $d) echo "<option value='$d'>$d</option>";
-        ?>
-    </select>
-
-    <select id="year" name="year" required>
-        <option value="">Year</option>
-        <?php for ($i = 1; $i <= 4; $i++) echo "<option value='$i'>$i</option>"; ?>
-    </select>
-
-    <select id="semester" name="semester" required>
-        <option value="">Semester</option>
-        <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
-    </select>
-
-    <select id="section" name="section" required>
-        <option value="">Section</option>
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-    </select>
-
-    <select id="group" name="group" required>
-        <option value="">Group</option>
-        <option value="G1">G1</option>
-        <option value="G2">G2</option>
-        <option value="Both">Both</option>
-    </select>
-
-    <select id="subject" name="subject" required><option value="">Select Subject ID</option></select>
-    <select id="faculty" name="faculty" required><option value="">Select Faculty ID</option></select>
-    <input type="date" name="attendance_date" id="date" required>
-
-    <button type="button" onclick="loadStudents()">Load Students</button>
-</form>
-
-<form id="attendanceForm" method="POST" class="hidden">
-    <input type="hidden" name="subject" id="form_subject">
-    <input type="hidden" name="faculty" id="form_faculty">
-    <input type="hidden" name="date" id="form_date">
-    <table id="attendanceTable">
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Faculty ID</th>
-                <th>Subject ID</th>
-                <th>Attendance(Present/Absent)</th>
-                
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <button type="submit" name="save_attendance">Save Attendance</button>
-</form>
-</div>
 <script>
     document.querySelectorAll("#department, #year, #semester").forEach(el => {
         el.addEventListener("change", () => {
