@@ -3,6 +3,7 @@ require_once("DB_Connect.php");
 session_start();
 
 // Get values from UI
+// Will only display the result once filters selected and button is clicked
 if(isset($_GET['apply_Filter'])){
     $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -92,13 +93,15 @@ if(isset($_GET['apply_Filter'])){
 
             <div class="card">
                 <header>📋 Attendance Upload Panel</header>
+
                 <form id="filterForm" action="" method="GET">
                     <div class="filters">
+                        
                         <select id="department" name="department">
                             <option value="">Select Department</option>
                             <?php
-                            $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-                            foreach($departments as $d) echo "<option value='$d'>$d</option>";
+                                $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
+                                foreach($departments as $d) echo "<option value='$d'>$d</option>";
                             ?>
                         </select>
 
@@ -121,9 +124,9 @@ if(isset($_GET['apply_Filter'])){
                             <option value="">Both</option>
                         </select>
 
+                        <!--  Redeundant? Might remove -->
                         <select id="subject" name="subject"><option value="">Select Subject ID</option></select>
                         <select id="faculty" name="faculty"><option value="">Select Faculty ID</option></select>
-                        <input type="date" name="attendance_date" id="date">
                     </div>
 
                     <button type="submit" name="apply_Filter">Apply Filters</button>
@@ -133,10 +136,11 @@ if(isset($_GET['apply_Filter'])){
             <div class="card">
                 <form id="attendanceForm" method="POST" action="upload_save.php">
 
-                    <!-- <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>"> -->
-
+                    <!-- Submit button to save attendance in DataBase -->
                     <button id="submit" type="submit" name="save">Save Attendance</button>
-                    <input type="date" name="attendance_date" id="date">
+
+                    <!-- Set date as current date, can be manually adjusted -->
+                    <input type="date" name="attendance_date" id="date" value="<?php echo date('Y-m-d'); ?>">
 
                     <table id="attendanceTable">
                         <tr>
@@ -158,8 +162,6 @@ if(isset($_GET['apply_Filter'])){
                                                 <td><input type='text' name='dept[]' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
                                                 <td><input type='text' name='subject_id[]' value='" . htmlspecialchars($row["subject_id"]) . "' readonly></td>
                                                 <td><input type='text' name='semester[]' value='" . htmlspecialchars($row["semester"]) . "'></td>
-
-                                                <!-- <td><input type='checkbox' name='attendance[]' value='1'><td> -->
 
                                                     <!-- Checkbox maps attendance status per student_id -->
                                                 <td>

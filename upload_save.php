@@ -5,17 +5,16 @@ session_start();
 // Check if data was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $studentArray = $_POST['student_id'] ?? NULL;
-    $subArray = $_POST['subject_id'] ?? NULL;
-    $semArray = $_POST['semester'] ?? NULL;
-    $statusArray = $_POST['all_ids'] ?? NULL;
+    $studentArray = filter_input(INPUT_POST, 'student_id', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    $subArray = filter_input(INPUT_POST, 'subject_id', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    $semArray = filter_input(INPUT_POST, 'semester', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+    $statusArray = filter_input(INPUT_POST, 'all_ids', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
 
-    // TODO: Fix date value fetch, getting 0000-00-00 as default
-    $date = $_POST['attendance_date'] ?? NULL;
+    $date = date('Y-m-d', strtotime($_POST['attendance_date']));
 
     if(is_null($studentArray)){
         $conn->close();
-        echo "NO DATA FOUND <a href='admin_dashboard.php'>Back</a>";
+        echo "NO DATA FOUND <a href='admin_dashboard.php'> Back </a>";
         exit();
     }
     else{
@@ -39,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
         $conn->close();
 
-        echo "Data inserted successfully! <a href='admin_dashboard.php'>Back</a> ";
+        echo "Data inserted successfully! <a href='admin_dashboard.php'> Back </a> ";
     }
 } else {
-    echo "No data submitted!";
+    echo "No data submitted! <a href='admin_dashboard.php'> Back </a>";
 }
 
 ?>
