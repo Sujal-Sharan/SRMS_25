@@ -18,6 +18,7 @@ Login Page (login.php)
 
     Admin (admin_dashboard.php)
         View Student Marks (view_Student_Marks.php)
+        Add Student Marks (upload_marks_UI.php)
         View Student Attendance (view_Student_Attendance.php)
         Add Student Attendance (upload_attendance.php)
         View Faculty Details (faculty_profile_admin.php)

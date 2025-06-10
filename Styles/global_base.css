@@ -140,6 +140,21 @@ th {
 
 /* Button START */
 
+.reset-btn{
+    background-color: #6c757d; 
+    color: white; 
+    padding: 8px 16px; 
+    border: none; 
+    border-radius: 4px;
+}
+
+.btn-save {
+    background-color: #28a745;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+}
+
 .btn {
     background: #ffcc00;
     border: 1px, solid, white;
@@ -152,5 +167,6 @@ th {
 .btn:hover {
     background: #e6b800;
 }
+
 
 /* Button END */
