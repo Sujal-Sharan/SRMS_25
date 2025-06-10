@@ -1,3 +1,62 @@
+<?php 
+require_once("DB_Connect.php");
+session_start();
+
+// Get values from UI
+if(isset($_GET['apply_Filter'])){
+    // $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
+    $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
+    $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
+    $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
+
+}
+
+$sql = "SELECT 
+            college_roll AS student_id, 
+            university_roll AS uni_id, 
+            name AS name,
+            current_semester AS semester, 
+			dob AS dob,
+			email AS email,
+			gender AS gender,
+            department AS department,
+			batch_year AS batch
+        FROM 
+            students
+        WHERE 1";
+
+$types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
+$values = [];  // To hold the values for binding
+
+// Optional filters
+if (!empty($semester)) {
+    $sql .= " AND current_semester = ?";
+    $types .= "i";
+    $values[] = $semester;
+}
+
+if (!empty($dept)) {
+    $sql .= " AND department = ?";
+    $types .= "s";
+    $values[] = $dept;
+}
+
+$sql .= " GROUP BY college_roll";
+
+// Prepare the query
+$stmt = $conn->prepare($sql);
+
+// Bind parameters dynamically
+if (!empty($values)) {
+    $stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,141 +66,16 @@
   <link rel="stylesheet" href="Styles/global_base.css">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-  <!-- <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-    }
-
-    header {
-      background: #1abc9c;
-      color: white;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 110px;
-      z-index: 1000;
-    }
-
-    header img {
-      height: 100px;
-      padding: 5px;
-    }
-
-    .sidebar {
-      width: 226px;
-      background: #0A1931;
-      color: white;
-      height: calc(100vh - 110px);
-      padding-top: 20px;
-      position: fixed;
-      top: 110px;
-      left: 0;
-      overflow-y: auto;
-    }
-
-    .sidebar nav a {
-      display: block;
-      color: white;
-      background-color: #123456;
-      margin: 10px;
-      padding: 10px;
-      text-decoration: none;
-      border-radius: 20px 6px 6px 20px;
-      text-align: center;
-    }
-
-    .sidebar nav a:hover,
-    .sidebar nav a.active {
-      background-color: #ffc107;
-      color: black;
-      border-radius: 20px 6px 6px 20px;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      width: calc(100% - 246px); /* Adjusted for sidebar width */
-      margin-left: 226px;
-      margin-top: 130px; /* Adjusted for header height */
-    }
-
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      width: 90%; /* Adjusted width */
-      max-width: 1000px;
-      overflow: auto;
-    }
-
-    h3 {
-      font-size: 1.8rem;
-      color: #333;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .filters {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .filters select,
-    .filters input {
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 1000px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 16px;
-    }
-
-    table th {
-      background: #1abc9c;
-      color: white;
-      padding: 15px;
-      text-align: left;
-      border-bottom: 2px solid #ddd;
-    }
-
-    table td {
-      padding: 15px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-    }
-
-    table tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    table tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-  </style> -->
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo">
-    <div style="text-align: center; flex: 1;">
-      <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
-      <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
-    </div>
-  </header>
+    
+	<header>
+		<img src="logo.png" alt="Logo">
+		<div style="text-align: center; flex: 1;">
+			<h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+			<p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+		</div>
+	</header>
   
   <div class="layout">
     <div class="sidebar">
@@ -159,105 +93,121 @@
     </div>
 
     <div class="main-content">
-      <div class="card">
-        <header>View Student Data</header>
-        <form>
-          <div class="filters">
-            <select id="batch-filter">
-              <option value="all">All Batches</option>
-              <option>TODO: Add batch to student table</option>
-              <option value="2021-25">2021-25</option>
-              <option value="2022-26">2022-26</option>
-            </select>
+		<div class="card">
+			<form action="" method="GET">
 
-            <select id="dept-filter" required>
-              <option value="" selected>CSE</option>
-              <option value="CSE" >CSE</option>
-              <option value="CSE" >CSE</option>
-              <option value="CSE" >CSE</option>
-              <option value="CSE" >CSE</option>
-            </select>
+				<!-- TODO: Add proper subject filters and fix filter UI-->
+				<div class="filters">
 
-            <select id="section-filter">
-              <option value="">All Sections</option>
-              <option value="A">Section A</option>
-              <option value="B">Section B</option>
-              <option value="C">Section C</option>
-            </select>
+					<!-- Department Dropdown -->
+					<!-- <label for="department">Department:</label> -->
+					<select id="department" name="department">
+						<option value="">Select Department</option>
+						<?php
+							$departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
+							foreach($departments as $d) echo "<option value='$d'>$d</option>";
+						?>
+					</select>
 
-            <select id="group-filter">
-              <option value="">All Groups</option>
-              <option value="A">Section A</option>
-              <option value="B">Section B</option>
-              <option value="C">Section C</option>
-            </select>
+					<!-- Section Dropdown -->
+					<!-- <label for="section">Section:</label> -->
+					<select id="section" name="section">
+						<option value="">Select Section</option>
+						<option value="A">Section A</option>
+						<option value="B">Section B</option>
+						<option value="C">Section C</option>
+					</select>
+											
+					<!-- Group Dropdown -->
+					<!-- <label for="group">Group:</label> -->
+					<select id="group" name="group">
+						<option value="">Select Group</option>
+						<option value="A">Group A</option>
+						<option value="B">Group B</option>
+					</select>
 
-            <input type="text" id="search-bar" placeholder="Search by Name or Roll" onkeyup="filterTable()">
-          </div>
-        </form>
-        <br>
+					<!-- Semester Dropdown -->
+					<select id="semester" name="semester">
+						<option value="">Select Semester</option>
+						<option value="1">Semester 1</option>
+						<option value="2">Semester 2</option>
+						<option value="3">Semester 3</option>
+						<option value="4">Semester 4</option>
+						<option value="5">Semester 5</option>
+						<option value="6">Semester 6</option>
+						<option value="7">Semester 7</option>
+						<option value="8">Semester 8</option>
+					</select>
 
-        <table id="student-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Roll</th>
-              <th>Branch</th>
-              <th>Section</th>
-              <th>Batch</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>001</td>
-              <td>John Doe</td>
-              <td>123456</td>
-              <td>CSE</td>
-              <td>A</td>
-              <td>2021-2025</td>
-            </tr>
-            <tr>
-              <td>002</td>
-              <td>Jane Smith</td>
-              <td>123457</td>
-              <td>CSE</td>
-              <td>B</td>
-              <td>2021-2025</td>
-            </tr>
-            <tr>
-              <td>003</td>
-              <td>Michael Brown</td>
-              <td>123458</td>
-              <td>CSE</td>
-              <td>A</td>
-              <td>2021-2025</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+					<!-- Batch Dropdown -->
+					<select id="batch" name="batch">
+						<option value="">Select Batch</option>
+						<?php
+							$batch = ['2019-23', '2020-24', '2021-25','2022-26','2023-27','2024-28','2025-29'];
+							foreach($batch as $b) echo "<option value='$b'>$b</option>";
+						?>
+					</select>
+				</div>
 
-  <script>
-    function filterTable() {
-      const searchInput = document.getElementById('search-bar').value.toLowerCase();
-      const table = document.getElementById('student-table');
-      const rows = table.getElementsByTagName('tr');
+				<button type="submit" name="apply_Filter">Apply Filters</button>
+				<button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
+				<!-- <input type="submit" name="submit" placeholder="Submit"> -->
 
-      for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const name = cells[1].textContent.toLowerCase();
-        const roll = cells[2].textContent.toLowerCase();
+			</form>
+		</div>
 
-        if (name.includes(searchInput) || roll.includes(searchInput)) {
-          rows[i].style.display = '';
-        } else {
-          rows[i].style.display = 'none';
+		<div class="card">
+			<table>
+				<tr>
+					<th>College_ID</th>
+					<th>University_ID</th>
+					<th>Name</th>
+					<th>Semester</th>
+					<th>DOB</th>
+					<th>E-mail</th>
+					<th>Gender</th>
+					<th>Department</th>
+					<th>Batch</th>
+            	</tr>
+				<?php
+				try{
+					if(isset($result)){
+						if($result->num_rows > 0){
+							while ($row = $result->fetch_assoc()) {
+								echo "<tr>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["uni_id"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["semester"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["dob"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["email"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
+										<td><input type='text' name='' value='" . htmlspecialchars($row["batch"]) . "' readonly></td>
+									</tr>";
+							}
+						} else {
+							echo "<tr><td colspan='9'>No records found</td></tr>";
+						}
+					}
+				}catch(Exception $e){
+					echo 'Message: ' . $e->getMessage();
+				}
+				?>  
+			</table>
+		</div>
+	</div>
+
+	<script>
+		function resetFilters() {
+            document.getElementById("department").value = "";
+            // document.getElementById("semester").value = "";
+            document.getElementById("section").value = "";
+            document.getElementById("group").value = "";
+            // document.getElementById("subject").value = "";
+            // document.getElementById("searchInput").value = "";
         }
-      }
-    }
-  </script>
+	</script>
 </body>
 </html>
 ``` 
