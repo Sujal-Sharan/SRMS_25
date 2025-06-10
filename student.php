@@ -51,7 +51,7 @@ $result = $stmt->get_result();
                 <a>Documents</a>
                 <a>Update Details</a>
                 <a>Settings</a>
-                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+                <a href="logout.php">Log out</a>
             </nav>
         </div>
 
@@ -101,16 +101,25 @@ $result = $stmt->get_result();
             </div>
         </div>
     </div>
-    
+
     <script>
         function navigateTo(url) {
             window.location.href = url;
         }
-        
+
         setTimeout(() => {
             alert("Your session is about to expire!");
         }, 25 * 60 * 1000); // Warn after 25 minutes
 
+
+        // Listen for logout events from other tabs
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'logout-event') {
+                alert("You have been logged out from another tab.");
+                window.location.href = "login.php";
+            }
+        });
     </script>
+
 </body>
 </html>
