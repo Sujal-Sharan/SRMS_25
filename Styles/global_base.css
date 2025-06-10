@@ -167,6 +167,25 @@ th {
 .btn:hover {
     background: #e6b800;
 }
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100px; 
+    background-color: white;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* optional for better design */
+}
+
+
+body {
+    padding-top: 100px; 
+}
+.sidebar {
+    height: calc(100vh - 100px); 
+    overflow-y: auto; 
+}
+
 
 
 /* Button END */

@@ -69,10 +69,30 @@ if(isset($_GET['apply_Filter'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <style>
+        .sidebar {
+            height: calc(100vh - 100px); 
+            overflow-y: auto; 
+        }
+    </style>
+
 
 </head>
 <body>
-    <header>Top Header</header>
+    <header
+        style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
+            <p style="margin: 0; font-size: 14px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
+            <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+            <span>
+                <p>&#9742; +338910530723 / 8910530723</p>
+            </span>
+        </div>
+    </header>
 
     <div class="layout">
         <div class="sidebar">
