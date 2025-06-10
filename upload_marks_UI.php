@@ -5,10 +5,13 @@ session_start();
 // Get values from UI
 // Will only display the result once filters selected and button is clicked
 if(isset($_GET['apply_Filter'])){
-    $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
-    $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
     $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
+    $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
 
+    $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
+    $test = filter_input(INPUT_GET, "test", FILTER_SANITIZE_SPECIAL_CHARS);
+
+    // TODO: Add section and group to student table
     $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
     $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -18,7 +21,13 @@ if(isset($_GET['apply_Filter'])){
                 s.name AS student_name,
                 subj.subject_code AS subject_code,
                 subj.subject_name AS subject_name,
-                m.semester AS semester
+                m.semester AS semester,
+
+                CASE 
+                    WHEN MAX(m.test_type = ? AND m.is_absent = TRUE AND m.semester = ? AND m.marks_obtained IS NULL) THEN 'ABSENT'
+                    ELSE CAST(MAX(CASE WHEN m.test_type = ? AND m.semester = ? THEN m.marks_obtained END) AS CHAR)
+                END AS marks
+
             FROM 
                 marks m
             JOIN 
@@ -28,20 +37,14 @@ if(isset($_GET['apply_Filter'])){
             WHERE 1";  // 'WHERE 1' always return true
 
 
-    $types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
-    $values = [];  // To hold the values for binding
+    $types = "sisi";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
+    $values = [$test, $semester, $test, $semester];  // To hold the values for binding
 
     // Optional filters
     if (!empty($subject)) {
         $sql .= " AND m.subject_id = ?";
         $types .= "i";
         $values[] = $subject;
-    }
-
-    if (!empty($semester)) {
-        $sql .= " AND m.semester = ?";
-        $types .= "i";
-        $values[] = $semester;
     }
 
     if (!empty($dept)) {
@@ -114,6 +117,20 @@ if(isset($_GET['apply_Filter'])){
                             <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
                         </select>
 
+                        <select id="subject" name="subject">
+                            <option value="">Select Subject</option>
+                        </select>
+                        
+                        <select id="test" name="test">
+                            <option value="">Select Test</option>
+                            <option value="CA1">CA1</option>
+                            <option value="CA2">CA2</option>
+                            <option value="CA3">CA3</option>
+                            <option value="CA4">CA4</option>
+                            <option value="PCA1">PCA1</option>
+                            <option value="PCA2">PCA2</option>
+                        </select>
+
                         <select id="section" name="section">
                             <option value="">Section</option>
                             <option value="A">A</option>
@@ -141,19 +158,8 @@ if(isset($_GET['apply_Filter'])){
                             <th>Student_Id</th>
                             <th>Student_Name</th>
                             <th>Subject_Id</th>
+                            <th>Test</th>
                             <th>Semester</th>
-                            <th>
-                                Test<br />
-                                <select id="testSelector" onchange="setTestForAllRows(this.value)">
-                                    <option value="">Select</option>
-                                    <option value="CA1">CA1</option>
-                                    <option value="CA2">CA2</option>
-                                    <option value="CA3">CA3</option>
-                                    <option value="CA4">CA4</option>
-                                    <option value="PCA1">PCA1</option>
-                                    <option value="PCA2">PCA2</option>
-                                </select>
-                            </th>
                             <th>Marks</th>
                         </tr>
                         <?php
@@ -162,12 +168,12 @@ if(isset($_GET['apply_Filter'])){
                                 if($result->num_rows > 0){
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>
-                                                <td>" . $row["student_id"] . "</td>
-                                                <td>" . $row["student_name"] . "</td>
-                                                <td>" . $row["subject"] . "</td>
-                                                <td>" . $row["semester"] . "</td>
-                                                <td>" . $row["test"] . "</td>
-                                                <td>" . $row["marks"] . "</td>
+                                                <td><input type='text' name='student_id[]' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
+                                                <td><input type='text' name='name[]' value='" . htmlspecialchars($row["student_name"]) . "' readonly></td>
+                                                <td><input type='text' name='subject[]' value='" . htmlspecialchars($row["subject_code"]) . "' readonly></td>
+                                                <td><input type='text' name='test' value='" . htmlspecialchars($test) . "' readonly></td>
+                                                <td><input type='text' name='sem[]' value='" . htmlspecialchars($semester) . "' readonly></td>
+                                                <td><input type='text' name='mark[]' value='" .  htmlspecialchars($row["marks"]) . "' " . (is_null($row["marks"]) ? "" : "readonly") . "></td>
                                             </tr>";
                                     }
                                 } else {
@@ -175,7 +181,7 @@ if(isset($_GET['apply_Filter'])){
                                 }
                             }
                         }catch(Exception $e){
-                            echo 'Message: ' .$e->getMessage();
+                            echo 'Message: ' . $e->getMessage();
                         }
                         ?>  
                     </table>
@@ -187,12 +193,11 @@ if(isset($_GET['apply_Filter'])){
     <script>
         function resetFilters() {
             document.getElementById("department").value = "";
-            document.getElementById("semester").value = "";
+            // document.getElementById("semester").value = "";
             document.getElementById("section").value = "";
             document.getElementById("group").value = "";
-            document.getElementById("subject").value = "";
-            document.getElementById("searchInput").value = "";
-            loadTable(dummyData);
+            // document.getElementById("subject").value = "";
+            // document.getElementById("searchInput").value = "";
         }
 
         function setTestForAllRows(value) {
