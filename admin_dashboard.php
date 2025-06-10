@@ -233,8 +233,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
       <nav>
         <a id="active" href="admin_dashboard.php">Dashboard</a>
         <a href="studentProfile.php">Student Profile</a>
-        <a href="view_Student_Marks.php">Marks</a>
-        <a href="view_Student_Attendance.php">Attendance</a>
+        <a href="view_Student_Marks.php">View Marks</a>
+        <a href="upload_marks_UI.php">Add Marks</a>
+        <a href="view_Student_Attendance.php">View Attendance</a>
         <a href="upload_attendance.php">Add Attendance</a>
         <a href="faculty_profile_admin.php">Faculty Profile</a>
         <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
