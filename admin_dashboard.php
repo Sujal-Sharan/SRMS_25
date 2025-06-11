@@ -20,6 +20,14 @@ $row = $result->fetch_assoc();
 
 $_SESSION['total_faculty'] = $row['total'];
 
+// Query to fecth total number of documents
+$stmt = $conn->prepare("SELECT DISTINCT COUNT(*) AS total FROM admin_view_docs");
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+$_SESSION['total_documents'] = $row['total'];
+
 // TO-DO List Query
 // Handle AJAX Dismissal
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
@@ -147,7 +155,7 @@ while ($row = $res->fetch_assoc()) {
 				</div>
 				<div class="card">
 				<h3>Total Documents</h3>
-				<div class="value" style="color: orange;">850</div>
+				<div class="value" style="color: orange;"><?php echo $_SESSION['total_documents'] ?></div>
 				</div>
 				<div class="card">
 				<h3>Pending Requests</h3>

@@ -11,7 +11,6 @@ if(isset($_GET['submit'])){
 
     $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
     $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
-
 }
 
 $sql = "SELECT 
@@ -27,8 +26,10 @@ $sql = "SELECT
             marks m
         JOIN 
             students s ON m.student_id = s.college_roll
-        
-        WHERE 1";
+        WHERE 1 ";
+
+// ON m.student_id = s.college_roll
+
 
 $types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
 $values = [];  // To hold the values for binding
@@ -58,6 +59,8 @@ if (!empty($dept)) {
     $values[] = $dept;
 }
 
+// Only first 50 results are displayed (Will removed after pagination)
+$sql .= " LIMIT 50 ";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -69,7 +72,6 @@ if (!empty($values)) {
 
 $stmt->execute();
 $result = $stmt->get_result();
-
 
 // Table header
 $table_header = "";

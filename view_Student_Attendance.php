@@ -51,7 +51,7 @@ if (!empty($dept)) {
     $values[] = $dept;
 }
 
-$sql .= " GROUP BY a.student_id";
+$sql .= " GROUP BY a.student_id LIMIT 50";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);

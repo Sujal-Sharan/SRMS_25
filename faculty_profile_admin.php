@@ -73,6 +73,7 @@ if(isset($_GET['apply_Filter'])){
     // $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
     // $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
     $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
+    $designation = filter_input(INPUT_GET, "designation", FILTER_SANITIZE_SPECIAL_CHARS);
 
     // $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
     // $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -89,19 +90,25 @@ $sql = "SELECT
             joined_at
         FROM 
             faculty
-        WHERE 1";
+        WHERE 1 ";
 
 $types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
 $values = [];  // To hold the values for binding
 
 // Optional filters
 if (!empty($dept)) {
-    $sql .= " AND department = ?";
+    $sql .= " AND department = ? ";
     $types .= "s";
     $values[] = $dept;
 }
 
-$sql .= " GROUP BY faculty_id";
+if (!empty($dept)) {
+    $sql .= " AND designation = ? ";
+    $types .= "s";
+    $values[] = $designation;
+}
+
+$sql .= " GROUP BY faculty_id LIMIT 50 ";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -208,8 +215,8 @@ $result = $stmt->get_result();
                 <form action="" method="GET">
 
                     <div class="filters">
-
-                        <select id="department" name="department">
+						<!-- TODO: Fix Issue: Department filter does NOT work alone?? -->
+                        <select id="department" name="department" required>
                             <option value="">Select Departments</option>
                             <option value="CSE">CSE</option>
                             <option value="IT">IT</option>
@@ -217,7 +224,7 @@ $result = $stmt->get_result();
                             <option value="ME">ME</option>
                         </select>
 
-                        <select id="designation" name="designation">
+                        <select id="designation" name="designation" required>
                             <option value="">Select Designation</option>
                             <option value="HOD">HOD</option>
                             <option value="Senior Professor">Senior Professor</option>
@@ -274,11 +281,7 @@ $result = $stmt->get_result();
     <script>
         function resetFilters() {
             document.getElementById("department").value = "";
-            // document.getElementById("semester").value = "";
-            document.getElementById("desi").value = "";
-            document.getElementById("group").value = "";
-            // document.getElementById("subject").value = "";
-            // document.getElementById("searchInput").value = "";
+            document.getElementById("designation").value = "";
         }
     </script>
 </body>
