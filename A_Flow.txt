@@ -17,6 +17,7 @@ Login Page (login.php)
         Log-out (logout.php)
 
     Admin (admin_dashboard.php)
+        View Student Profile (studentProfile.php)
         View Student Marks (view_Student_Marks.php)
         Add Student Marks (upload_marks_UI.php)
         View Student Attendance (view_Student_Attendance.php)
