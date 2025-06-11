@@ -1,36 +1,37 @@
 <?php
 require_once("DB_Connect.php");
 session_start();
+
 // $conn = new mysqli("localhost", "root", "", "srms");
 
-// $batch = $_GET['batch'] ?? '';
-// $stream = $_GET['stream'] ?? '';
-// $semester = $_GET['semester'] ?? '';
-// $roll_no = $_GET['roll_no'] ?? '';
-// $reg_no = $_GET['reg_no'] ?? '';
+ $batch = $_GET['batch'] ?? '';
+ $stream = $_GET['stream'] ?? '';
+ $semester = $_GET['semester'] ?? '';
+ $roll_no = $_GET['roll_no'] ?? '';
+ $reg_no = $_GET['reg_no'] ?? '';
 
-// $sql = "SELECT * FROM admin_view_docs WHERE 1=1";
-$sql = "SELECT * FROM students WHERE 1=1";
-// if ($batch) $sql .= " AND batch = '$batch'";
-// if ($stream) $sql .= " AND stream = '$stream'";
-// if ($semester) $sql .= " AND semester = '$semester'";
-// if ($roll_no) $sql .= " AND roll_no = '$roll_no'";
-// if ($reg_no) $sql .= " AND reg_no = '$reg_no'";
-// $sql .= " ORDER BY roll_no";
+$sql = "SELECT * FROM admin_view_docs WHERE 1=1";
+//$sql = "SELECT * FROM students WHERE 1=1";
+ if ($batch) $sql .= " AND batch = '$batch'";
+ if ($stream) $sql .= " AND stream = '$stream'";
+ if ($semester) $sql .= " AND semester = '$semester'";
+ if ($roll_no) $sql .= " AND roll_no = '$roll_no'";
+ if ($reg_no) $sql .= " AND reg_no = '$reg_no'";
+ $sql .= " ORDER BY roll_no";
 
 $stmt = $conn->prepare($sql);
 
 // Bind parameters dynamically
-if (!empty($values)) {
-    $stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
-}
+//if (!empty($values)) {
+    //$stmt->bind_param($types, ...$values);  // Spread operator to pass the parameters
+//}
 
 $stmt->execute();
 $result = $stmt->get_result();
 
-// $batches = ['2019-23', '2020-24', '2021-25', '2022-26', '2023-27'];
-// $streams = ['CSE', 'IT', 'AIML', 'ECE', 'EE', 'ME', 'CIVIL'];
-// $semesters = range(1, 8);
+ $batches = ['2019-23', '2020-24', '2021-25', '2022-26', '2023-27'];
+ $streams = ['CSE', 'IT', 'AIML', 'ECE', 'EE', 'ME', 'CIVIL'];
+ $semesters = range(1, 8);
 
 // Create dummy ZIPs if missing
 $uploadDir = "uploads/zips/";
