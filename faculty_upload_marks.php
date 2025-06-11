@@ -2,10 +2,11 @@
 require_once("DB_Connect.php");
 session_start();
 
+$dept = $_SESSION['department'];
+ 
 // Get values from UI
 // Will only display the result once filters selected and button is clicked
 if(isset($_GET['apply_Filter'])){
-    $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
     $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -54,7 +55,7 @@ if(isset($_GET['apply_Filter'])){
         $values[] = $dept;
     }
 
-    $sql .= " GROUP BY m.student_id";
+    $sql .= " GROUP BY m.student_id LIMIT 50";
 
     // Prepare the query
     $stmt = $conn->prepare($sql);
@@ -140,19 +141,15 @@ if(isset($_GET['apply_Filter'])){
 
     <div class="layout">
 		<div class="sidebar">
-			<nav>
-				<a href="admin_dashboard.php">Dashboard</a>
-				<a href="studentProfile.php">Student Profile</a>
-				<a href="view_Student_Marks.php">View Marks</a>
-				<a id="active" href="upload_marks_UI.php">Add Marks</a>
-				<a href="view_Student_Attendance.php">View Attendance</a>
-				<a href="upload_attendance.php">Add Attendance</a>
-				<a href="faculty_profile_admin.php">Faculty Profile</a>
-				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
-				<a href="T_AddLogin.php">Add/Remove User</a>
-				<a href="reset_password_UI.php">Reset Password</a>
-				<a href="logout.php"> Log out</a>
-			</nav>
+            <nav>
+                <a href="faculty_dashboard.php">Dashboard</a>
+                <a href="faculty_view_attendace.php">View Attendance</a>
+                <a href="faculty_upload_attendace.php">Update Attendance</a>
+                <a href="faculty_view_marks.php">View Marks</a>
+                <a id="active" href="faculty_upload_marks.php">Add Marks</a>
+                <a href="faculty_details.html">Faculty Details</a>
+                <a href="logout.php">Log out</a>
+            </nav>
 		</div>
 
         <div class="main-content">
@@ -162,13 +159,10 @@ if(isset($_GET['apply_Filter'])){
                 <form id="filterForm" action="" method="GET">
                     <div class="filters">
                         
-                        <select id="department" name="department" required>
-                            <option value="">Select Department</option>
-                            <?php
-                                $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-                                foreach($departments as $d) echo "<option value='$d'>$d</option>";
-                            ?>
-                        </select>
+                    <!-- Maybe have filter show value but is disbaled otherwise fully remove -->
+                        <!-- <select id="department" name="department" disabled>
+                            <option value="$dept"><?php echo $_SESSION['department'] ?></option>
+                        </select> -->
 
                         <select id="semester" name="semester" required>
                             <option value="">Semester</option>

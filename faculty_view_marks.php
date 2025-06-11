@@ -156,10 +156,10 @@ else{
             <nav>
                 <a href="faculty_dashboard.php">Dashboard</a>
                 <a href="faculty_view_attendace.php">View Attendance</a>
+                <a href="faculty_upload_attendance.php">Update Attendance</a>
                 <a id="active" href="faculty_view_marks.php">View Marks</a>
-                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
-                <a>Update Details</a>
-                <a>Settings</a>
+                <a href="faculty_upload_marks.php">Add Marks</a>
+                <a href="faculty_details.html">Faculty Details</a>
                 <a href="logout.php">Log out</a>
             </nav>
 		</div>

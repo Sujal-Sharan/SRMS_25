@@ -2,12 +2,13 @@
 require_once("DB_Connect.php");
 session_start();
 
+$dept = $_SESSION['department'];
+
 // Get values from UI
 // Will only display the result once filters selected and button is clicked
 if(isset($_GET['apply_Filter'])){
     $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
-    $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
     $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -134,19 +135,15 @@ if(isset($_GET['apply_Filter'])){
 
     <div class="layout">
 		<div class="sidebar">
-			<nav>
-				<a href="admin_dashboard.php">Dashboard</a>
-				<a href="studentProfile.php">Student Profile</a>
-				<a href="view_Student_Marks.php">View Marks</a>
-				<a href="upload_marks_UI.php">Add Marks</a>
-				<a href="view_Student_Attendance.php">View Attendance</a>
-				<a id="active" href="upload_attendance.php">Add Attendance</a>
-				<a href="faculty_profile_admin.php">Faculty Profile</a>
-				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
-				<a href="T_AddLogin.php">Add/Remove User</a>
-				<a href="reset_password_UI.php">Reset Password</a>
-				<a href="logout.php"> Log out</a>
-			</nav>
+            <nav>
+                <a href="faculty_dashboard.php">Dashboard</a>
+                <a href="faculty_view_attendace.php">View Attendance</a>
+                <a id="active" href="faculty_upload_attendance.php">Update Attendance</a>
+                <a href="faculty_view_marks.php">View Marks</a>
+                <a href="faculty_upload_marks.php">Add Marks</a>
+                <a href="faculty_details.html">Faculty Details</a>
+                <a href="logout.php">Log out</a>
+            </nav>
 		</div>
 
         <div class="main-content">
@@ -157,14 +154,6 @@ if(isset($_GET['apply_Filter'])){
 
                     <div class="filters">
                         
-                        <select id="department" name="department">
-                            <option value="">Select Department</option>
-                            <?php
-                                $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-                                foreach($departments as $d) echo "<option value='$d'>$d</option>";
-                            ?>
-                        </select>
-
                         <select id="semester" name="semester">
                             <option value="">Semester</option>
                             <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>

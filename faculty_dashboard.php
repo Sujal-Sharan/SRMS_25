@@ -175,9 +175,9 @@ try{
             <nav>
                 <a id="active" href="faculty_dashboard.php">Dashboard</a>
                 <a href="faculty_view_attendace.php">View Attendance</a>
-                <a href="faculty_view_attendace.php">Update Attendance</a>
+                <a href="faculty_upload_attendance.php">Update Attendance</a>
                 <a href="faculty_view_marks.php">View Marks</a>
-                <a href="faculty_view_marks.php">Add Marks</a>
+                <a href="faculty_upload_marks.php">Add Marks</a>
                 <a href="faculty_details.html">Faculty Details</a>
                 <a href="logout.php">Log out</a>
             </nav>
@@ -190,17 +190,17 @@ try{
             <div class="card" onclick="navigateTo('faculty_details.html')">
                 <button>Faculty Details</button>
             </div>
-            <div class="card" onclick="navigateTo('students.php')">
-                    <button>Student List<br>Total: 6000</button>
+            <div class="card" onclick="navigateTo('faculty_dashboard.php')">
+                    <button>Student List</button>
             </div>
-                <div class="card" onclick="navigateTo('marks_upload(faculty).php')">
-                    <button>Marks Upload<br>(Internal & External)</button>
+                <div class="card" onclick="navigateTo('faculty_upload_marks')">
+                    <button>Upload Marks</button>
             </div>
                 <div class="card" onclick="navigateTo('Student_Attendance.php')">
                     <button>Attendance</button>
             </div>
             <div class="card" onclick="navigateTo('class_routine.php')">
-                    <button>Class Routine</button>
+                    <button>Class RouVitine</button>
             </div>
             <div class="card" onclick="navigateTo('doc_Verify.php')">
                     <button>Upload & Verify Documents</button>
