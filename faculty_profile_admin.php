@@ -125,6 +125,51 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="Styles/global_base.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     
+    <style>
+        .card {
+			background-color: white;
+			padding: 20px;
+			margin-top: 20px;
+			border-radius: 10px;
+			box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+			width: 100%;
+			overflow-x: auto;
+		}
+
+		.card table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.card th, .card td {
+			border: 1px solid #ccc;
+			padding: 10px;
+			text-align: center;
+		}
+
+		.card input[type="text"] {
+			border: none;
+			outline: none;
+			background: transparent;
+			text-align: center;
+			/* width: 100%;  */
+			width: auto;
+			font-size: 14px;
+			color: #333;
+		}
+
+		.card input[type="text"] {
+			background-color:rgb(241, 241, 241);
+		}
+		.card input[type="text"]:read-only {
+			background-color: transparent;
+		}
+
+		.card input[type="text"]::selection {
+			background: #1abc9c;
+			color: white;
+		}
+    </style>
 </head>
 <body>
 
