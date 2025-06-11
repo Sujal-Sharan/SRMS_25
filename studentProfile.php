@@ -70,7 +70,7 @@ $result = $stmt->get_result();
 <body>
     
 	<header>
-		<img src="logo.png" alt="Logo">
+		<img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
 		<div style="text-align: center; flex: 1;">
 			<h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
 			<p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>

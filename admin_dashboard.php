@@ -89,6 +89,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
   <style>
+    .dashboard-cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 45px;
+    }
+  </style>
+  <!-- <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -212,8 +220,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
       padding: 10px;
       border-bottom: 1px solid #ccc;
       text-align: left;
-    }
-  </style>
+    } 
+  </style>-->
 </head>
 <body>
   <header style="background: #1abc9c; color: white; padding: 0px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
@@ -228,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
     </div>
   </header>
 
-  <div class="container">
+  <div class="layout">
     <div class="sidebar">
       <nav>
         <a id="active" href="admin_dashboard.php">Dashboard</a>
@@ -245,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
       </nav>
     </div>
     
-    <main class="content">
+    <main class="main-content">
       <h2>Admin Dashboard</h2>
       <div class="dashboard-cards">
         <div class="card">

@@ -132,11 +132,11 @@ else{
             font-size: medium;
         }
         header {
-            height: 100px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+            height: 100px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
         .sidebar {
             height: calc(100vh - 100px); 
@@ -163,7 +163,7 @@ else{
     </header>
 
     <div class="layout">
-        <div class="sidebar">
+        <div class="sidebar" >
             <nav>
                 <a href="admin_dashboard.php">Dashboard</a>
                 <a href="studentProfile.php">Student Profile</a>
@@ -178,8 +178,9 @@ else{
         </div>
 
         <div class="main-content">
-            <header>View Students Marks</header>
-            <div class="card">
+            <div class="card" >
+                <h1>View Students Marks</h1>
+                
                 <form action="" method="GET">
 
                     <!-- TODO: Add proper subject filters and fix filter UI-->
