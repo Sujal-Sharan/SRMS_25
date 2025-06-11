@@ -9,11 +9,12 @@ $semester = isset($_SESSION['current_semester']) ? $_SESSION['current_semester']
 $subject_id = NULL;      // Optional subject_id (can be empty or null)
 
 if(isset($_GET['filter'])){
-    $semester = filter_input(INPUT_GET, "filter_semester", FILTER_SANITIZE_SPECIAL_CHARS);
-    $subject_id = filter_input(INPUT_GET, "filter_subject", FILTER_SANITIZE_SPECIAL_CHARS);
+    $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
+    $subject_id = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 $sql = "SELECT 
+            subj.subject_id AS subject_id,
             subj.subject_code AS subject_code,
             subj.subject_name AS subject_name,
             m.semester AS semester,
@@ -70,7 +71,7 @@ if (!empty($roll)) {
     $sql .= " AND 1 != 1";  //When college_roll has not been set or not available in DB
 }
 
-$sql .= " GROUP BY m.student_id ";  //Required since aggregate MAX used
+$sql .= " GROUP BY m.subject_id ";  //Required since aggregate MAX used
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -175,13 +176,16 @@ switch($semester){
                 <form action="student_CA.php" method="get">
                     <div class="filters">
 
-                        <select id="filter_subject" name="filter_subject">
+                        <select id="subject" name="subject" required>
                             <option value="">Filter the result by subject</option>
-                            <option value="Option1">Option 1</option>
-                            <option value="Option2">Option 2</option>
+                            <option value="1"> DSA </option>
+                            <option value="2"> MATHS </option>
+                            <option value="3"> CYBER-LAW </option>
+                            <option value="4"> ERP </option>
+                            <option value="5"> PROJECT </option>
                         </select>
 
-                        <select id="filter_semester" name="filter_semester">
+                        <select id="semester" name="semester" required>
                             <option value="">Filter the result by semester</option>
                             <option value="1">Semester 1</option>
                             <option value="2">Semester 2</option>
@@ -201,8 +205,8 @@ switch($semester){
                 <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>">
                 <table>
                     <tr>
-                        <th>Subject Code</th>
-                        <th>Subject Name</th>
+                        <th>Subject_Id</th>
+                        <th>Semester</th>
                         <th>CA 1</th>
                         <th>CA 2</th>
                         <th>CA 3</th>
@@ -213,8 +217,8 @@ switch($semester){
                         if($result->num_rows > 0){
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
-                                        <td>" . $row["subject_code"] . "</td>
-                                        <td>" . $row["subject_name"] . "</td>
+                                        <td>" . $row["subject_id"] . "</td>
+                                        <td>" . $row["semester"] . "</td>
                                         <td>" . $row["CA1"] . "</td>
                                         <td>" . $row["CA2"] . "</td>
                                         <td>" . $row["CA3"] . "</td>

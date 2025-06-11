@@ -8,13 +8,11 @@ $currentYear = date('Y');  // Example: 2025
 
 //Filter variables
 $roll = $_SESSION['college_roll'];         // Student roll number (already known from student.php)
-$semester = 1;          // Optional semester param, set to current sem by deafult
-// $semester = $_SESSION['semester']; //TODO: Add sem to session variable
-$subject_id = NULL;      // Optional subject_id (can be empty or null)
+$semester = $_SESSION['current_semester'];          // Optional semester param, set to current sem by deafult
 
 if(isset($_GET['filter'])){
-    $semester = filter_input(INPUT_GET, "filter_semester", FILTER_SANITIZE_SPECIAL_CHARS);
-    $subject_id = filter_input(INPUT_GET, "filter_subject", FILTER_SANITIZE_SPECIAL_CHARS);
+    $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
+    $subject_id = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 $sql = "SELECT
@@ -49,7 +47,7 @@ if (!empty($subject_id)) {
     $values[] = $subject_id;
 }
 
-$sql .= " GROUP BY subject_id";
+$sql .= " GROUP BY subject_id ";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -152,16 +150,25 @@ switch($semester){
                 <form action="student_attendance.php" method="get">
                     <div class="filters">
 
-                        <select id="filter_subject" name="filter_subject">
+                        <select id="subject" name="subject" required>
                             <option value="">Filter the result by subject</option>
-                            <option value="Option1">Option 1</option>
-                            <option value="Option2">Option 2</option>
+                            <option value="1"> DSA </option>
+                            <option value="2"> MATHS </option>
+                            <option value="3"> CYBER-LAW </option>
+                            <option value="4"> ERP </option>
+                            <option value="5"> PROJECT </option>
                         </select>
 
-                        <select id="filter_semester" name="filter_semester">
+                        <select id="semester" name="semester" required>
                             <option value="">Filter the result by semester</option>
                             <option value="1">Semester 1</option>
                             <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
                         </select>
                     </div>
                     <input type="submit" name="filter" class="btn" value="Submit">
@@ -172,7 +179,7 @@ switch($semester){
                 <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>">
                 <table>
                     <tr>
-                        <th>Subject</th>
+                        <th>Subject_Id</th>
                         <th>Semester</th>
                         <th>Present Days</th>
                         <th>Total Working Days</th>
