@@ -64,18 +64,73 @@ $result = $stmt->get_result();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Profile View</title>
   <link rel="stylesheet" href="Styles/global_base.css">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+  /* Style for the card and table to expand properly */
+  .card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .card table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .card th, .card td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .card input[type="text"] {
+    border: none;
+    outline: none;
+    background: transparent;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .card input[type="text"]:read-only {
+    background-color: transparent;
+  }
+
+  .card input[type="text"]::selection {
+    background: #1abc9c;
+    color: white;
+  }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  
+
+
+
+
 
 </head>
 <body>
     
-	<header>
-		<img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
-		<div style="text-align: center; flex: 1;">
-			<h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
-			<p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
-		</div>
-	</header>
+	<header
+        style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
+            <p style="margin: 0; font-size: 14px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
+            <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+            <span>
+                <p>&#9742; +338910530723 / 8910530723</p>
+            </span>
+        </div>
+    </header>
   
   <div class="layout">
     <div class="sidebar">
