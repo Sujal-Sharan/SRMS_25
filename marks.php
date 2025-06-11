@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Marks Dashboard</title>
+    <title>Marks Choice</title>
     <link rel="stylesheet" href="Styles/global_base.css">
     <style>
         .wrap-card{
@@ -26,26 +26,34 @@
     </style>
 </head>
 <body>
-    <header>Marks Re-direction Page</header>
+    <header>
+        <img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+            <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
+            <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+        </div>
+    </header>
+
     <div class="layout">
         <div class="sidebar">
-            <img src="logo.png" alt="Logo" style="height: 100px; margin-left: 50px;">
             <nav>
-                <a href="/SRMS/SRMS_25/student.php">Dashboard</a>
-                <a href="/SRMS/SRMS_25/student_attendance.php">Attendance</a>
-                <a href="/SRMS/SRMS_25/marks.php" id="active"   >View Marks</a>
-                <a>Documents</a>
-                <a>Update Details</a>
-                <a>Settings</a>
-                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+                <a href="student.php">Dashboard</a>
+                <a href="student_attendance.php">Attendance</a>
+                <a id="active" href="marks.php">View Marks</a>
+                <a href="upload_file_student_UI.html">Add Documents</a>
+                <!-- <a>Update Details</a> -->
+                <a href="logout.php">Log out</a>
             </nav>
         </div>
 
         <div class="main-content">
-            <header>
-                <h2>Student Marks Categories</h2>
-            </header>
-            <br>
+
+            <h2>Choose</h2>
+
 
             <div class="wrap-card">
                 <div class="card" onclick="navigateTo('student_CA.php')">CA Marks</div>

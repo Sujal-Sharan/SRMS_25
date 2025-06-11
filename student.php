@@ -38,27 +38,30 @@ $result = $stmt->get_result();
 </head>
 <body>
     <header>
-        Student Dashboard
+        <img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+            <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
+            <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+        </div>
     </header>
 
     <div class="layout">
         <div class="sidebar">
-        <img src="logo.png" alt="Logo" style="height: 100px; margin-left: 50px;">
             <nav>
-                <a href="/SRMS/SRMS_25/student.php" id="active">Dashboard</a>
-                <a href="/SRMS/SRMS_25/student_attendance.php">Attendance</a>
-                <a href="/SRMS/SRMS_25/marks.php">View Marks</a>
-                <a>Documents</a>
-                <a>Update Details</a>
-                <a>Settings</a>
+                <a href="student.php" id="active">Dashboard</a>
+                <a href="student_attendance.php">Attendance</a>
+                <a href="marks.php">View Marks</a>
+                <a href="upload_file_student_UI.html">Add Documents</a>
+                <!-- <a>Update Details</a> -->
                 <a href="logout.php">Log out</a>
             </nav>
         </div>
 
         <div class="main-content">
-            <!-- <div class="profile-section">
-                <img src="profile.jpg" alt="Profile Picture" ><br>
-            </div> -->
             <div class="card">
                 <h3>Student Details</h3>
                 <?php
@@ -91,14 +94,14 @@ $result = $stmt->get_result();
                 ?>
             </div>
 
-            <div class="card">
+            <!-- <div class="card">
                 <h3>Actions</h3>
                 <br>
                 <button class="btn" onclick="navigateTo('marks.php')">View Marks</button>
                 <button class="btn" onclick="navigateTo('student_attendance.php')">Attendance</button>
                 <button class="btn">View Documents</button>
                 <button class="btn">Update Details</button>
-            </div>
+            </div> -->
         </div>
     </div>
 
