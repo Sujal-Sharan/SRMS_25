@@ -79,6 +79,15 @@ function createDummyZip($filename) {
         table {
             width: 100% !important;
         }
+
+        .btn{
+            background-color: #2ecc71;
+            border: 1px solid white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 0px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -217,9 +226,9 @@ function createDummyZip($filename) {
                         <th>Stream</th>
                         <th>Batch</th>
                         <th>Semester</th>
-                        <th>Document Names</th>
+                        <th>Document Name</th>
                         <th>Uploaded On</th>
-                        <th>Preview (ZIP)</th>
+                        <th>View (ZIP)</th>
                     </tr>
                 </thead>
                 <tbody>

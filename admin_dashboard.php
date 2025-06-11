@@ -103,17 +103,17 @@ while ($row = $res->fetch_assoc()) {
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
-    <div style="text-align: center; flex: 1;">
-        <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
-        <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
-    </div>
-    <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
-        <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
-        <span><p>&#9742; +338910530723 / 8910530723</p></span>
-    </div>
-  </header>
+  	<header>
+		<img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
+		<div style="text-align: center; flex: 1;">
+			<h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+			<p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+		</div>
+		<div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
+			<i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
+			<span><p>&#9742; +338910530723 / 8910530723</p></span>
+		</div>
+	</header>
 
   	<div class="layout">
 		<div class="sidebar">
@@ -125,55 +125,56 @@ while ($row = $res->fetch_assoc()) {
 				<a href="view_Student_Attendance.php">View Attendance</a>
 				<a href="upload_attendance.php">Add Attendance</a>
 				<a href="faculty_profile_admin.php">Faculty Profile</a>
-				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
+				<a href="upload_file_UI.html">Upload Document</a>
+				<a href="admin_view_docs.php">View Documents</a>
 				<a href="T_AddLogin.php">Add/Remove User</a>
 				<a href="reset_password_UI.php">Reset Password</a>
 				<a href="logout.php"> Log out</a>
 			</nav>
 		</div>
     
-    <main class="main-content">
-      <h2>Welcome to Admin Dashboard</h2>
-      <div class="dashboard-cards">
-        <div class="card">
-          <h3>Total Students</h3>
-          <!-- Dynamic value bidning for no. of students -->
-          <div class="value" style="color: blue;"><?php echo $_SESSION['total_student'] ?></div>
-        </div>
-        <div class="card">
-          <h3>Total Faculty</h3>
-          <div class="value" style="color: green;"><?php echo $_SESSION['total_faculty'] ?></div>
-        </div>
-        <div class="card">
-          <h3>Total Documents</h3>
-          <div class="value" style="color: orange;">850</div>
-        </div>
-        <div class="card">
-          <h3>Pending Requests</h3>
-          <div class="value" style="color: red;">42</div>
-        </div>
-      </div>
+		<main class="main-content">
+			<h2>Welcome to Admin Dashboard</h2>
+			<div class="dashboard-cards">
+				<div class="card">
+				<h3>Total Students</h3>
+				<!-- Dynamic value bidning for no. of students -->
+				<div class="value" style="color: blue;"><?php echo $_SESSION['total_student'] ?></div>
+				</div>
+				<div class="card">
+				<h3>Total Faculty</h3>
+				<div class="value" style="color: green;"><?php echo $_SESSION['total_faculty'] ?></div>
+				</div>
+				<div class="card">
+				<h3>Total Documents</h3>
+				<div class="value" style="color: orange;">850</div>
+				</div>
+				<div class="card">
+				<h3>Pending Requests</h3>
+				<div class="value" style="color: red;">42</div>
+				</div>
+			</div>
 
-      <!-- TO-DO List Card -->
-      <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0px 1px 6px rgba(0,0,0,0.1);">
-        <h4 style="margin-bottom: 15px; font-weight: 600;">Admin TO-DO List</h4>
-        <?php
-        $filtered = array_diff_key($todoItems, array_flip($dismissed));
-        if (count($filtered) > 0):
-        ?>
-            <ul style="list-style: none; padding-left: 0;" id="todoList">
-              <?php foreach ($filtered as $hash => $item): ?>
-                <li id="<?= $hash ?>" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px 12px; background: #f8f9fa; border-left: 4px solid #007bff; border-radius: 6px;">
-                    <span><?= htmlspecialchars($item) ?></span>
-                    <button onclick="dismissTask('<?= $hash ?>')" style="background: #28a745; color: white; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer;">Done</button>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-          <p style="color: green;">✅ All admin tasks are up to date!</p>
-        <?php endif; ?>
-      </div>
-    </main>
+			<!-- TO-DO List Card -->
+			<div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0px 1px 6px rgba(0,0,0,0.1);">
+				<h4 style="margin-bottom: 15px; font-weight: 600;">Admin TO-DO List</h4>
+				<?php
+				$filtered = array_diff_key($todoItems, array_flip($dismissed));
+				if (count($filtered) > 0):
+				?>
+					<ul style="list-style: none; padding-left: 0;" id="todoList">
+					<?php foreach ($filtered as $hash => $item): ?>
+						<li id="<?= $hash ?>" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px 12px; background: #f8f9fa; border-left: 4px solid #007bff; border-radius: 6px;">
+							<span><?= htmlspecialchars($item) ?></span>
+							<button onclick="dismissTask('<?= $hash ?>')" style="background: #28a745; color: white; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer;">Done</button>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				<?php else: ?>
+				<p style="color: green;">✅ All admin tasks are up to date!</p>
+				<?php endif; ?>
+			</div>
+		</main>
   </div>
 
   <script>

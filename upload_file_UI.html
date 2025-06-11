@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Document</title>
+    <link rel="stylesheet" href="Styles/global_base.css" />
+    
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
+        <div style="text-align: center; flex: 1;">
+            <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+            <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
+            <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+        </div>
+    </header>
+
+    <div class="layout">
+        <div class="sidebar">
+			<nav>
+				<a href="admin_dashboard.php">Dashboard</a>
+				<a href="studentProfile.php">Student Profile</a>
+				<a href="view_Student_Marks.php">View Marks</a>
+				<a href="upload_marks_UI.php">Add Marks</a>
+				<a href="view_Student_Attendance.php">View Attendance</a>
+				<a href="upload_attendance.php">Add Attendance</a>
+				<a href="faculty_profile_admin.php">Faculty Profile</a>
+				<a id="active" href="upload_file_UI.html">Upload Document</a>
+				<a href="admin_view_docs.php">View Documents</a>
+				<a href="T_AddLogin.php">Add/Remove User</a>
+				<a href="reset_password_UI.php">Reset Password</a>
+				<a href="logout.php"> Log out</a>
+			</nav>
+		</div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>Upload Student Document</h2><br>
+                <form action="upload_file_handler.php" method="post" enctype="multipart/form-data">
+                    <label>Student ID:</label>
+                    <input type="text" name="student_id" required><br><br>
+
+                    <label>Optional File Name:</label>
+                    <input type="text" name="file_name"><br><br>
+
+                    <label>Select file:</label>
+                    <input type="file" name="document" required><br><br>
+
+                    <button type="submit">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
