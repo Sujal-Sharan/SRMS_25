@@ -1,3 +1,48 @@
+<?php
+require_once("DB_Connect.php");
+session_start();
+
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Check if session has expired
+if (time() - $_SESSION['login_time'] > $_SESSION['expire_after']) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php?session_expired=1");
+    exit();
+} else {
+    // Reset login_time to extend session
+    $_SESSION['login_time'] = time();
+}
+
+
+// Get student details from DB
+$stmt = $conn->prepare("SELECT * FROM faculty WHERE user_id = ?");
+$stmt->bind_param("s", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+
+try{
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $_SESSION['user_id'] = $row["user_id"];
+            $_SESSION['name'] = $row["name"];
+            $_SESSION['department'] = $row["department"];
+            $_SESSION['designation'] = $row["designation"];
+            $_SESSION['phone'] = $row["phone"];
+            $_SESSION['email'] = $row["email"];
+
+        }
+    }
+}catch(Exception $e){
+    echo 'Message: ' .$e->getMessage();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,7 +158,7 @@
     </style>
 </head>
 <body>
-    <header style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <header>
         <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
         <div style="text-align: center; flex: 1;">
             <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
@@ -127,18 +172,14 @@
 
     <div class="layout">
         <div class="sidebar">
-
-        <!-- Header -->
-        <!--<h2 style="margin-bottom: 20px; color: #0A1931;">Dashboard</h2>-->
-
             <nav>
-                <a href="/SRMS/SRMS_25/dashboard.php"  id="active">Dashboard</a>
-                <a href="/SRMS/SRMS_25/Student_Attendance.php">Attendance</a>
-                <a href="/SRMS/SRMS_25/marks.php">View Marks</a>
-                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
-                <a>Update Details</a>
-                <a>Settings</a>
-                <a href="/SRMS/SRMS_25/logout.php">Log out</a>
+                <a id="active" href="faculty_dashboard.php">Dashboard</a>
+                <a href="faculty_view_attendace.php">View Attendance</a>
+                <a href="faculty_view_attendace.php">Update Attendance</a>
+                <a href="faculty_view_marks.php">View Marks</a>
+                <a href="faculty_view_marks.php">Add Marks</a>
+                <a href="faculty_details.html">Faculty Details</a>
+                <a href="logout.php">Log out</a>
             </nav>
         </div>
     </div>

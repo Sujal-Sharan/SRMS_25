@@ -2,11 +2,12 @@
 require_once("DB_Connect.php");
 session_start();
 
+$dept = $_SESSION['department'];
+
 // Get values from UI
 if(isset($_GET['submit'])){
     $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
-    $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
     $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -145,19 +146,16 @@ else{
 
     <div class="layout">
 		<div class="sidebar">
-			<nav>
-				<a href="admin_dashboard.php">Dashboard</a>
-				<a href="studentProfile.php">Student Profile</a>
-				<a href="view_Student_Marks.php">View Marks</a>
-				<a href="upload_marks_UI.php">Add Marks</a>
-				<a id="active" href="view_Student_Attendance.php">View Attendance</a>
-				<a href="upload_attendance.php">Add Attendance</a>
-				<a href="faculty_profile_admin.php">Faculty Profile</a>
-				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
-				<a href="T_AddLogin.php">Add/Remove User</a>
-				<a href="reset_password_UI.php">Reset Password</a>
-				<a href="logout.php"> Log out</a>
-			</nav>
+            <nav>
+                <a href="faculty_dashboard.php">Dashboard</a>
+                <a id="active" href="faculty_view_attendance.php">View Student Attendance</a>
+                <a href="/SRMS/SRMS_25/Student_Attendance.php">Attendance</a>
+                <a href="/SRMS/SRMS_25/marks.php">View Marks</a>
+                <a href="/SRMS/SRMS_25/faculty_details.html">Faculty Details</a>
+                <a>Update Details</a>
+                <a>Settings</a>
+                <a href="logout.php">Log out</a>
+            </nav>
 		</div>
 
         <div class="main-content">
@@ -168,31 +166,22 @@ else{
                     <!-- TODO: Add proper subject filters and fix filter UI-->
                     <div class="filters">
 
-                        <!-- Department Dropdown -->
-                        <!-- <label for="department">Department:</label> -->
-                        <select id="department" name="department" onchange="handleDepartmentChange()">
-                            <option value="">Select Department</option>
-                            <option value="CSE">CSE</option>
-                            <option value="ECE">ECE</option>
-                            <option value="IT">IT</option>
-                        </select>
-
                         <!-- Section Dropdown -->
                         <!-- <label for="section">Section:</label> -->
-                        <select id="section" name="section" onchange="handleSectionChange()" disabled>
+                        <select id="section" name="section">
                             <option value="">Select Section</option>
+                            <option value="A">Section A</option>
+                            <option value="B">Section B</option>
+                            <option value="C">Section C</option>
                         </select>
                                                 
                         <!-- Group Dropdown -->
                         <!-- <label for="group">Group:</label> -->
-                        <select id="group" name="group" disabled>
+                        <select id="group" name="group">
                             <option value="">Select Group</option>
                             <option value="A">Group A</option>
                             <option value="B">Group B</option>
                         </select>
-                    </div>
-
-                    <div class="filters">
 
                         <!-- Sem Type Dropdown -->
                         <select id="semester" name="semester">
@@ -265,55 +254,15 @@ else{
     </div>
 
     <script>
-        function handleDepartmentChange() {
-            const dept = document.getElementById("department").value;
-            const section = document.getElementById("section");
-            const subject = document.getElementById("subject");
-            const group = document.getElementById("group");
+        // function handleSectionChange() {
+        //     const sectionVal = document.getElementById("section").value;
+        //     const group = document.getElementById("group");
 
-            // Reset
-            section.innerHTML = '<option value="">Select Section</option>';
-            section.disabled = true;
-            subject.innerHTML = '<option value="">Select Subject</option>';
-            subject.disabled = true;
-            group.disabled = true;
-            group.value = "";
-
-            let sections = [];
-
-                switch (dept) {
-                case "IT":
-                    sections = ["A", "B"];
-                    break;
-                case "CSE":
-                case "ECE":
-                default:
-                    sections = ["A", "B", "C"];
-                    break;
-                }
-
-            if (dept) {
-                section.disabled = false;
-                subject.disabled = false;
-
-                sections.forEach(sec => {
-                const opt = document.createElement("option");
-                opt.value = sec;
-                opt.textContent = sec;
-                section.appendChild(opt);
-                });
-            }
-        }
-
-        function handleSectionChange() {
-            const sectionVal = document.getElementById("section").value;
-            const group = document.getElementById("group");
-
-            group.disabled = !sectionVal;
-            if (!sectionVal) {
-                group.value = "";
-            }
-        }
+        //     group.disabled = !sectionVal;
+        //     if (!sectionVal) {
+        //         group.value = "";
+        //     }
+        // }
   </script>
 </body>
 </html>
