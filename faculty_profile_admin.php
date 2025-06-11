@@ -141,19 +141,21 @@ $result = $stmt->get_result();
 	</header>
 
   	<div class="layout">
-    	<div class="sidebar">
+		<div class="sidebar">
 			<nav>
 				<a href="admin_dashboard.php">Dashboard</a>
 				<a href="studentProfile.php">Student Profile</a>
-				<a href="">Marks</a>
-				<a href="">Attendance</a>
+				<a href="view_Student_Marks.php">View Marks</a>
+				<a href="upload_marks_UI.php">Add Marks</a>
+				<a href="view_Student_Attendance.php">View Attendance</a>
+				<a href="upload_attendance.php">Add Attendance</a>
 				<a id="active" href="faculty_profile_admin.php">Faculty Profile</a>
 				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
 				<a href="T_AddLogin.php">Add/Remove User</a>
 				<a href="reset_password_UI.php">Reset Password</a>
-				<a href="/SRMS/SRMS_25/logout.php"> Log out</a>
+				<a href="logout.php"> Log out</a>
 			</nav>
-    	</div>
+		</div>
 
         <div class="main-content">
             <div class="card">

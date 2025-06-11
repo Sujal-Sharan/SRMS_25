@@ -77,6 +77,51 @@ if(isset($_GET['apply_Filter'])){
     <title>Upload Marks</title>
     <link rel="stylesheet" href="Styles/global_base.css" />
 
+    <style>
+        .card {
+			background-color: white;
+			padding: 20px;
+			margin-top: 20px;
+			border-radius: 10px;
+			box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+			width: 100%;
+			overflow-x: auto;
+		}
+
+		.card table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.card th, .card td {
+			border: 1px solid #ccc;
+			padding: 10px;
+			text-align: center;
+		}
+
+		.card input[type="text"] {
+			border: none;
+			outline: none;
+			background: transparent;
+			text-align: center;
+			/* width: 100%;  */
+			width: auto;
+			font-size: 14px;
+			color: #333;
+		}
+
+		.card input[type="text"] {
+			background-color:rgb(241, 241, 241);
+		}
+		.card input[type="text"]:read-only {
+			background-color: transparent;
+		}
+
+		.card input[type="text"]::selection {
+			background: #1abc9c;
+			color: white;
+		}
+    </style>
 </head>
 <body>
     <header
@@ -95,21 +140,21 @@ if(isset($_GET['apply_Filter'])){
     </header>
 
     <div class="layout">
-        <div class="sidebar">
-            <nav>
-                <a href="admin_dashboard.php">Dashboard</a>
-                <a href="studentProfile.php">Student Profile</a>
-                <a href="view_Student_Marks.php">View Marks</a>
-                <a id="active" href="upload_marks_UI.php">Add Marks</a>
-                <a href="view_Student_Attendance.php">View Attendance</a>
-                <a href="upload_attendance.php">Add Attendance</a>
-                <a href="faculty_profile_admin.php">Faculty Profile</a>
-                <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
-                <a href="T_AddLogin.php">Add/Remove User</a>
-                <a href="reset_password_UI.php">Reset Password</a>
-                <a href="/SRMS/SRMS_25/logout.php"> Log out</a>
-            </nav>
-        </div>
+		<div class="sidebar">
+			<nav>
+				<a href="admin_dashboard.php">Dashboard</a>
+				<a href="studentProfile.php">Student Profile</a>
+				<a href="view_Student_Marks.php">View Marks</a>
+				<a id="active" href="upload_marks_UI.php">Add Marks</a>
+				<a href="view_Student_Attendance.php">View Attendance</a>
+				<a href="upload_attendance.php">Add Attendance</a>
+				<a href="faculty_profile_admin.php">Faculty Profile</a>
+				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
+				<a href="T_AddLogin.php">Add/Remove User</a>
+				<a href="reset_password_UI.php">Reset Password</a>
+				<a href="logout.php"> Log out</a>
+			</nav>
+		</div>
 
         <div class="main-content">
             <div class="card">
@@ -213,7 +258,8 @@ if(isset($_GET['apply_Filter'])){
             // document.getElementById("semester").value = "";
             document.getElementById("section").value = "";
             document.getElementById("group").value = "";
-            // document.getElementById("subject").value = "";
+            // document.getElementById("test").value = "";
+            document.getElementById("subject").value = "";
             // document.getElementById("searchInput").value = "";
         }
     </script>

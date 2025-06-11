@@ -101,132 +101,6 @@ while ($row = $res->fetch_assoc()) {
       text-align: center;
     }
   </style>
-  <!-- <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    header {
-      background: #1abc9c;
-      color: white;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 110px;
-      z-index: 1000;
-    }
-
-    header img {
-      height: 100px;
-      padding: 5px;
-    }
-
-    .container {
-      display: flex;
-      margin-top: 110px;
-      border-radius: 6px;
-    }
-
-    .sidebar {
-      width: 226px;
-      background: #0A1931;
-      color: white;
-      height: calc(100vh - 110px);
-      padding-top: 20px;
-      position: fixed;
-      top: 110px;
-      left: 0;
-      overflow-y: auto;
-      
-    }
-
-    .sidebar nav a {
-      display: block;
-      color: white;
-      background-color: #123456;
-      margin: 10px;
-      padding: 10px;
-      text-decoration: none;
-      border-radius: 10px;
-      text-align: center;
-      border-radius: 20px 6px 6px 20px;
-    }
-
-    .sidebar nav a:hover,
-    .sidebar nav a.active {
-      background-color: #ffc107;
-      color: black;
-      border-radius: 20px 6px 6px 20px;
-    }
-
-    /* TODO: Some style changes to nav elements, such as active, hover and base */
-    #active{
-      color: black;
-      border-color: #666;
-    }
-
-    .content {
-      margin-left: 226px;
-      padding: 20px;
-      flex: 1;
-      background: #f4f4f4;
-      min-height: calc(100vh - 110px);
-    }
-
-    .dashboard-cards {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      padding-top: 45px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      flex: 1;
-      min-width: 200px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card h3 {
-      font-size: 1rem;
-      color: #666;
-      text-align: center;
-    }
-
-    .card .value {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    .recent-activity,
-    .student-overview {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    table th,
-    table td {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-      text-align: left;
-    } 
-  </style>-->
 </head>
 <body>
   <header>
@@ -241,22 +115,22 @@ while ($row = $res->fetch_assoc()) {
     </div>
   </header>
 
-  <div class="layout">
-    <div class="sidebar">
-      <nav>
-        <a id="active" href="admin_dashboard.php">Dashboard</a>
-        <a href="studentProfile.php">Student Profile</a>
-        <a href="view_Student_Marks.php">View Marks</a>
-        <a href="upload_marks_UI.php">Add Marks</a>
-        <a href="view_Student_Attendance.php">View Attendance</a>
-        <a href="upload_attendance.php">Add Attendance</a>
-        <a href="faculty_profile_admin.php">Faculty Profile</a>
-        <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
-        <a href="T_AddLogin.php">Add/Remove User</a>
-        <a href="reset_password_UI.php">Reset Password</a>
-        <a href="logout.php"> Log out</a>
-      </nav>
-    </div>
+  	<div class="layout">
+		<div class="sidebar">
+			<nav>
+				<a id="active" href="admin_dashboard.php">Dashboard</a>
+				<a href="studentProfile.php">Student Profile</a>
+				<a href="view_Student_Marks.php">View Marks</a>
+				<a href="upload_marks_UI.php">Add Marks</a>
+				<a href="view_Student_Attendance.php">View Attendance</a>
+				<a href="upload_attendance.php">Add Attendance</a>
+				<a href="faculty_profile_admin.php">Faculty Profile</a>
+				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
+				<a href="T_AddLogin.php">Add/Remove User</a>
+				<a href="reset_password_UI.php">Reset Password</a>
+				<a href="logout.php"> Log out</a>
+			</nav>
+		</div>
     
     <main class="main-content">
       <h2>Welcome to Admin Dashboard</h2>

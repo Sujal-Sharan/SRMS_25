@@ -11,13 +11,12 @@ session_start();
  $reg_no = $_GET['reg_no'] ?? '';
 
 $sql = "SELECT * FROM admin_view_docs WHERE 1=1";
-//$sql = "SELECT * FROM students WHERE 1=1";
  if ($batch) $sql .= " AND batch = '$batch'";
  if ($stream) $sql .= " AND stream = '$stream'";
  if ($semester) $sql .= " AND semester = '$semester'";
  if ($roll_no) $sql .= " AND roll_no = '$roll_no'";
  if ($reg_no) $sql .= " AND reg_no = '$reg_no'";
- $sql .= " ORDER BY roll_no";
+//  $sql .= " ORDER BY roll_no";
 
 $stmt = $conn->prepare($sql);
 
@@ -52,7 +51,7 @@ function createDummyZip($filename) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<title>Student Documents (Uploaded By Students & Verified By HOD and Faculty)</title>-->
+    <title>Student Documents (Uploaded By Students & Verified By HOD and Faculty)</title>
     <link rel="stylesheet" href="Styles/global_base.css">
 
     <style>
@@ -83,7 +82,7 @@ function createDummyZip($filename) {
     </style>
 </head>
 <body>
-    <header style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <header>
         <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
         <div style="text-align: center; flex: 1;">
             <h1 style="margin: 0; font-size: 24px; font-weight: bold;">TECHNO INTERNATIONAL NEWTOWN</h1>
@@ -94,6 +93,22 @@ function createDummyZip($filename) {
             <span><p>&#9742; +338910530723 / 8910530723</p></span>
         </div>
     </header>
+
+    <!-- <div class="layout">
+        <div class="sidebar">
+            <header>
+                <img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
+                <div style="text-align: center; flex: 1;">
+                    <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
+                    <p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
+                </div>
+                <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
+                    <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+                    <span><p>&#9742; +338910530723 / 8910530723</p></span>
+                </div>
+            </header>
+        </div>
+    </div> -->
 
     <div style="
         position: relative;

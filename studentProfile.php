@@ -60,60 +60,58 @@ $result = $stmt->get_result();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Profile View</title>
-  <link rel="stylesheet" href="Styles/global_base.css">
-  <style>
-  /* Style for the card and table to expand properly */
-  .card {
-    background-color: white;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    overflow-x: auto;
-  }
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Student Profile View</title>
+	<link rel="stylesheet" href="Styles/global_base.css">
 
-  .card table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+	<style>
+		/* Style for the card and table to expand properly */
+		.card {
+			background-color: white;
+			padding: 20px;
+			margin-top: 20px;
+			border-radius: 10px;
+			box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+			width: 100%;
+			overflow-x: auto;
+		}
 
-  .card th, .card td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-  }
+		.card table {
+			width: 100%;
+			border-collapse: collapse;
+		}
 
-  .card input[type="text"] {
-    border: none;
-    outline: none;
-    background: transparent;
-    text-align: center;
-    width: 100%;
-    font-size: 14px;
-    color: #333;
-  }
+		.card th, .card td {
+			border: 1px solid #ccc;
+			padding: 10px;
+			text-align: center;
+		}
 
-  .card input[type="text"]:read-only {
-    background-color: transparent;
-  }
+		.card input[type="text"] {
+			border: none;
+			outline: none;
+			background: transparent;
+			text-align: center;
+			/* width: 100%;  */
+			width: auto;
+			font-size: 14px;
+			color: #333;
+		}
 
-  .card input[type="text"]::selection {
-    background: #1abc9c;
-    color: white;
-  }
-</style>
+		.card input[type="text"] {
+			background-color:rgb(241, 241, 241);
+		}
+		.card input[type="text"]:read-only {
+			background-color: transparent;
+		}
 
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  
-
-
-
-
-
+		.card input[type="text"]::selection {
+			background: #1abc9c;
+			color: white;
+		}
+	</style>
+	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     
@@ -129,136 +127,138 @@ $result = $stmt->get_result();
         </div>
 	</header>
   
-  <div class="layout">
-    <div class="sidebar">
-      <nav>
-        <a href="admin_dashboard.php">Dashboard</a>
-        <a id="active" href="studentProfile.php">Student Profile</a>
-        <a href="">Marks</a>
-        <a href="">Attendance</a>
-        <a href="faculty_profile_admin.php">Faculty Profile</a>
-        <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
-        <a href="T_AddLogin.php">Add/Remove User</a>
-        <a href="reset_password_UI.php">Reset Password</a>
-        <a href="/SRMS/SRMS_25/logout.php"> Log out</a>
-      </nav>
-    </div>
+  	<div class="layout">
+    	<div class="sidebar">
+			<nav>
+				<a href="admin_dashboard.php">Dashboard</a>
+				<a id="active" href="studentProfile.php">Student Profile</a>
+				<a href="view_Student_Marks.php">View Marks</a>
+				<a href="upload_marks_UI.php">Add Marks</a>
+				<a href="view_Student_Attendance.php">View Attendance</a>
+				<a href="upload_attendance.php">Add Attendance</a>
+				<a href="faculty_profile_admin.php">Faculty Profile</a>
+				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
+				<a href="T_AddLogin.php">Add/Remove User</a>
+				<a href="reset_password_UI.php">Reset Password</a>
+				<a href="logout.php"> Log out</a>
+			</nav>
+    	</div>
 
-    <div class="main-content">
-		<div class="card">
-			<h2>Student Profile</h2>
-			<form action="" method="GET">
+		<div class="main-content">
+			<div class="card">
+				<h3>Student Profile</h3>
+				<form action="" method="GET">
 
-				<!-- TODO: Add proper subject filters and fix filter UI-->
-				<div class="filters">
+					<!-- TODO: Add proper subject filters and fix filter UI-->
+					<div class="filters">
 
-					<!-- Department Dropdown -->
-					<!-- <label for="department">Department:</label> -->
-					<select id="department" name="department">
-						<option value="">Select Department</option>
-						<?php
-							$departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-							foreach($departments as $d) echo "<option value='$d'>$d</option>";
-						?>
-					</select>
+						<!-- Department Dropdown -->
+						<!-- <label for="department">Department:</label> -->
+						<select id="department" name="department">
+							<option value="">Select Department</option>
+							<?php
+								$departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
+								foreach($departments as $d) echo "<option value='$d'>$d</option>";
+							?>
+						</select>
 
-					<!-- Section Dropdown -->
-					<!-- <label for="section">Section:</label> -->
-					<select id="section" name="section">
-						<option value="">Select Section</option>
-						<option value="A">Section A</option>
-						<option value="B">Section B</option>
-						<option value="C">Section C</option>
-					</select>
-											
-					<!-- Group Dropdown -->
-					<!-- <label for="group">Group:</label> -->
-					<select id="group" name="group">
-						<option value="">Select Group</option>
-						<option value="A">Group A</option>
-						<option value="B">Group B</option>
-					</select>
+						<!-- Section Dropdown -->
+						<!-- <label for="section">Section:</label> -->
+						<select id="section" name="section">
+							<option value="">Select Section</option>
+							<option value="A">Section A</option>
+							<option value="B">Section B</option>
+							<option value="C">Section C</option>
+						</select>
+												
+						<!-- Group Dropdown -->
+						<!-- <label for="group">Group:</label> -->
+						<select id="group" name="group">
+							<option value="">Select Group</option>
+							<option value="A">Group A</option>
+							<option value="B">Group B</option>
+						</select>
 
-					<!-- Semester Dropdown -->
-					<select id="semester" name="semester">
-						<option value="">Select Semester</option>
-						<option value="1">Semester 1</option>
-						<option value="2">Semester 2</option>
-						<option value="3">Semester 3</option>
-						<option value="4">Semester 4</option>
-						<option value="5">Semester 5</option>
-						<option value="6">Semester 6</option>
-						<option value="7">Semester 7</option>
-						<option value="8">Semester 8</option>
-					</select>
+						<!-- Semester Dropdown -->
+						<select id="semester" name="semester">
+							<option value="">Select Semester</option>
+							<option value="1">Semester 1</option>
+							<option value="2">Semester 2</option>
+							<option value="3">Semester 3</option>
+							<option value="4">Semester 4</option>
+							<option value="5">Semester 5</option>
+							<option value="6">Semester 6</option>
+							<option value="7">Semester 7</option>
+							<option value="8">Semester 8</option>
+						</select>
 
-					<!-- Batch Dropdown -->
-					<select id="batch" name="batch">
-						<option value="">Select Batch</option>
-						<?php
-							$batch = ['2019-23', '2020-24', '2021-25','2022-26','2023-27','2024-28','2025-29'];
-							foreach($batch as $b) echo "<option value='$b'>$b</option>";
-						?>
-					</select>
-				</div>
+						<!-- Batch Dropdown -->
+						<select id="batch" name="batch">
+							<option value="">Select Batch</option>
+							<?php
+								$batch = ['2019-23', '2020-24', '2021-25','2022-26','2023-27','2024-28','2025-29'];
+								foreach($batch as $b) echo "<option value='$b'>$b</option>";
+							?>
+						</select>
+					</div>
 
-				<button type="submit" name="apply_Filter">Apply Filters</button>
-				<button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
-				<!-- <input type="submit" name="submit" placeholder="Submit"> -->
+					<button type="submit" name="apply_Filter">Apply Filters</button>
+					<button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
+					<!-- <input type="submit" name="submit" placeholder="Submit"> -->
 
-			</form>
-		</div>
+				</form>
+			</div>
 
-		<div class="card">
-			<table>
-				<tr>
-					<th>College_ID</th>
-					<th>University_ID</th>
-					<th>Name</th>
-					<th>Semester</th>
-					<th>DOB</th>
-					<th>E-mail</th>
-					<th>Gender</th>
-					<th>Department</th>
-					<th>Batch</th>
-            	</tr>
-				<?php
-				try{
-					if(isset($result)){
-						if($result->num_rows > 0){
-							while ($row = $result->fetch_assoc()) {
-								echo "<tr>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["uni_id"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["semester"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["dob"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["email"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["batch"]) . "' readonly></td>
-									</tr>";
+			<div class="card">
+				<table>
+					<tr>
+						<th>College_ID</th>
+						<th>University_ID</th>
+						<th>Name</th>
+						<th>Semester</th>
+						<th>DOB</th>
+						<th>E-mail</th>
+						<th>Gender</th>
+						<th>Department</th>
+						<th>Batch</th>
+					</tr>
+					<?php
+					try{
+						if(isset($result)){
+							if($result->num_rows > 0){
+								while ($row = $result->fetch_assoc()) {
+									echo "<tr>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["uni_id"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["semester"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["dob"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["email"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["batch"]) . "' readonly></td>
+										</tr>";
+								}
+							} else {
+								echo "<tr><td colspan='9'>No records found</td></tr>";
 							}
-						} else {
-							echo "<tr><td colspan='9'>No records found</td></tr>";
 						}
+					}catch(Exception $e){
+						echo 'Message: ' . $e->getMessage();
 					}
-				}catch(Exception $e){
-					echo 'Message: ' . $e->getMessage();
-				}
-				?>  
-			</table>
+					?>  
+				</table>
+			</div>
 		</div>
 	</div>
 
 	<script>
 		function resetFilters() {
             document.getElementById("department").value = "";
-            // document.getElementById("semester").value = "";
             document.getElementById("section").value = "";
             document.getElementById("group").value = "";
-            // document.getElementById("subject").value = "";
-            // document.getElementById("searchInput").value = "";
+            // document.getElementById("semester").value = "";
+            document.getElementById("batch").value = "";
         }
 	</script>
 </body>
