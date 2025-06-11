@@ -28,13 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
     exit;
 }
 
-// $todoItems = [];
-// // 1. Check for students without assigned department/section
-// $unassignedStudents = $conn->query("SELECT COUNT(*) as count FROM student_details WHERE section IS NULL OR department IS NULL");
-// $row = $unassignedStudents->fetch_assoc();
-// if ($row['count'] > 0) {
-//     $todoItems[] = "Assign department/section to $row[count] newly added student(s)";
-// }
+$todoItems = [];
+// 1. Check for students without assigned department/section
+$unassignedStudents = $conn->query("SELECT COUNT(*) as count FROM students WHERE batch_year IS NULL OR address IS NULL");
+$row = $unassignedStudents->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Assign batch to $row[count] newly added student(s)";
+}
 
 // // 2. Faculty without subjects
 // $facultyUnassigned = $conn->query("SELECT COUNT(*) as count FROM faculty WHERE faculty_id NOT IN (SELECT DISTINCT fac_id FROM faculty_subjects)");
@@ -72,11 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
 // }
 
 // // Get dismissed tasks
-// $dismissed = [];
-// $res = $conn->query("SELECT task_hash FROM admin_dismissed_tasks");
-// while ($row = $res->fetch_assoc()) {
-//     $dismissed[] = $row['task_hash'];
-// }
+$dismissed = [];
+$res = $conn->query("SELECT task_hash FROM admin_dismissed_tasks");
+while ($row = $res->fetch_assoc()) {
+    $dismissed[] = $row['task_hash'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -94,6 +94,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
       gap: 20px;
       flex-wrap: wrap;
       padding-top: 45px;
+    }
+    .card .value {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      text-align: center;
     }
   </style>
   <!-- <style>
@@ -224,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
   </style>-->
 </head>
 <body>
-  <header style="background: #1abc9c; color: white; padding: 0px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
+  <header>
     <img src="logo.png" alt="Logo" style="height: 120px; margin-right: 10px;">
     <div style="text-align: center; flex: 1;">
         <h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
@@ -249,12 +254,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["dismiss_hash"])) {
         <a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
         <a href="T_AddLogin.php">Add/Remove User</a>
         <a href="reset_password_UI.php">Reset Password</a>
-        <a href="/SRMS/SRMS_25/logout.php"> Log out</a>
+        <a href="logout.php"> Log out</a>
       </nav>
     </div>
     
     <main class="main-content">
-      <h2>Admin Dashboard</h2>
+      <h2>Welcome to Admin Dashboard</h2>
       <div class="dashboard-cards">
         <div class="card">
           <h3>Total Students</h3>

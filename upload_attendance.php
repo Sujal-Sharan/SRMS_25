@@ -112,9 +112,9 @@ if(isset($_GET['apply_Filter'])){
         <div class="main-content">
 
             <div class="card">
-                <header>📋 Attendance Upload Panel</header>
-
                 <form id="filterForm" action="" method="GET">
+                    <h2>Upload Attendance</h2>
+
                     <div class="filters">
                         
                         <select id="department" name="department">
@@ -144,9 +144,8 @@ if(isset($_GET['apply_Filter'])){
                             <option value="">Both</option>
                         </select>
 
-                        <!--  Redeundant? Might remove -->
+                        <!--  TODO: Add subjects -->
                         <select id="subject" name="subject"><option value="">Select Subject ID</option></select>
-                        <select id="faculty" name="faculty"><option value="">Select Faculty ID</option></select>
                     </div>
 
                     <button type="submit" name="apply_Filter">Apply Filters</button>

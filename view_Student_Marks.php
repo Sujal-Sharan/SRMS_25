@@ -131,23 +131,10 @@ else{
             font-weight: bold;
             font-size: medium;
         }
-        header {
-            height: 100px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        .sidebar {
-            height: calc(100vh - 100px); 
-            overflow-y: auto; 
-        }
-
-
     </style>
 </head>
 <body>
-       <header
+    <header
         style="background: #1abc9c; color: white; padding: 7px; display: flex; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000;">
         <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 20px;">
         <div style="text-align: center; flex: 1;">
@@ -179,7 +166,7 @@ else{
 
         <div class="main-content">
             <div class="card" >
-                <h1>View Students Marks</h1>
+                <h2>View Students Marks</h2>
                 
                 <form action="" method="GET">
 

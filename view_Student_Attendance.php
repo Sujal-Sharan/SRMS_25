@@ -126,17 +126,6 @@ else{
             font-weight: bold;
             font-size: medium;
         }
-        header {
-            height: 100px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        .sidebar {
-            height: calc(100vh - 100px); 
-            overflow-y: auto; 
-        }
     </style>
 </head>
 <body>
@@ -171,8 +160,8 @@ else{
         </div>
 
         <div class="main-content">
-            <header>View Students Attendance</header>
             <div class="card">
+                <h2>View Students Attendance</h2>
                 <form action="" method="GET">
 
                     <!-- TODO: Add proper subject filters and fix filter UI-->

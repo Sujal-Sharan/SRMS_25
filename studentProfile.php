@@ -75,6 +75,10 @@ $result = $stmt->get_result();
 			<h1 style="margin: 0; font-size: 25px; font-weight: bold;">TECHNO INTERNATIONAL NEW TOWN</h1>
 			<p style="margin: 0; font-size: 17px;">(Formerly Known as Techno India College Of Technology)</p>
 		</div>
+		<div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
+            <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
+            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+        </div>
 	</header>
   
   <div class="layout">
@@ -94,6 +98,7 @@ $result = $stmt->get_result();
 
     <div class="main-content">
 		<div class="card">
+			<h2>Student Profile</h2>
 			<form action="" method="GET">
 
 				<!-- TODO: Add proper subject filters and fix filter UI-->
