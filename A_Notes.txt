@@ -1,7 +1,4 @@
 Add UI for filters and buttons
-Check global_base css file issue, not applying properly
-
-Replace Admin "Recent Activity" portion with a TO-DO list
 Add session login timer/ cookies
 Add page to remove user (?)
 Implement UI + Backend for doc verification
