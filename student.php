@@ -55,7 +55,7 @@ $result = $stmt->get_result();
                 <a href="student.php" id="active">Dashboard</a>
                 <a href="student_attendance.php">Attendance</a>
                 <a href="marks.php">View Marks</a>
-                <a href="upload_file_student_UI.html">Add Documents</a>
+                <a href="upload_file_student_UI.php">Add Documents</a>
                 <!-- <a>Update Details</a> -->
                 <a href="logout.php">Log out</a>
             </nav>
@@ -93,15 +93,6 @@ $result = $stmt->get_result();
                 }
                 ?>
             </div>
-
-            <!-- <div class="card">
-                <h3>Actions</h3>
-                <br>
-                <button class="btn" onclick="navigateTo('marks.php')">View Marks</button>
-                <button class="btn" onclick="navigateTo('student_attendance.php')">Attendance</button>
-                <button class="btn">View Documents</button>
-                <button class="btn">Update Details</button>
-            </div> -->
         </div>
     </div>
 

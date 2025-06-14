@@ -44,7 +44,7 @@
                 <a href="student.php">Dashboard</a>
                 <a href="student_attendance.php">Attendance</a>
                 <a id="active" href="marks.php">View Marks</a>
-                <a href="upload_file_student_UI.html">Add Documents</a>
+                <a href="upload_file_student_UI.php">Add Documents</a>
                 <!-- <a>Update Details</a> -->
                 <a href="logout.php">Log out</a>
             </nav>
@@ -58,7 +58,7 @@
             <div class="wrap-card">
                 <div class="card" onclick="navigateTo('student_CA.php')">CA Marks</div>
                 <div class="card" onclick="navigateTo('student_PCA.php')">PCA Marks</div>
-                <div class="card" onclick="navigateTo('student_Marks_Semester.php')">Semester Marks</div>
+                <!-- <div class="card" onclick="navigateTo('student_Marks_Semester.php')">Semester Marks</div> -->
             </div>
         </div>
     </div>

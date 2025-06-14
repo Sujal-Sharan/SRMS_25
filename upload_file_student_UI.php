@@ -1,3 +1,9 @@
+<?php
+require_once("DB_Connect.php");
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +11,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Document</title>
     <link rel="stylesheet" href="Styles/global_base.css" />
-    
+    <style>
+        #readonly{
+            background-color:rgb(154, 151, 150);
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,7 +36,7 @@
                 <a href="student.php">Dashboard</a>
                 <a href="student_attendance.php">Attendance</a>
                 <a href="marks.php">View Marks</a>
-                <a id="active" href="upload_file_student_UI.html">Add Documents</a>
+                <a id="active" href="upload_file_student_UI.php">Add Documents</a>
                 <!-- <a>Update Details</a> -->
                 <a href="logout.php">Log out</a>
             </nav>
@@ -37,7 +47,7 @@
                 <h2>Upload Student Document</h2><br>
                 <form action="upload_file_handler.php" method="post" enctype="multipart/form-data">
                     <label>User ID:</label>
-                    <input type="text" name="student_id" required><br><br>
+                    <input id="readonly" type="text" name="student_id" value="<?= htmlspecialchars($_SESSION['user_id']) ?>" readonly><br><br>
 
                     <label>Optional File Name:</label>
                     <input type="text" name="file_name"><br><br>
