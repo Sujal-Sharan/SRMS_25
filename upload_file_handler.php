@@ -3,7 +3,7 @@ require_once("DB_Connect.php");
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $student_id = $_POST['student_id'];
+    $user_id = $_POST['student_id'];
     $customName = $_POST['file_name'];
     $file = $_FILES['document'];
 
@@ -18,15 +18,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (move_uploaded_file($file['tmp_name'], $target_path)) {
             $stmt = $conn->prepare("INSERT INTO documents (student_id, filename, filepath) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $student_id, $customName, $target_path);
+            $stmt->bind_param("sss", $user_id, $customName, $target_path);
             $stmt->execute();
 
-            echo "Upload successful! Saved as $customName <a href='admin_dashboard.php'> Back </a>";
+            echo "<script>
+                    alert('Upload successful! File saved as $customName ');
+                    window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'student' ? 'student.php' : 'faculty_dashboard.php')) . "';
+                </script>";
         } else {
-            echo "Failed to move file. <a href='admin_dashboard.php'> Back </a>";
+
+            echo "<script>
+                    alert('Error: Could not uploading file');
+                    window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'student' ? 'student.php' : 'faculty_dashboard.php')) . "';
+                </script>";
         }
     } else {
-        echo "Error uploading file. <a href='admin_dashboard.php'> Back </a>";
+
+        echo "<script>
+                alert('Error: Could not uploading file');
+                window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'student' ? 'student.php' : 'faculty_dashboard.php')) . "';
+            </script>";
     }
 }
 ?>
