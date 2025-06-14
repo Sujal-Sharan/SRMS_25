@@ -2,67 +2,75 @@
 require_once("DB_Connect.php");
 session_start();
 
+$table = $_POST['table'];
+$headers = json_decode($_POST['headers']);
+$rows = json_decode($_POST['rows']);
+
 function getColumnTypes($conn, $table, $columns) {
+
     $placeholders = "'" . implode("','", $columns) . "'";
 
-    $query = "SELECT COLUMN_NAME, DATA_TYPE 
-              FROM INFORMATION_SCHEMA.COLUMNS 
-              WHERE TABLE_SCHEMA = DATABASE() 
-              AND TABLE_NAME = '$table' 
-              AND COLUMN_NAME IN ($placeholders)";
+    $query = "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '$table' AND COLUMN_NAME IN ($placeholders)";
 
     $result = $conn->query($query);
-    $columnTypes = [];
 
+    $columnTypes = [];
     while ($row = $result->fetch_assoc()) {
         $type = strtolower($row['DATA_TYPE']);
-        $paramType = 's'; // default to string
+        $paramType = 's';
 
-        if (in_array($type, ['int', 'bigint', 'tinyint', 'smallint', 'mediumint'])) {
-            $paramType = 'i';
-        } elseif (in_array($type, ['float', 'double', 'decimal'])) {
-            $paramType = 'd';
-        }
+        if (in_array($type, ['int', 'tinyint', 'smallint', 'bigint'])) $paramType = 'i';
+        elseif (in_array($type, ['float', 'double', 'decimal'])) $paramType = 'd';
 
         $columnTypes[$row['COLUMN_NAME']] = $paramType;
     }
 
-    // Return types string like 'sisds' (based on original order)
     $bindTypes = '';
     foreach ($columns as $col) {
-        $bindTypes .= $columnTypes[$col] ?? 's'; // fallback to 's'
+        $bindTypes .= $columnTypes[$col] ?? 's';
     }
-
+    
     return $bindTypes;
 }
 
-if (isset($_POST['import'])) {
-    $table = $_POST['table'];
-    $file = $_FILES["csv_file"]["tmp_name"];
+if (isset($_POST['import'])){
 
-    if ($_FILES["csv_file"]["size"] > 0) {
-        $handle = fopen($file, "r");
-        $columns = array_map('trim', fgetcsv($handle, 1000, ","));
+    $types = getColumnTypes($conn, $table, $headers);
+    $placeholders = implode(',', array_fill(0, count($headers), '?'));
+    $columns_sql = "`" . implode("`,`", $headers) . "`";
+    $stmt = $conn->prepare("INSERT INTO `$table` ($columns_sql) VALUES ($placeholders)");
 
-        $columns_sql = implode("`, `", $columns);
-        $columns_sql = "`" . $columns_sql . "`";
-        $placeholders = rtrim(str_repeat("?,", count($columns)), ",");
+    $skipped = 0;
+    $inserted = 0;
 
-        $sql = "INSERT INTO `$table` ($columns_sql) VALUES ($placeholders)";
-        $stmt = $conn->prepare($sql);
-
-        $types = getColumnTypes($conn, $table, $columns);
-
-        while (($data = fgetcsv($handle, 1000, ",")) !== false) {
-            $params = array_map('trim', $data);
-            $stmt->bind_param($types, ...$params);
-            $stmt->execute();
+    foreach ($rows as $row) {
+        // Basic validation: skip if any field is empty
+        if (in_array("", $row, true)) {
+            $skipped++;
+            continue;
         }
 
-        fclose($handle);
-        echo "Imported successfully into `$table`.";
-    } else {
-        echo "Invalid or empty file.";
+        try {
+            $stmt->bind_param($types, ...$row);
+            $stmt->execute();
+            $inserted++;
+        } catch (Exception $e) {
+            $skipped++;
+            continue;
+        }
     }
+
+    //Re-direct back to dashboard page based on role
+    echo "<script>
+            alert('Imported $inserted rows. Skipped $skipped due to errors.');
+            window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : 'faculty_dashboard.php') . "';
+        </script>";
 }
-?>
+else{
+
+    echo "<script>
+            alert('Could not process the request.');
+            window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : 'faculty_dashboard.php') . "';
+        </script>";
+}
