@@ -159,11 +159,6 @@ if(isset($_GET['apply_Filter'])){
                 <form id="filterForm" action="" method="GET">
                     <div class="filters">
                         
-                    <!-- Maybe have filter show value but is disbaled otherwise fully remove -->
-                        <!-- <select id="department" name="department" disabled>
-                            <option value="$dept"><?php echo $_SESSION['department'] ?></option>
-                        </select> -->
-
                         <select id="semester" name="semester" required>
                             <option value="">Semester</option>
                             <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
@@ -200,6 +195,16 @@ if(isset($_GET['apply_Filter'])){
 
                     <button type="submit" name="apply_Filter">Apply Filters</button>
                     <button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <form action="preview_table.php" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="csv_file" required>
+
+                    <!-- Hidden field, table name wll be pre-set as given in database -->
+                    <input type="text" name="table" value="marks" hidden>
+                    <button type="submit">Preview</button>
                 </form>
             </div>
 

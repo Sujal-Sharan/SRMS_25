@@ -182,6 +182,16 @@ if(isset($_GET['apply_Filter'])){
             </div>
 
             <div class="card">
+                <form action="preview_table.php" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="csv_file" required>
+
+                    <!-- Hidden field, table name wll be pre-set as given in database -->
+                    <input type="text" name="table" value="attendance" hidden>
+                    <button type="submit">Preview</button>
+                </form>
+            </div>
+
+            <div class="card">
                 <form id="attendanceForm" method="POST" action="upload_save.php">
 
                     <!-- Submit button to save attendance in DataBase -->
