@@ -9,6 +9,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Record Management - Login</title>
+    <link rel="stylesheet" href="Styles/global_base.css">
+
     <style>
         * {
             margin: 0;
@@ -105,8 +107,8 @@ session_start();
         </div>
         
         <div class="right">
-            <h2>Welcome</h2>
-            <p>Please login to your account</p><br>
+            <h4>Welcome to <u>Student Record Management System</u></h4><br>
+            <p><small>Please login to your account</small></p><br>
 
             <!-- Displays error message -->
             <?php if(isset($_GET['error'])){ ?>
@@ -130,7 +132,7 @@ session_start();
                 <a href="forgotpassword_login.php" class="highlight">Forgot Password?</a>
                 <br>
                 <br>
-                <a href="Student_Reg.html" class="highlight">New User?   Register Here</a>
+                <!-- <a href="Student_Reg.html" class="highlight">New User?   Register Here</a> -->
                 <br>
             </div>
         </div>
