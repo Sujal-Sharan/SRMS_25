@@ -208,13 +208,13 @@ if(isset($_GET['apply_Filter'])){
                     <button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
                 </form>
             </div>
-            
+
             <div class="card">
                 <form action="preview_table.php" method="POST" enctype="multipart/form-data">
                     <input type="file" name="csv_file" required>
 
                     <!-- Hidden field, table name wll be pre-set as given in database -->
-                    <input type="text" name="table" value="test_data" hidden>
+                    <input type="text" name="table" value="marks" hidden>
                     <button type="submit">Preview</button>
                 </form>
             </div>

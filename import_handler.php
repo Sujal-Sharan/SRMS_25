@@ -30,10 +30,11 @@ function getColumnTypes($conn, $table, $columns) {
     foreach ($columns as $col) {
         $bindTypes .= $columnTypes[$col] ?? 's';
     }
-    
+
     return $bindTypes;
 }
 
+try{
 if (isset($_POST['import'])){
 
     $types = getColumnTypes($conn, $table, $headers);
@@ -71,6 +72,14 @@ else{
 
     echo "<script>
             alert('Could not process the request.');
+            window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : 'faculty_dashboard.php') . "';
+        </script>";
+}
+}
+catch (Exception $e){
+
+    echo "<script>
+            alert('Error: Improper/Illegal file used.');
             window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : 'faculty_dashboard.php') . "';
         </script>";
 }
