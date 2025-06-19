@@ -221,15 +221,10 @@ function createDummyZip($filename) {
             <table class="table table-bordered table-striped text-center align-middle">
                 <thead class="table-success">
                     <tr>
-                        <th>Student Name</th>
-                        <th>Roll No</th>
-                        <th>Reg No</th>
-                        <th>Stream</th>
-                        <th>Batch</th>
-                        <th>Semester</th>
-                        <th>Document Name</th>
-                        <th>Uploaded On</th>
-                        <th>View (ZIP)</th>
+                        <th>Student Id</th>
+                        <th>Filename</th>
+                        <th>Verify</th>
+                        <th>Uploaded_At</th>
                     </tr>
                 </thead>
                 <tbody>

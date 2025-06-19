@@ -29,7 +29,7 @@ $row = $result->fetch_assoc();
 $_SESSION['total_documents'] = $row['total'];
 
 // Query to fecth distinct number of faculty
-$stmt = $conn->prepare("SELECT COUNT(*) AS total FROM documents WHERE verified = 0");
+$stmt = $conn->prepare("SELECT COUNT(*) AS total FROM documents WHERE status = 'pending'");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -67,7 +67,7 @@ if ($row['count'] > 0) {
 // }
 
 // 4. Documents pending verification
-$pendingVerification = $conn->query("SELECT COUNT(*) as count FROM documents WHERE verified = 0 ");
+$pendingVerification = $conn->query("SELECT COUNT(*) as count FROM documents WHERE status = 'pending'");
 $row = $pendingVerification->fetch_assoc();
 if ($row['count'] > 0) {
     $todoItems[] = "Verify $row[count] pending document(s)";
@@ -143,7 +143,7 @@ while ($row = $res->fetch_assoc()) {
 				<a href="upload_attendance.php">Add Attendance</a>
 				<a href="faculty_profile_admin.php">Faculty Profile</a>
 				<a href="upload_file_UI.html">Upload Document</a>
-				<a href="admin_view_docs.php">View Documents</a>
+				<a href="view_docs.php">View Documents</a>
 				<a href="T_AddLogin.php">Add/Remove User</a>
 				<a href="reset_password_UI.php">Reset Password</a>
 				<a href="logout.php"> Log out</a>

@@ -199,7 +199,8 @@ $result = $stmt->get_result();
 				<a href="view_Student_Attendance.php">View Attendance</a>
 				<a href="upload_attendance.php">Add Attendance</a>
 				<a id="active" href="faculty_profile_admin.php">Faculty Profile</a>
-				<a href="/SRMS/SRMS_25/admin_view_docs.php">Uploaded Documents</a>
+				<a href="upload_file_UI.html">Upload Document</a>
+				<a href="view_docs.php">View Documents</a>
 				<a href="T_AddLogin.php">Add/Remove User</a>
 				<a href="reset_password_UI.php">Reset Password</a>
 				<a href="logout.php"> Log out</a>
