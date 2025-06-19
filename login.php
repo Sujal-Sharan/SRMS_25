@@ -10,6 +10,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Record Management - Login</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
 
     <style>
         * {

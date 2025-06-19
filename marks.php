@@ -1,3 +1,8 @@
+<?php
+require_once("DB_Connect.php");
+require_once("session_logout.php");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +39,7 @@
         </div>
         <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
             <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo ($_SESSION['name']) ?? $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 

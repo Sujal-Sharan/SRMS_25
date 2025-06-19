@@ -1,24 +1,7 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
-
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Check if session has expired
-if (time() - $_SESSION['login_time'] > $_SESSION['expire_after']) {
-    session_unset();
-    session_destroy();
-    header("Location: login.php?session_expired=1");
-    exit();
-} else {
-    // Reset login_time to extend session
-    $_SESSION['login_time'] = time();
-}
-
+require_once("session_logout.php");
+// session_start();
 
 // Get student details from DB
 $stmt = $conn->prepare("SELECT * FROM students WHERE college_roll = ?");
@@ -35,6 +18,8 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
 </head>
 <body>
     <header>
@@ -45,7 +30,7 @@ $result = $stmt->get_result();
         </div>
         <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
             <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo ($_SESSION['name']) ?? $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 

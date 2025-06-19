@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // Define the parameters (these may be empty or null if the user doesn't provide them)
 
@@ -20,7 +20,7 @@ $sql = "SELECT
             m.semester AS semester,
             
             CASE 
-                WHEN MAX(m.test_type = 'CA1' AND m.is_absent = TRUE AND m.semester = $semester AND m.marks_obtained IS NULL) THEN 'ABSENT'
+                WHEN MAX(m.test_type = 'CA1' AND m.is_absent = TRUE AND m.semester = $semester) THEN 'ABSENT'
                 ELSE CAST(MAX(CASE WHEN m.test_type = 'CA1' AND m.semester = $semester THEN m.marks_obtained END) AS CHAR)
             END AS CA1,
             
@@ -71,7 +71,7 @@ if (!empty($roll)) {
     $sql .= " AND 1 != 1";  //When college_roll has not been set or not available in DB
 }
 
-$sql .= " GROUP BY m.subject_id ";  //Required since aggregate MAX used
+$sql .= " GROUP BY subj.subject_id, subj.subject_code, subj.subject_name, m.semester";  //Required since aggregate MAX used
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -125,12 +125,14 @@ switch($semester){
             background-color: rgb(50, 225, 47);
             border: 1px, solid, black;
             margin: 20px;
+            border-radius: 4px;
             margin-bottom: 2px;
             padding: 10px;
         }
         .btn:hover{
             background-color: rgb(43, 193, 41);
             border: 2px, solid, black;
+            cursor: pointer;
         }
         #table_header{
             border: none;
@@ -151,7 +153,7 @@ switch($semester){
         </div>
         <div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
             <i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo ($_SESSION['name']) ?? $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 
@@ -169,32 +171,35 @@ switch($semester){
 
         <div class="main-content">
             <div class="card">
-                <h3>CA Marks</h3>
-            </div>
-            <div class="card">
-                <h3>Apply Filters</h3><br>
-                <form action="student_CA.php" method="get">
+                <h2>CA Marks</h2><br>
+                <h4>Apply Filters</h4>
+                <form action="student_CA.php" method="GET">
                     <div class="filters">
 
-                        <select id="subject" name="subject" required>
-                            <option value="">Filter the result by subject</option>
-                            <option value="1"> DSA </option>
-                            <option value="2"> MATHS </option>
-                            <option value="3"> CYBER-LAW </option>
-                            <option value="4"> ERP </option>
-                            <option value="5"> PROJECT </option>
+                        <!-- Subject Dropdown -->
+                        <select name="subject" id="subject" required>
+                            <option value="">Select Subject</option>
+                            <?php
+                            $subjects = ["TEST_SUBJECT","ENGLISH", "ETHICS", "DSA", "MATHS", "PHYSICS", "CHEMISTRY","BIOLOGY", "ADVMATHS", "CYBERLAW", "ERP", "ECOMMERCE"];
+                            $selectedSubject = $_GET['subject'] ?? '';
+
+                            for ($i = 1; $i <= 10; $i++) {
+                                $selected = ($selectedSubject == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected> $subjects[$i] </option>";
+                            }
+                            ?>
                         </select>
 
+                        <!-- Semester Dropdown  -->
                         <select id="semester" name="semester" required>
-                            <option value="">Filter the result by semester</option>
-                            <option value="1">Semester 1</option>
-                            <option value="2">Semester 2</option>
-                            <option value="3">Semester 3</option>
-                            <option value="4">Semester 4</option>
-                            <option value="5">Semester 5</option>
-                            <option value="6">Semester 6</option>
-                            <option value="7">Semester 7</option>
-                            <option value="8">Semester 8</option>
+                            <option value="">Select Semester</option>
+                            <?php
+                            $selectedSemester = $_GET['semester'] ?? '';
+                            for ($i = 1; $i <= 8; $i++) {
+                                $selected = ($selectedSemester == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected>Semester $i</option>";
+                            }
+                            ?>
                         </select>
                     </div>
                     <input type="submit" name="filter" class="btn" value="Submit">
@@ -205,7 +210,7 @@ switch($semester){
                 <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>">
                 <table>
                     <tr>
-                        <th>Subject_Id</th>
+                        <th>Subject</th>
                         <th>Semester</th>
                         <th>CA 1</th>
                         <th>CA 2</th>
@@ -217,7 +222,7 @@ switch($semester){
                         if($result->num_rows > 0){
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
-                                        <td>" . $row["subject_id"] . "</td>
+                                        <td>" . $row["subject_name"] . "</td>
                                         <td>" . $row["semester"] . "</td>
                                         <td>" . $row["CA1"] . "</td>
                                         <td>" . $row["CA2"] . "</td>
