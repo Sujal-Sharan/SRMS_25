@@ -1,8 +1,15 @@
+<?php
+require_once("DB_Connect.php");
+require_once("session_logout.php");
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Management</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
     <script>
         function addRow() {
             var table = document.getElementById("userTable");
@@ -52,7 +59,7 @@
 		</div>
 		<div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
 	</header>
 
@@ -75,30 +82,42 @@
 
         <div class="main-content">
             <div class="card">
-                <h2>Add New User</h2>
-                <form action="T_insert.php" method="post">
-                    <table id="userTable" border="1">
-                        <tr>
-                            <th>User_ID</th>
-                            <th>Password</th>
-                            <th>Role</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" name="id[]" required></td>
-                            <td><input type="password" name="password[]" required></td>
-                            <td>
-                                <select name="role[]">
-                                    <option value="admin">Admin</option>
-                                    <option value="faculty">Faculty</option>
-                                    <option value="student">Student</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                    <br>
-                    <button class="btn" type="button" onclick="addRow()">Add More</button>
-                    <button class="btn" id="submit" type="submit">Submit</button>
-                </form>
+                <h2>Add New User</h2><br>
+                <div class="card">
+                    <form action="preview_table.php" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="csv_file" required>
+
+                        <!-- Hidden field, table name wll be pre-set as given in database -->
+                        <input type="text" name="table" value="login" hidden>
+                        <button class="btn-save" type="submit">Preview</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <form action="T_insert.php" method="post">
+                        <table id="userTable" border="1">
+                            <tr>
+                                <th>User_ID</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="id[]" required></td>
+                                <td><input type="password" name="password[]" required></td>
+                                <td>
+                                    <select name="role[]">
+                                        <option value="admin">Admin</option>
+                                        <option value="faculty">Faculty</option>
+                                        <option value="student">Student</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <button class="btn" type="button" onclick="addRow()">Add More</button>
+                        <button class="btn" id="submit" type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

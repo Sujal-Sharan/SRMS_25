@@ -1,7 +1,6 @@
 <?php
 require_once("DB_Connect.php");
 require_once("session_logout.php");
-// session_start();
 
 // Get student details from DB
 $stmt = $conn->prepare("SELECT * FROM students WHERE college_roll = ?");

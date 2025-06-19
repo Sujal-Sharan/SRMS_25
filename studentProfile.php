@@ -1,12 +1,13 @@
 <?php 
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // Get values from UI
 if(isset($_GET['apply_Filter'])){
     // $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
     $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
+    $batch = filter_input(INPUT_GET, "batch", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
     $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -43,6 +44,12 @@ if (!empty($dept)) {
     $values[] = $dept;
 }
 
+if (!empty($batch)) {
+    $sql .= " AND batch_year = ?";
+    $types .= "s";
+    $values[] = $batch;
+}
+
 $sql .= " GROUP BY college_roll";
 
 // Prepare the query
@@ -64,6 +71,7 @@ $result = $stmt->get_result();
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Student Profile View</title>
 	<link rel="stylesheet" href="Styles/global_base.css">
+  	<link rel="icon" type="image/x-icon" href="logo.png">
 
 	<style>
 		/* Style for the card and table to expand properly */
@@ -123,7 +131,7 @@ $result = $stmt->get_result();
 		</div>
 		<div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
 	</header>
   
@@ -146,65 +154,70 @@ $result = $stmt->get_result();
 
 		<div class="main-content">
 			<div class="card">
-				<h3>Student Profile</h3>
+				<h3>Student Profile Details</h3>
 				<form action="" method="GET">
-
-					<!-- TODO: Add proper subject filters and fix filter UI-->
+					
 					<div class="filters">
-
 						<!-- Department Dropdown -->
-						<!-- <label for="department">Department:</label> -->
-						<select id="department" name="department">
+						<select name="department" id="department">
 							<option value="">Select Department</option>
 							<?php
-								$departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-								foreach($departments as $d) echo "<option value='$d'>$d</option>";
+							$departments = ["CSE", "IT", "ECE", "CSBS", "EE", "ME", "AIML", "CIVIL"];
+
+							$selectedDepartment= $_GET['department'] ?? ''; // Use $_POST if you're using POST
+
+							foreach ($departments as $department) {
+								$selected = ($selectedDepartment === $department) ? 'selected' : '';
+								echo "<option value=\"$department\" $selected>$department</option>";
+							}
 							?>
 						</select>
 
+                        <!-- Semester Dropdown  -->
+                        <select id="semester" name="semester">
+                            <option value="">Select Semester</option>
+                            <?php
+                            $selectedSemester = $_GET['semester'] ?? '';
+                            for ($i = 1; $i <= 8; $i++) {
+                                $selected = ($selectedSemester == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected>Semester $i</option>";
+                            }
+                            ?>
+                        </select>
+
 						<!-- Section Dropdown -->
-						<!-- <label for="section">Section:</label> -->
-						<select id="section" name="section">
+						<!-- <select id="section" name="section">
 							<option value="">Select Section</option>
 							<option value="A">Section A</option>
 							<option value="B">Section B</option>
 							<option value="C">Section C</option>
-						</select>
+						</select> -->
 												
 						<!-- Group Dropdown -->
-						<!-- <label for="group">Group:</label> -->
-						<select id="group" name="group">
+						<!-- <select id="group" name="group">
 							<option value="">Select Group</option>
 							<option value="A">Group A</option>
 							<option value="B">Group B</option>
-						</select>
-
-						<!-- Semester Dropdown -->
-						<select id="semester" name="semester">
-							<option value="">Select Semester</option>
-							<option value="1">Semester 1</option>
-							<option value="2">Semester 2</option>
-							<option value="3">Semester 3</option>
-							<option value="4">Semester 4</option>
-							<option value="5">Semester 5</option>
-							<option value="6">Semester 6</option>
-							<option value="7">Semester 7</option>
-							<option value="8">Semester 8</option>
-						</select>
+						</select> -->
 
 						<!-- Batch Dropdown -->
 						<select id="batch" name="batch">
 							<option value="">Select Batch</option>
 							<?php
-								$batch = ['2019-23', '2020-24', '2021-25','2022-26','2023-27','2024-28','2025-29'];
-								foreach($batch as $b) echo "<option value='$b'>$b</option>";
+							$batches = ['2019-23', '2020-24', '2021-25','2022-26','2023-27','2024-28','2025-29'];
+
+							$selectedBatches= $_GET['batch'] ?? ''; // Use $_POST if you're using POST
+
+							foreach ($batches as $batch) {
+								$selected = ($selectedBatches === $batch) ? 'selected' : '';
+								echo "<option value=\"$batch\" $selected>$batch</option>";
+							}
 							?>
 						</select>
 					</div>
 
-					<button type="submit" name="apply_Filter">Apply Filters</button>
-					<button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
-					<!-- <input type="submit" name="submit" placeholder="Submit"> -->
+					<button class="btn-save" type="submit" name="apply_Filter">Apply Filters</button>
+					<!-- <button class="btn-reset" type="button" name="reset_Filter" onclick="resetFilters()">Reset</button> -->
 
 				</form>
 			</div>
@@ -215,11 +228,11 @@ $result = $stmt->get_result();
 						<th>College_ID</th>
 						<th>University_ID</th>
 						<th>Name</th>
+						<th>Department</th>
 						<th>Semester</th>
 						<th>DOB</th>
 						<th>E-mail</th>
 						<th>Gender</th>
-						<th>Department</th>
 						<th>Batch</th>
 					</tr>
 					<?php
@@ -231,11 +244,11 @@ $result = $stmt->get_result();
 											<td><input type='text' name='' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["uni_id"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
+											<td><input type='text' name='' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["semester"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["dob"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["email"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
-											<td><input type='text' name='' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
 											<td><input type='text' name='' value='" . htmlspecialchars($row["batch"]) . "' readonly></td>
 										</tr>";
 								}
@@ -257,7 +270,7 @@ $result = $stmt->get_result();
             document.getElementById("department").value = "";
             document.getElementById("section").value = "";
             document.getElementById("group").value = "";
-            // document.getElementById("semester").value = "";
+            document.getElementById("semester").value = "";
             document.getElementById("batch").value = "";
         }
 	</script>

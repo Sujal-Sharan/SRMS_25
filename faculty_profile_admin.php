@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // function buildTable($conn, $department, $designation, $search, $page, $limit) {
 //     $where = "WHERE 1=1";
@@ -70,13 +70,8 @@ session_start();
 // }
 // Get values from UI
 if(isset($_GET['apply_Filter'])){
-    // $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
-    // $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
     $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
     $designation = filter_input(INPUT_GET, "designation", FILTER_SANITIZE_SPECIAL_CHARS);
-
-    // $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
-    // $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
 
 }
 
@@ -102,13 +97,13 @@ if (!empty($dept)) {
     $values[] = $dept;
 }
 
-if (!empty($dept)) {
+if (!empty($designation)) {
     $sql .= " AND designation = ? ";
     $types .= "s";
     $values[] = $designation;
 }
 
-$sql .= " GROUP BY faculty_id LIMIT 50 ";
+$sql .= " GROUP BY faculty_id ";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -130,6 +125,8 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Faculty Profile - Admin</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+	<link rel="icon" type="image/x-icon" href="logo.png">
+
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     
     <style>
@@ -188,7 +185,7 @@ $result = $stmt->get_result();
 		</div>
 		<div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+			<span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
 	</header>
 
@@ -213,38 +210,47 @@ $result = $stmt->get_result();
             <div class="card">
                 <h2>Faculty Profile</h2>
                 <form action="" method="GET">
-
                     <div class="filters">
-						<!-- TODO: Fix Issue: Department filter does NOT work alone?? -->
-                        <select id="department" name="department" required>
-                            <option value="">Select Departments</option>
-                            <option value="CSE">CSE</option>
-                            <option value="IT">IT</option>
-                            <option value="ECE">ECE</option>
-                            <option value="ME">ME</option>
-                        </select>
 
-                        <select id="designation" name="designation" required>
+						<!-- Department Dropdown -->
+						<select name="department" id="department">
+							<option value="">Select Department</option>
+							<?php
+							$departments = ["CSE", "IT", "ECE", "CSBS", "EE", "ME", "AIML", "CIVIL"];
+
+							$selectedDepartment = $_GET['department'] ?? '';
+
+							foreach ($departments as $department) {
+								$selected = ($selectedDepartment === $department) ? 'selected' : '';
+								echo "<option value=\"$department\" $selected>$department</option>";
+							}
+							?>
+						</select>
+
+                        <select id="designation" name="designation">
                             <option value="">Select Designation</option>
-                            <option value="HOD">HOD</option>
-                            <option value="Senior Professor">Senior Professor</option>
-                            <option value="Assistant Professor">Assistant Professor</option>
-                            <option value="Lab Instructor">Lab Instructor</option>
-                            <option value="Technician">Technician</option>
+							<?php
+							$designations = ["HOD", "Senior Professor", "Assistant Professor", "Lab Instructor", "Technician"];
+
+							$selectedDesignation = $_GET['designation'] ?? '';
+
+							foreach ($designations as $designation) {
+								$selected = ($selectedDesignation === $designation) ? 'selected' : '';
+								echo "<option value=\"$designation\" $selected>$designation</option>";
+							}
+							?>
                         </select>
                     </div>
 
-                    <button type="submit" name="apply_Filter">Apply Filters</button>
-                    <button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
-
+                    <button class="btn-save" type="submit" name="apply_Filter">Apply Filters</button>
                 </form>
             </div>  
 
         <div class="card">
-            <table>
+			<button class="btn-save" onclick="exportTableToCSV()">Export CSV</button>
+            <table id="myTable">
                 <tr>
                     <th>Faculty_Id</th>
-                    <th>User_Id</th>
                     <th>Name</th>
                     <th>Department</th>
                     <th>Designation</th>
@@ -257,7 +263,6 @@ $result = $stmt->get_result();
 						if($result->num_rows > 0){
 							while ($row = $result->fetch_assoc()) {
 								echo "<tr>
-										<td><input type='text' name='' value='" . htmlspecialchars($row["faculty_id"]) . "' readonly></td>
 										<td><input type='text' name='' value='" . htmlspecialchars($row["user_id"]) . "' readonly></td>
 										<td><input type='text' name='' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
 										<td><input type='text' name='' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
@@ -279,10 +284,26 @@ $result = $stmt->get_result();
     </div>
 
     <script>
-        function resetFilters() {
-            document.getElementById("department").value = "";
-            document.getElementById("designation").value = "";
+    function exportTableToCSV() {
+        const table = document.getElementById("myTable");
+        let csv = [];
+        for (let row of table.rows) {
+            let rowData = [];
+            for (let cell of row.cells) {
+                rowData.push(cell.textContent);
+            }
+            csv.push(rowData.join(","));
         }
+
+        const csvBlob = new Blob([csv.join("\n")], { type: "text/csv" });
+        const url = URL.createObjectURL(csvBlob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "marks_export.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
     </script>
 </body>
 </html>

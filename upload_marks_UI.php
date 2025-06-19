@@ -1,23 +1,18 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // Get values from UI
 // Will only display the result once filters selected and button is clicked
 if(isset($_GET['apply_Filter'])){
     $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
     $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
-
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
-    $test = filter_input(INPUT_GET, "test", FILTER_SANITIZE_SPECIAL_CHARS);
-
-    // TODO: Add section and group to student table
-    $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
-    $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
-
+    $testType = filter_input(INPUT_GET, "test_type", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $sql = "SELECT 
                 m.student_id AS student_id,
+                m.test_type AS test_type,
                 s.name AS student_name,
                 subj.subject_id AS subject_id,
                 subj.subject_code AS subject_code,
@@ -39,7 +34,7 @@ if(isset($_GET['apply_Filter'])){
 
 
     $types = "sisi";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
-    $values = [$test, $semester, $test, $semester];  // To hold the values for binding
+    $values = [$testType, $semester, $testType, $semester];  // To hold the values for binding
 
     // Optional filters
     if (!empty($subject)) {
@@ -54,7 +49,19 @@ if(isset($_GET['apply_Filter'])){
         $values[] = $dept;
     }
 
-    $sql .= " GROUP BY m.student_id";
+    if (!empty($testType)) {
+        $sql .= " AND m.test_type = ?";
+        $types .= "s";
+        $values[] = $testType;
+    }
+
+    if (!empty($semester)) {
+        $sql .= " AND m.semester = ?";
+        $types .= "s";
+        $values[] = $semester;
+    }
+
+    $sql .= " GROUP BY subj.subject_id, subj.subject_code, subj.subject_name, m.semester";
 
     // Prepare the query
     $stmt = $conn->prepare($sql);
@@ -76,6 +83,7 @@ if(isset($_GET['apply_Filter'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Marks</title>
     <link rel="stylesheet" href="Styles/global_base.css" />
+  	<link rel="icon" type="image/x-icon" href="logo.png">
 
     <style>
         .card {
@@ -132,9 +140,7 @@ if(isset($_GET['apply_Filter'])){
         </div>
         <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span>
-                <p>&#9742; +338910530723 / 8910530723</p>
-            </span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 
@@ -157,55 +163,70 @@ if(isset($_GET['apply_Filter'])){
 
         <div class="main-content">
             <div class="card">
-                <h2>Upload Marks</h2>
+                <h2>Upload Student Marks</h2>
 
                 <form id="filterForm" action="" method="GET">
+
                     <div class="filters">
-                        
-                        <select id="department" name="department" required>
-                            <option value="">Select Department</option>
+
+                        <!-- Exam Type Dropdown -->
+                        <select id="test_type" name="test_type">
+                            <option value="">Select Exam Type</option>
+							<?php
+							$tests = ["CA1", "CA2", "CA3", "CA4", "PCA1", "PCA2"];
+
+							$selectedTest = $_GET['test_type'] ?? ''; // Use $_POST if you're using POST
+
+							foreach ($tests as $test) {
+								$selected = ($selectedTest === $test) ? 'selected' : '';
+								echo "<option value=\"$test\" $selected>$test</option>";
+							}
+							?>
+                        </select>
+
+                        <!-- Department Dropdown -->
+						<select name="department" id="department">
+							<option value="">Select Department</option>
+							<?php
+							$departments = ["CSE", "IT", "ECE", "CSBS", "EE", "ME", "AIML", "CIVIL"];
+
+							$selectedDepartment = $_GET['department'] ?? ''; // Use $_POST if you're using POST
+
+							foreach ($departments as $department) {
+								$selected = ($selectedDepartment === $department) ? 'selected' : '';
+								echo "<option value=\"$department\" $selected>$department</option>";
+							}
+							?>
+						</select>
+
+                        <!-- Subject Dropdown -->
+                        <select name="subject" id="subject">
+                            <option value="">Select Subject</option>
                             <?php
-                                $departments = ['CSE','IT','AIML','ECE','EE','ME','CIVIL'];
-                                foreach($departments as $d) echo "<option value='$d'>$d</option>";
+                            $subjects = ["TEST_SUBJECT","ENGLISH", "ETHICS", "DSA", "MATHS", "PHYSICS", "CHEMISTRY","BIOLOGY", "ADVMATHS", "CYBERLAW", "ERP", "ECOMMERCE"];
+                            $selectedSubject = $_GET['subject'] ?? '';
+
+                            for ($i = 1; $i <= 10; $i++) {
+                                $selected = ($selectedSubject == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected> $subjects[$i] </option>";
+                            }
                             ?>
                         </select>
 
-                        <select id="semester" name="semester" required>
-                            <option value="">Semester</option>
-                            <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
-                        </select>
-
-                        <select id="subject" name="subject">
-                            <option value="">Select Subject</option>
-                        </select>
-                        
-                        <select id="test" name="test" required>
-                            <option value="">Select Test</option>
-                            <option value="CA1">CA1</option>
-                            <option value="CA2">CA2</option>
-                            <option value="CA3">CA3</option>
-                            <option value="CA4">CA4</option>
-                            <option value="PCA1">PCA1</option>
-                            <option value="PCA2">PCA2</option>
-                        </select>
-
-                        <select id="section" name="section">
-                            <option value="">Section</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
-
-                        <select id="group" name="group">
-                            <option value="">Group</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="">Both</option>
+                        <!-- Semester Dropdown  -->
+                        <select id="semester" name="semester">
+                            <option value="">Select Semester</option>
+                            <?php
+                            $selectedSemester = $_GET['semester'] ?? '';
+                            for ($i = 1; $i <= 8; $i++) {
+                                $selected = ($selectedSemester == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected>Semester $i</option>";
+                            }
+                            ?>
                         </select>
                     </div>
 
-                    <button type="submit" name="apply_Filter">Apply Filters</button>
-                    <button type="button" name="reset_Filter" onclick="resetFilters()">Reset</button>
+                    <button class="btn-save" type="submit" name="apply_Filter">Apply Filters</button>
                 </form>
             </div>
 
@@ -215,14 +236,14 @@ if(isset($_GET['apply_Filter'])){
 
                     <!-- Hidden field, table name wll be pre-set as given in database -->
                     <input type="text" name="table" value="marks" hidden>
-                    <button type="submit">Preview</button>
+                    <button class="btn-save" type="submit">Preview</button>
                 </form>
             </div>
 
             <div class="card">
                 <form action="upload_marks_Backend.php" method="POST">
 
-                    <button id="submit" type="submit" name="save">Save Marks</button>
+                    <button class="btn-save" id="submit" type="submit" name="save">Save Marks</button>
 
                     <table>
                         <tr>
@@ -241,9 +262,9 @@ if(isset($_GET['apply_Filter'])){
                                         echo "<tr>
                                                 <td><input type='text' name='student_id[]' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
                                                 <td><input type='text' name='name[]' value='" . htmlspecialchars($row["student_name"]) . "' readonly></td>
-                                                <td><input type='text' name='subject' value='" . htmlspecialchars($row["subject_id"]) . "' readonly></td>
-                                                <td><input type='text' name='test' value='" . htmlspecialchars($test) . "' readonly></td>
-                                                <td><input type='text' name='semester' value='" . htmlspecialchars($semester) . "' readonly></td>
+                                                <td><input type='text' name='subject' value='" . htmlspecialchars($row["subject_name"]) . "' readonly></td>
+                                                <td><input type='text' name='test' value='" . htmlspecialchars($row["test_type"]) . "' readonly></td>
+                                                <td><input type='text' name='semester' value='" . htmlspecialchars($row["semester"]) . "' readonly></td>
                                                 <td><input type='text' name='mark[]' value='" .  htmlspecialchars($row["marks"]) . "' " . (is_null($row["marks"]) ? "" : "readonly") . "></td>
                                             </tr>";
                                     }

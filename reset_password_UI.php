@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // Checking for proper role
 if ($_SESSION['role'] !== 'admin') {
@@ -20,6 +20,8 @@ $result = $conn->query("SELECT user_id, role FROM login");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
 </head>
 <body>
     <header>
@@ -30,7 +32,7 @@ $result = $conn->query("SELECT user_id, role FROM login");
 		</div>
 		<div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
 	</header>
 
@@ -52,23 +54,17 @@ $result = $conn->query("SELECT user_id, role FROM login");
         </div>
 
         <div class="main-content">
-
-            <!-- TODO: Add basic filters OR a textbox to enter value -->
-            <!-- TODO: Properly set UI -->
             <div class="card">
                 <h3>Update User Password</h3><br>
                 <form action="reset_password_actual.php" method="POST">
-                    <label>Select User:</label><br>
-                    <select name="user_id" required>
-                        <?php while ($user = $result->fetch_assoc()): ?>
-                            <option value="<?php echo $user['user_id']; ?>">
-                                <?php echo htmlspecialchars($user['user_id'] . " (" . $user['role'] . ")"); ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select><br><br>
+                    <label>Enter User ID:</label><br>
+                    <input type="text" name="user" required><br><br>
 
                     <label>Enter New Password:</label><br>
                     <input type="password" name="new_password" required><br><br>
+
+                    <label>Confirm Password:</label><br>
+                    <input type="password" name="confirm_password" required><br><br>
 
                     <button class="btn" type="submit" name="reset">Reset Password</button>
                 </form>

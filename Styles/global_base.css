@@ -156,8 +156,9 @@ th {
 .btn-reset {
     background-color: #6c757d;
     color: white;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border: 1px, solid, black;
+    cursor: pointer;
     border-radius: 4px;
 }
 

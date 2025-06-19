@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 if (isset($_FILES['csv_file'])) {
     $file = $_FILES['csv_file']['tmp_name'];
@@ -81,27 +81,32 @@ if (isset($_FILES['csv_file'])) {
         </div>
         <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span>
-                <p>&#9742; +338910530723 / 8910530723</p>
-            </span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 
     <div class="layout">
         <div class="card">
-            <h2>Preview Data for Table</h2>
+            <h2>Preview File Data</h2>
             <form action="import_handler.php" method="POST">
+            <div style="display: flex; 
+                justify-content: flex-end;
+                gap: 10px;
+                margin-top: -30px; 
+                margin-right: 40px;">
 
                 <a href="<?php ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : 'faculty_dashboard.php') ?>">
-                    <button name="dashboard" >Dashboard</button>
+                    <button class="btn-save" name="dashboard" >Dashboard</button>
                 </a><br>
                 
-                <button type="submit" name="import" >Import</button><br>
+                <button class="btn-save" type="submit" name="import" >Import</button><br>
 
                 <input type="hidden" name="table" value="<?= htmlspecialchars($table) ?>" hidden>
                 <input type="hidden" name="headers" value="<?= htmlspecialchars(json_encode($headers)) ?>">
                 <input type="hidden" name="rows" value="<?= htmlspecialchars(json_encode($rows)) ?>">
 
+            </div>
+            <div >
                 <table>
                     <thead><tr>
                     <?php foreach ($headers as $h): ?>
@@ -118,7 +123,7 @@ if (isset($_FILES['csv_file'])) {
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-
+            </div>
             </form>
         </div>
     </div>

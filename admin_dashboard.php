@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // TODO: Dynamic bind all display values
 // Query to fecth distinct number of students
@@ -27,6 +27,14 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 $_SESSION['total_documents'] = $row['total'];
+
+// Query to fecth distinct number of faculty
+$stmt = $conn->prepare("SELECT COUNT(*) AS total FROM documents WHERE verified = 0");
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+$_SESSION['total_pending'] = $row['total'];
 
 // TO-DO List Query
 // Handle AJAX Dismissal
@@ -58,12 +66,12 @@ if ($row['count'] > 0) {
 //     $todoItems[] = "$row[count] student(s) missing required documents";
 // }
 
-// // 4. Documents pending verification
-// $pendingVerification = $conn->query("SELECT COUNT(*) as count FROM student_documents WHERE status = 'Unverified'");
-// $row = $pendingVerification->fetch_assoc();
-// if ($row['count'] > 0) {
-//     $todoItems[] = "Verify $row[count] pending document(s)";
-// }
+// 4. Documents pending verification
+$pendingVerification = $conn->query("SELECT COUNT(*) as count FROM documents WHERE verified = 0 ");
+$row = $pendingVerification->fetch_assoc();
+if ($row['count'] > 0) {
+    $todoItems[] = "Verify $row[count] pending document(s)";
+}
 
 // // 5. Password reset requests
 // $resetRequests = $conn->query("SELECT COUNT(*) as count FROM password_resets WHERE status = 'pending'");
@@ -94,6 +102,7 @@ while ($row = $res->fetch_assoc()) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard - Student Record Management System</title>
   <link rel="stylesheet" href="Styles/global_base.css">
+  <link rel="icon" type="image/x-icon" href="logo.png">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
   <style>
@@ -119,7 +128,7 @@ while ($row = $res->fetch_assoc()) {
 		</div>
 		<div style="display: flex; align-items: center; font-size: 15px; margin-left: 2px;">
 			<i class="fas fa-phone-alt" style="margin-right: 10px;"></i>
-			<span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
 		</div>
 	</header>
 
@@ -146,20 +155,27 @@ while ($row = $res->fetch_assoc()) {
 			<div class="dashboard-cards">
 				<div class="card">
 				<h3>Total Students</h3>
+
 				<!-- Dynamic value bidning for no. of students -->
 				<div class="value" style="color: blue;"><?php echo $_SESSION['total_student'] ?></div>
 				</div>
+
+				<!-- Dynamic value bidning for no. of faculty -->
 				<div class="card">
 				<h3>Total Faculty</h3>
 				<div class="value" style="color: green;"><?php echo $_SESSION['total_faculty'] ?></div>
 				</div>
+
+				<!-- Dynamic value bidning for total no. of documnets -->
 				<div class="card">
 				<h3>Total Documents</h3>
 				<div class="value" style="color: orange;"><?php echo $_SESSION['total_documents'] ?></div>
 				</div>
+
+				<!-- Dynamic value bidning for pending documnets verification -->
 				<div class="card">
 				<h3>Pending Requests</h3>
-				<div class="value" style="color: red;">42</div>
+				<div class="value" style="color: red;"><?php echo $_SESSION['total_pending'] ?></div>
 				</div>
 			</div>
 

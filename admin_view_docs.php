@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // $conn = new mysqli("localhost", "root", "", "srms");
 
@@ -53,6 +53,7 @@ function createDummyZip($filename) {
     <meta charset="UTF-8">
     <title>Student Documents (Uploaded By Students & Verified By HOD and Faculty)</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
 
     <style>
         body {
@@ -99,7 +100,7 @@ function createDummyZip($filename) {
         </div>
         <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 

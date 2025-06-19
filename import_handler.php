@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 $table = $_POST['table'];
 $headers = json_decode($_POST['headers']);

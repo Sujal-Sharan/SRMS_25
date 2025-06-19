@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // Get values from UI
 if(isset($_GET['submit'])){
@@ -16,6 +16,7 @@ if(isset($_GET['submit'])){
 $sql = "SELECT 
             m.student_id AS student_id, 
             m.subject_id AS subject_id, 
+            subj.subject_name AS subject_name,
             m.semester AS semester, 
             m.test_type AS test_type,
             m.marks_obtained AS marks_obtained, 
@@ -26,9 +27,9 @@ $sql = "SELECT
             marks m
         JOIN 
             students s ON m.student_id = s.college_roll
+        JOIN 
+            subjects subj ON m.subject_id = subj.subject_id
         WHERE 1 ";
-
-// ON m.student_id = s.college_roll
 
 
 $types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
@@ -58,9 +59,6 @@ if (!empty($dept)) {
     $types .= "s";
     $values[] = $dept;
 }
-
-// Only first 50 results are displayed (Will removed after pagination)
-$sql .= " LIMIT 50 ";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
@@ -123,11 +121,14 @@ else{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Marks</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+  	<link rel="icon" type="image/x-icon" href="logo.png">
+
     <style>
         /* TODO: Fix bug: Text goes over box bound */
         #table_header{
             border: none;
-            margin-left: 200px;
+            width: 300px;
+            margin-left: 50px;
             margin-bottom: 10px;
             font-family: Arial, Helvetica, sans-serif;
             font-weight: bold;
@@ -144,9 +145,7 @@ else{
         </div>
         <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span>
-                <p>&#9742; +338910530723 / 8910530723</p>
-            </span>
+            <span><p>Logged in as <?php echo $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 
@@ -173,78 +172,78 @@ else{
                 
                 <form action="" method="GET">
 
-                    <!-- TODO: Add proper subject filters and fix filter UI-->
                     <div class="filters">
 
                         <!-- Exam Type Dropdown -->
                         <select id="exam" name="exam">
                             <option value="">Select Exam Type</option>
-                            <option value="CA1">CA 1</option>
-                            <option value="CA2">CA 2</option>
-                            <option value="CA3">CA 3</option>
-                            <option value="CA4">CA 4</option>
-                            <option value="PCA1">PCA 1</option>
-                            <option value="PCA2">PCA 2</option>
+							<?php
+							$tests = ["CA1", "CA2", "CA3", "CA4", "PCA1", "PCA2"];
+
+							$selectedTest = $_GET['exam'] ?? ''; // Use $_POST if you're using POST
+
+							foreach ($tests as $test) {
+								$selected = ($selectedTest === $test) ? 'selected' : '';
+								echo "<option value=\"$test\" $selected>$test</option>";
+							}
+							?>
                         </select>
 
                         <!-- Department Dropdown -->
-                        <!-- <label for="department">Department:</label> -->
-                        <select id="department" name="department" onchange="handleDepartmentChange()">
-                            <option value="">Select Department</option>
-                            <option value="CSE">CSE</option>
-                            <option value="ECE">ECE</option>
-                            <option value="IT">IT</option>
-                        </select>
+						<select name="department" id="department">
+							<option value="">Select Department</option>
+							<?php
+							$departments = ["CSE", "IT", "ECE", "CSBS", "EE", "ME", "AIML", "CIVIL"];
 
-                        <!-- Section Dropdown -->
-                        <!-- <label for="section">Section:</label> -->
-                        <select id="section" name="section" onchange="handleSectionChange()" disabled>
-                            <option value="">Select Section</option>
-                        </select>
-                                                
-                        <!-- Group Dropdown -->
-                        <!-- <label for="group">Group:</label> -->
-                        <select id="group" name="group" disabled>
-                            <option value="">Select Group</option>
-                            <option value="A">Group A</option>
-                            <option value="B">Group B</option>
-                        </select>
-                    </div>
+							$selectedDepartment = $_GET['department'] ?? ''; // Use $_POST if you're using POST
 
-                    <div class="filters">
+							foreach ($departments as $department) {
+								$selected = ($selectedDepartment === $department) ? 'selected' : '';
+								echo "<option value=\"$department\" $selected>$department</option>";
+							}
+							?>
+						</select>
 
-                        <!-- TODO: Subject Dropdown -->
-                        <!-- Will display name and value will be subject_id -->
-                        <select id="subject" name="subject" disabled>
+                        <!-- Subject Dropdown -->
+                        <select name="subject" id="subject">
                             <option value="">Select Subject</option>
+                            <?php
+                            $subjects = ["TEST_SUBJECT","ENGLISH", "ETHICS", "DSA", "MATHS", "PHYSICS", "CHEMISTRY","BIOLOGY", "ADVMATHS", "CYBERLAW", "ERP", "ECOMMERCE"];
+                            $selectedSubject = $_GET['subject'] ?? '';
+
+                            for ($i = 1; $i <= 10; $i++) {
+                                $selected = ($selectedSubject == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected> $subjects[$i] </option>";
+                            }
+                            ?>
                         </select>
 
-                        <!-- Sem Type Dropdown -->
+                        <!-- Semester Dropdown  -->
                         <select id="semester" name="semester">
                             <option value="">Select Semester</option>
-                            <option value="1">Semester 1</option>
-                            <option value="2">Semester 2</option>
-                            <option value="3">Semester 3</option>
-                            <option value="4">Semester 4</option>
-                            <option value="5">Semester 5</option>
-                            <option value="6">Semester 6</option>
-                            <option value="7">Semester 7</option>
-                            <option value="8">Semester 8</option>
+                            <?php
+                            $selectedSemester = $_GET['semester'] ?? '';
+                            for ($i = 1; $i <= 8; $i++) {
+                                $selected = ($selectedSemester == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected>Semester $i</option>";
+                            }
+                            ?>
                         </select>
                     </div>
 
-                    <input type="submit" name="submit" placeholder="Submit">
+                    <input class="btn-save" type="submit" name="submit" placeholder="Submit">
                 </form>
             </div>
 
             <div class="card">
+                <button class="btn-save" onclick="exportTableToCSV()">Export CSV</button>
                 <input type="text" id="table_header" readonly name="table_header" value="<?php echo $table_header; ?>">
-                <table>
+                <table id="myTable">
                     <tr>
                         <th>Student_Id</th>
                         <th>Student_Name</th>
                         <th>Department</th>
-                        <th>Subject_Id</th>
+                        <th>Subject</th>
                         <th>Semester</th>
                         <th>Test</th>
                         <th>Marks</th>
@@ -257,7 +256,7 @@ else{
                                         <td>" . $row["student_id"] . "</td>
                                         <td>" . $row["name"] . "</td>
                                         <td>" . $row["department"] . "</td>
-                                        <td>" . $row["subject_id"] . "</td>
+                                        <td>" . $row["subject_name"] . "</td>
                                         <td>" . $row["semester"] . "</td>
                                         <td>" . $row["test_type"] . "</td>
                                         <td>" . $marks = is_null($row['marks_obtained']) ? 'Absent' : $row['marks_obtained'] . "</td>
@@ -279,55 +278,27 @@ else{
     </div>
 
     <script>
-        function handleDepartmentChange() {
-            const dept = document.getElementById("department").value;
-            const section = document.getElementById("section");
-            const subject = document.getElementById("subject");
-            const group = document.getElementById("group");
-
-            // Reset
-            section.innerHTML = '<option value="">Select Section</option>';
-            section.disabled = true;
-            subject.innerHTML = '<option value="">Select Subject</option>';
-            subject.disabled = true;
-            group.disabled = true;
-            group.value = "";
-
-            let sections = [];
-
-                switch (dept) {
-                case "IT":
-                    sections = ["A", "B"];
-                    break;
-                case "CSE":
-                case "ECE":
-                default:
-                    sections = ["A", "B", "C"];
-                    break;
-                }
-
-            if (dept) {
-                section.disabled = false;
-                subject.disabled = false;
-
-                sections.forEach(sec => {
-                const opt = document.createElement("option");
-                opt.value = sec;
-                opt.textContent = sec;
-                section.appendChild(opt);
-                });
+        
+    function exportTableToCSV() {
+        const table = document.getElementById("myTable");
+        let csv = [];
+        for (let row of table.rows) {
+            let rowData = [];
+            for (let cell of row.cells) {
+                rowData.push(cell.textContent);
             }
+            csv.push(rowData.join(","));
         }
 
-        function handleSectionChange() {
-            const sectionVal = document.getElementById("section").value;
-            const group = document.getElementById("group");
-
-            group.disabled = !sectionVal;
-            if (!sectionVal) {
-                group.value = "";
-            }
-        }
+        const csvBlob = new Blob([csv.join("\n")], { type: "text/csv" });
+        const url = URL.createObjectURL(csvBlob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "marks_export.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
   </script>
 </body>
 </html>
