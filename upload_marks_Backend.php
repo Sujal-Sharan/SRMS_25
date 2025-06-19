@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 // Check if data was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -31,8 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(is_null($studentArray)){
         $conn->close();
-        echo "NO DATA FOUND <a href='admin_dashboard.php'> Back </a>";
-        exit();
+        echo "<script>
+            alert('No data found! Please try again');
+            window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'faculty' ? 'faculty_dashboard.php' : 'logout.php')) . "';
+        </script>";
     }
     else{
         // Prepare SQL statement
@@ -54,10 +56,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
         $conn->close();
 
-        echo "Data inserted successfully! <a href='admin_dashboard.php'> Back </a> ";
+        echo "<script>
+            alert('Data inserted successfully!');
+            window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'faculty' ? 'faculty_dashboard.php' : 'logout.php')) . "';
+        </script>";
     }
 } else {
-    echo "No data submitted! <a href='admin_dashboard.php'> Back </a>";
+    echo "<script>
+        alert('No data submitted!');
+        window.location.href = '" . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'faculty' ? 'faculty_dashboard.php' : 'logout.php')) . "';
+    </script>";
 }
 
 ?>

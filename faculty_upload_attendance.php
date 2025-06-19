@@ -1,6 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
+require_once("session_logout.php");
 
 $dept = $_SESSION['department'];
 
@@ -10,13 +10,10 @@ if(isset($_GET['apply_Filter'])){
     $subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_SPECIAL_CHARS);
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
-    $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
-
-
     $sql = "SELECT 
                 a.student_id AS student_id, 
                 a.subject_id AS subject_id, 
+                subj.subject_name AS subject_name,
                 a.semester AS semester, 
                 s.name AS name,
                 s.department AS department
@@ -24,6 +21,8 @@ if(isset($_GET['apply_Filter'])){
                 attendance a
             JOIN 
                 students s ON a.student_id = s.college_roll
+            JOIN 
+                subjects subj ON a.subject_id = subj.subject_id
             WHERE 1";
 
     $types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
@@ -48,7 +47,7 @@ if(isset($_GET['apply_Filter'])){
         $values[] = $dept;
     }
 
-    $sql .= " GROUP BY a.student_id";
+    $sql .= " GROUP BY subj.subject_id, a.semester, subj.subject_name";
 
     // Prepare the query
     $stmt = $conn->prepare($sql);
@@ -70,6 +69,8 @@ if(isset($_GET['apply_Filter'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
     <style>
 		.card {
 			background-color: white;
@@ -127,9 +128,7 @@ if(isset($_GET['apply_Filter'])){
         </div>
         <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span>
-                <p>&#9742; +338910530723 / 8910530723</p>
-            </span>
+            <span><p>Logged in as <?php echo ($_SESSION['name']) ?? $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 
@@ -141,7 +140,7 @@ if(isset($_GET['apply_Filter'])){
                 <a id="active" href="faculty_upload_attendance.php">Update Attendance</a>
                 <a href="faculty_view_marks.php">View Marks</a>
                 <a href="faculty_upload_marks.php">Add Marks</a>
-                <a href="faculty_details.html">Faculty Details</a>
+                <a href="faculty_details.php">Faculty Details</a>
                 <a href="logout.php">Log out</a>
             </nav>
 		</div>
@@ -151,33 +150,41 @@ if(isset($_GET['apply_Filter'])){
             <div class="card">
                 <form id="filterForm" action="" method="GET">
                     <h2>Upload Attendance</h2>
-
                     <div class="filters">
-                        
+                       
+                        <!-- Department Dropdown -->
+						<select name="department" id="department">
+							<option value=""><?= $_SESSION['department'] ?></option>
+						</select>
+
+                        <!-- Subject Dropdown -->
+                        <select name="subject" id="subject">
+                            <option value="">Select Subject</option>
+                            <?php
+                            $subjects = ["TEST_SUBJECT","ENGLISH", "ETHICS", "DSA", "MATHS", "PHYSICS", "CHEMISTRY","BIOLOGY", "ADVMATHS", "CYBERLAW", "ERP", "ECOMMERCE"];
+                            $selectedSubject = $_GET['subject'] ?? '';
+
+                            for ($i = 1; $i <= 10; $i++) {
+                                $selected = ($selectedSubject == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected> $subjects[$i] </option>";
+                            }
+                            ?>
+                        </select>
+
+                        <!-- Semester Dropdown  -->
                         <select id="semester" name="semester">
-                            <option value="">Semester</option>
-                            <?php for ($i = 1; $i <= 8; $i++) echo "<option value='$i'>$i</option>"; ?>
+                            <option value="">Select Semester</option>
+                            <?php
+                            $selectedSemester = $_GET['semester'] ?? '';
+                            for ($i = 1; $i <= 8; $i++) {
+                                $selected = ($selectedSemester == $i) ? 'selected' : '';
+                                echo "<option value=\"$i\" $selected>Semester $i</option>";
+                            }
+                            ?>
                         </select>
-
-                        <select id="section" name="section">
-                            <option value="">Section</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
-
-                        <select id="group" name="group">
-                            <option value="">Group</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="">Both</option>
-                        </select>
-
-                        <!--  TODO: Add subjects -->
-                        <select id="subject" name="subject"><option value="">Select Subject ID</option></select>
                     </div>
 
-                    <button type="submit" name="apply_Filter">Apply Filters</button>
+                    <button class="btn-save" type="submit" name="apply_Filter">Apply Filters</button>
                 </form>
             </div>
 
@@ -187,7 +194,7 @@ if(isset($_GET['apply_Filter'])){
 
                     <!-- Hidden field, table name wll be pre-set as given in database -->
                     <input type="text" name="table" value="attendance" hidden>
-                    <button type="submit">Preview</button>
+                    <button class="btn-save" type="submit">Preview</button>
                 </form>
             </div>
 
@@ -195,7 +202,7 @@ if(isset($_GET['apply_Filter'])){
                 <form id="attendanceForm" method="POST" action="upload_save.php">
 
                     <!-- Submit button to save attendance in DataBase -->
-                    <button id="submit" type="submit" name="save">Save Attendance</button>
+                    <button class="btn-save" id="submit" type="submit" name="save">Save Attendance</button>
 
                     <!-- Set date as current date, can be manually adjusted -->
                     <input type="date" name="attendance_date" id="date" value="<?php echo date('Y-m-d'); ?>">
@@ -205,7 +212,7 @@ if(isset($_GET['apply_Filter'])){
                             <th>Student ID</th>
                             <th>Student Name</th>
                             <th>Department</th>
-                            <th>Subject ID</th>
+                            <th>Subject</th>
                             <th>Semester</th>
                             <th>Attendance</th>
                         </tr>
@@ -218,7 +225,7 @@ if(isset($_GET['apply_Filter'])){
                                                 <td><input type='text' name='student_id[]' value='" . htmlspecialchars($row["student_id"]) . "' readonly></td>
                                                 <td><input type='text' name='name[]' value='" . htmlspecialchars($row["name"]) . "' readonly></td>
                                                 <td><input type='text' name='dept[]' value='" . htmlspecialchars($row["department"]) . "' readonly></td>
-                                                <td><input type='text' name='subject_id[]' value='" . htmlspecialchars($row["subject_id"]) . "' readonly></td>
+                                                <td><input type='text' name='subject_id[]' value='" . htmlspecialchars($row["subject_name"]) . "' readonly></td>
                                                 <td><input type='text' name='semester[]' value='" . htmlspecialchars($row["semester"]) . "' readonly></td>
 
                                                     <!-- Checkbox maps attendance status per student_id -->

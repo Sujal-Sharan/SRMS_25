@@ -1,24 +1,6 @@
 <?php
 require_once("DB_Connect.php");
-session_start();
-
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Check if session has expired
-if (time() - $_SESSION['login_time'] > $_SESSION['expire_after']) {
-    session_unset();
-    session_destroy();
-    header("Location: login.php?session_expired=1");
-    exit();
-} else {
-    // Reset login_time to extend session
-    $_SESSION['login_time'] = time();
-}
-
+require_once("session_logout.php");
 
 // Get student details from DB
 $stmt = $conn->prepare("SELECT * FROM faculty WHERE user_id = ?");
@@ -51,6 +33,8 @@ try{
     <title>Dashboard</title>
     <link rel="stylesheet" href="Styles/global_base.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -95,23 +79,23 @@ try{
         .active {
             background: #FFC107;
         } */
-        .sidebar{
+        /* .sidebar{
             margin-top: 80px;
             height: 800px;
-            background-color: rgba(10, 25, 49, 0.85); /* Slight transparency */
+            background-color: rgba(10, 25, 49, 0.85);
             color: white;
             padding: 16px;
             width: 226px;
             position: fixed;
             overflow-y: auto;
-         }
+         } */
         .main-content {
             margin-top: 80px;
             /* margin-left: 250px;  */
             /* padding: 20px; */
             /* padding-top: 130px;  */
             /* width: calc(100% - 250px); */
-            margin-left: 250px;
+            /* margin-left: 250px; */
             padding: 20px;
             background-color: transparent; /* Ensure it doesn't override background image */
         }
@@ -166,7 +150,7 @@ try{
         </div>
         <div style="display: flex; align-items: center; font-size: 14px; margin-left: 5px;">
             <i class="fas fa-phone-alt" style="margin-right: 5px;"></i>
-            <span><p>&#9742; +338910530723 / 8910530723</p></span>
+            <span><p>Logged in as <?php echo ($_SESSION['name']) ?? $_SESSION['user_id'] ?></p></span>
         </div>
     </header>
 
@@ -178,7 +162,7 @@ try{
                 <a href="faculty_upload_attendance.php">Update Attendance</a>
                 <a href="faculty_view_marks.php">View Marks</a>
                 <a href="faculty_upload_marks.php">Add Marks</a>
-                <a href="faculty_details.html">Faculty Details</a>
+                <a href="faculty_details.php">Faculty Details</a>
                 <a href="logout.php">Log out</a>
             </nav>
         </div>
@@ -187,39 +171,33 @@ try{
     <div class="main-content">
         <h2>Faculty Dashboard</h2>
         <div class="grid">
-            <div class="card" onclick="navigateTo('faculty_details.html')">
-                <button>Faculty Details</button>
-            </div>
-            <div class="card" onclick="navigateTo('faculty_dashboard.php')">
+            <div class="card" onclick="navigateTo('')">
                     <button>Student List</button>
             </div>
-                <div class="card" onclick="navigateTo('faculty_upload_marks')">
+            <div class="card" onclick="navigateTo('faculty_details.php')">
+                <button>Faculty Details</button>
+            </div>
+            <div class="card" onclick="navigateTo('faculty_view_marks.php')">
+                    <button>View Marks</button>
+            </div>
+            <div class="card" onclick="navigateTo('faculty_upload_marks.php')">
                     <button>Upload Marks</button>
             </div>
-                <div class="card" onclick="navigateTo('Student_Attendance.php')">
-                    <button>Attendance</button>
+            <div class="card" onclick="navigateTo('faculty_view_attendace.php')">
+                    <button>View Attendance</button>
             </div>
-            <div class="card" onclick="navigateTo('class_routine.php')">
-                    <button>Class RouVitine</button>
-            </div>
-            <div class="card" onclick="navigateTo('doc_Verify.php')">
-                    <button>Upload & Verify Documents</button>
+            <div class="card" onclick="navigateTo('faculty_upload_attendance.php')">
+                    <button>Upload Attendance</button>
             </div>
             <div class="card" onclick="navigateTo('https://tint.edu.in/')">
-                    <button>Department Notices</button>
+                    <button>Department Notice</button>
             </div>
             <div class="card" onclick="navigateTo('https://makautexam.net/routine.html')">
-                    <button>Exam Schedules</button>
-            </div>
-            <div class="card" onclick="navigateTo('export.html')">
-                    <button>Report<br>(Generate & Download)</button>
-            </div>
-            <div class="card" onclick="navigateTo('subject_details.html')">
-                <button>Subjects</button>
+                    <button>Exam Schedule</button>
             </div>
         </div>
 
-        <section id="at-risk-section" style="padding: 2rem; background: #f9fbfe; width: 60%; text-align: center;">
+        <!-- <section id="at-risk-section" style="padding: 2rem; background: #f9fbfe; width: 60%; text-align: center;">
             <h2 style="text-align: center;">
                 <span style="color: red;">🔔</span> 
                 <strong>Students At Risk (Attendance &lt; 75% &amp; Marks &lt; 40%)</strong>
@@ -232,14 +210,14 @@ try{
                     <option value="cse">CSE</option>
                     <option value="it">IT</option>
                     <option value="ece">ECE</option>
-                    <!-- Add more departments as needed -->
                 </select>
             </div>
 
             <div id="chart-container" style="display: flex; justify-content: center;">
                 <canvas id="atRiskChart" style="width: 100px; height:50px;"></canvas>
             </div>
-        </section>
+        </section> -->
+
         <div style="margin-top: 40px;">
             <h2 style="margin-bottom: 20px; color: #0A1931;">Faculty Activity Overview :</h2>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">

@@ -164,9 +164,7 @@ if(isset($_GET['apply_Filter'])){
         <div class="main-content">
             <div class="card">
                 <h2>Upload Student Marks</h2>
-
                 <form id="filterForm" action="" method="GET">
-
                     <div class="filters">
 
                         <!-- Exam Type Dropdown -->
@@ -249,7 +247,7 @@ if(isset($_GET['apply_Filter'])){
                         <tr>
                             <th>Student_Id</th>
                             <th>Student_Name</th>
-                            <th>Subject_Id</th>
+                            <th>Subject</th>
                             <th>Test</th>
                             <th>Semester</th>
                             <th>Marks</th>
@@ -281,17 +279,5 @@ if(isset($_GET['apply_Filter'])){
             </div>
         </div>
     </div>
-
-    <script>
-        function resetFilters() {
-            document.getElementById("department").value = "";
-            // document.getElementById("semester").value = "";
-            document.getElementById("section").value = "";
-            document.getElementById("group").value = "";
-            // document.getElementById("test").value = "";
-            document.getElementById("subject").value = "";
-            // document.getElementById("searchInput").value = "";
-        }
-    </script>
 </body>
 </html>

@@ -253,9 +253,6 @@ else{
                     ?>
                 </table>
             </div>
-            <div id="result">
-                
-            </div>
         </div>
     </div>
 

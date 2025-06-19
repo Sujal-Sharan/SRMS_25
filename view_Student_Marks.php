@@ -8,9 +8,6 @@ if(isset($_GET['submit'])){
     $test = filter_input(INPUT_GET, "exam", FILTER_SANITIZE_SPECIAL_CHARS);
     $semester = filter_input(INPUT_GET, "semester", FILTER_SANITIZE_SPECIAL_CHARS);
     $dept = filter_input(INPUT_GET, "department", FILTER_SANITIZE_SPECIAL_CHARS);
-
-    $section = filter_input(INPUT_GET, "section", FILTER_SANITIZE_SPECIAL_CHARS);
-    $group = filter_input(INPUT_GET, "group", FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 $sql = "SELECT 
@@ -30,7 +27,6 @@ $sql = "SELECT
         JOIN 
             subjects subj ON m.subject_id = subj.subject_id
         WHERE 1 ";
-
 
 $types = "";   // To hold bind_param types (e.g., "s" for string, "i" for integer)
 $values = [];  // To hold the values for binding
@@ -59,6 +55,8 @@ if (!empty($dept)) {
     $types .= "s";
     $values[] = $dept;
 }
+
+$sql .= " GROUP BY m.student_id, subj.subject_id, m.semester, subj.subject_name";
 
 // Prepare the query
 $stmt = $conn->prepare($sql);
