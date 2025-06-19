@@ -10,6 +10,8 @@ require_once("session_logout.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marks Choice</title>
     <link rel="stylesheet" href="Styles/global_base.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
     <style>
         .wrap-card{
             display: flex;
